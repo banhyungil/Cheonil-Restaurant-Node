@@ -1,12 +1,25 @@
 {
     "compilerOptions": {
-        "module": "commonjs",
+        "module": "NodeNext",
+        "moduleResolution": "NodeNext",
+        "target": "ESNext",
+        "outDir": "./dist",
+        "strict": true,
         "removeComments": true,
         "preserveConstEnums": true,
         "sourceMap": true,
         "esModuleInterop": true,
+        "isolatedModules": true,
         "noImplicitAny": true,
+        "noEmit": true,
+        "allowImportingTsExtensions": true,
     },
-    "include": ["./*"],
-    "exclude": ["node_modules/*"]
+    "include": ["*.ts"],
+    "exclude": ["node_modules"],
+    "ts-node": {
+        "esm": true,
+        "transpileOnly": true,
+        "files": true,
+        "experimentalResolver": true
+      }
 }

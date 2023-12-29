@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node main"
+    "start": "ts-node --esm ./main.ts",
+    "dev": "nodemon --loader ts-node/esm' ./main.ts"
   },
   "type": "module",
   "dependencies": {
@@ -22,6 +23,11 @@
     "@typescript-eslint/eslint-plugin": "^6.16.0",
     "@typescript-eslint/parser": "^6.16.0",
     "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.1.2",
+    "nodemon": "^3.0.2",
+    "prettier": "3.1.1",
+    "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   }
 }
