@@ -14,9 +14,14 @@
     "parserOptions": {
         "ecmaVersion": "latest"
     },
-    "rules": {
-        "no-unused-vars": "warn"
-    },
+    "overrides": [{
+        "files": [
+            "*.ts"
+        ],
+        "rules": {
+            "no-unused-vars": "warn"
+        },
+    }],
     "ignorePatterns": ["package*.json"],
     "root": true
 }

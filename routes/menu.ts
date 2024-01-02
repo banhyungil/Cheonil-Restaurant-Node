@@ -3,8 +3,8 @@ import express from 'express'
 const router = express.Router()
 
 /* GET home page. */
-// router.get('/', (req, res) => {
-//     res.sendFile(fileURLToPath(import.meta.url))
-// })
+router.get('/', (req, res) => {
+    res.
+})
 
 export default router
