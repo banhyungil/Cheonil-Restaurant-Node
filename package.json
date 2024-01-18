@@ -1,4 +1,6 @@
 {
+  "//": "node version v20.11.0, 해당 버젼 esm 적용 버그가 있어 아래 스크립트와 같이 사용해야함",
+  
   "name": "cheonil-restaurant-node",
   "version": "0.0.0",
   "private": true,
