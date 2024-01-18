@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "ts-node ./main.ts",
-    "dev": "nodemon ./main.ts",
-    "model": "sequelize-auto -o './models' --caseFile p -d cheonildb -h localhost -u root -x root -p 3307 -e mysql -l ts && eslint --fix ./models"
+    "start": "node --no-warnings=ExperimentalWarning --loader ts-node/esm ./src/main.ts",
+    "dev": "nodemon ./src/main",
+    "model": "sequelize-auto -o './models' --caseFile p --caseModel p -d cheonildb -h localhost -u root -x root -p 3307 -e mysql -l ts && eslint --fix ./models"
   },
   "type": "module",
   "dependencies": {

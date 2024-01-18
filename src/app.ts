@@ -3,10 +3,10 @@ import express, { ErrorRequestHandler } from 'express'
 import path from 'path'
 import cookieParser from 'cookie-parser'
 import logger from 'morgan'
-import indexRouter from './routes/index.ts'
 import { fileURLToPath } from 'url'
 import mysql from 'mysql2/promise'
-import conifg from './config/index.ts'
+import indexRouter from './routes/index'
+import conifg from './config/index'
 
 const app = express()
 

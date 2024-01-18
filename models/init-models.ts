@@ -1,98 +1,84 @@
-import type { Sequelize } from 'sequelize'
-import { config as _config } from './Config'
-import type { configAttributes, configCreationAttributes } from './Config'
-import { menu as _menu } from './Menu'
-import type { menuAttributes, menuCreationAttributes } from './Menu'
-import { menu_category as _menu_category } from './MenuCategory'
-import type {
-    menu_categoryAttributes,
-    menu_categoryCreationAttributes,
-} from './MenuCategory'
-import { order_menu_rsv as _order_menu_rsv } from './OrderMenuRsv'
-import type {
-    order_menu_rsvAttributes,
-    order_menu_rsvCreationAttributes,
-} from './OrderMenuRsv'
-import { order_rsv as _order_rsv } from './OrderRsv'
-import type {
-    order_rsvAttributes,
-    order_rsvCreationAttributes,
-} from './OrderRsv'
-import { payment as _payment } from './Payment'
-import type { paymentAttributes, paymentCreationAttributes } from './Payment'
-import { store as _store } from './Store'
-import type { storeAttributes, storeCreationAttributes } from './Store'
-import { store_category as _store_category } from './StoreCategory'
-import type {
-    store_categoryAttributes,
-    store_categoryCreationAttributes,
-} from './StoreCategory'
-import { t_order as _t_order } from './TOrder'
-import type { t_orderAttributes, t_orderCreationAttributes } from './TOrder'
-import { t_order_menu as _t_order_menu } from './TOrderMenu'
-import type {
-    t_order_menuAttributes,
-    t_order_menuCreationAttributes,
-} from './TOrderMenu'
+import type { Sequelize } from "sequelize";
+import { Config as _Config } from "./Config";
+import type { ConfigAttributes, ConfigCreationAttributes } from "./Config";
+import { Menu as _Menu } from "./Menu";
+import type { MenuAttributes, MenuCreationAttributes } from "./Menu";
+import { MenuCategory as _MenuCategory } from "./MenuCategory";
+import type { MenuCategoryAttributes, MenuCategoryCreationAttributes } from "./MenuCategory";
+import { OrderMenuRsv as _OrderMenuRsv } from "./OrderMenuRsv";
+import type { OrderMenuRsvAttributes, OrderMenuRsvCreationAttributes } from "./OrderMenuRsv";
+import { OrderRsv as _OrderRsv } from "./OrderRsv";
+import type { OrderRsvAttributes, OrderRsvCreationAttributes } from "./OrderRsv";
+import { Payment as _Payment } from "./Payment";
+import type { PaymentAttributes, PaymentCreationAttributes } from "./Payment";
+import { Store as _Store } from "./Store";
+import type { StoreAttributes, StoreCreationAttributes } from "./Store";
+import { StoreCategory as _StoreCategory } from "./StoreCategory";
+import type { StoreCategoryAttributes, StoreCategoryCreationAttributes } from "./StoreCategory";
+import { TOrder as _TOrder } from "./TOrder";
+import type { TOrderAttributes, TOrderCreationAttributes } from "./TOrder";
+import { TOrderMenu as _TOrderMenu } from "./TOrderMenu";
+import type { TOrderMenuAttributes, TOrderMenuCreationAttributes } from "./TOrderMenu";
 
 export {
-    _config as config,
-    _menu as menu,
-    _menu_category as menu_category,
-    _order_menu_rsv as order_menu_rsv,
-    _order_rsv as order_rsv,
-    _payment as payment,
-    _store as store,
-    _store_category as store_category,
-    _t_order as t_order,
-    _t_order_menu as t_order_menu,
-}
+  _Config as Config,
+  _Menu as Menu,
+  _MenuCategory as MenuCategory,
+  _OrderMenuRsv as OrderMenuRsv,
+  _OrderRsv as OrderRsv,
+  _Payment as Payment,
+  _Store as Store,
+  _StoreCategory as StoreCategory,
+  _TOrder as TOrder,
+  _TOrderMenu as TOrderMenu,
+};
 
 export type {
-    configAttributes,
-    configCreationAttributes,
-    menuAttributes,
-    menuCreationAttributes,
-    menu_categoryAttributes,
-    menu_categoryCreationAttributes,
-    order_menu_rsvAttributes,
-    order_menu_rsvCreationAttributes,
-    order_rsvAttributes,
-    order_rsvCreationAttributes,
-    paymentAttributes,
-    paymentCreationAttributes,
-    storeAttributes,
-    storeCreationAttributes,
-    store_categoryAttributes,
-    store_categoryCreationAttributes,
-    t_orderAttributes,
-    t_orderCreationAttributes,
-    t_order_menuAttributes,
-    t_order_menuCreationAttributes,
-}
+  ConfigAttributes,
+  ConfigCreationAttributes,
+  MenuAttributes,
+  MenuCreationAttributes,
+  MenuCategoryAttributes,
+  MenuCategoryCreationAttributes,
+  OrderMenuRsvAttributes,
+  OrderMenuRsvCreationAttributes,
+  OrderRsvAttributes,
+  OrderRsvCreationAttributes,
+  PaymentAttributes,
+  PaymentCreationAttributes,
+  StoreAttributes,
+  StoreCreationAttributes,
+  StoreCategoryAttributes,
+  StoreCategoryCreationAttributes,
+  TOrderAttributes,
+  TOrderCreationAttributes,
+  TOrderMenuAttributes,
+  TOrderMenuCreationAttributes,
+};
 
 export function initModels(sequelize: Sequelize) {
-    const config = _config.initModel(sequelize)
-    const menu = _menu.initModel(sequelize)
-    const menu_category = _menu_category.initModel(sequelize)
-    const order_menu_rsv = _order_menu_rsv.initModel(sequelize)
-    const order_rsv = _order_rsv.initModel(sequelize)
-    const payment = _payment.initModel(sequelize)
-    const store = _store.initModel(sequelize)
-    const store_category = _store_category.initModel(sequelize)
-    const t_order = _t_order.initModel(sequelize)
-    const t_order_menu = _t_order_menu.initModel(sequelize)
+  const Config = _Config.initModel(sequelize);
+  const Menu = _Menu.initModel(sequelize);
+  const MenuCategory = _MenuCategory.initModel(sequelize);
+  const OrderMenuRsv = _OrderMenuRsv.initModel(sequelize);
+  const OrderRsv = _OrderRsv.initModel(sequelize);
+  const Payment = _Payment.initModel(sequelize);
+  const Store = _Store.initModel(sequelize);
+  const StoreCategory = _StoreCategory.initModel(sequelize);
+  const TOrder = _TOrder.initModel(sequelize);
+  const TOrderMenu = _TOrderMenu.initModel(sequelize);
 
-    return {
-        config: config,
-        menu: menu,
-        menu_category: menu_category,
-        order_menu_rsv: order_menu_rsv,
-        order_rsv: order_rsv,
-        payment: payment,
-        store: store,
-        store_category: store_category,
-        t_order: t_order,
-        t_order_menu: t_order_menu,
-    }
+
+  return {
+    Config: Config,
+    Menu: Menu,
+    MenuCategory: MenuCategory,
+    OrderMenuRsv: OrderMenuRsv,
+    OrderRsv: OrderRsv,
+    Payment: Payment,
+    Store: Store,
+    StoreCategory: StoreCategory,
+    TOrder: TOrder,
+    TOrderMenu: TOrderMenu,
+  };
 }

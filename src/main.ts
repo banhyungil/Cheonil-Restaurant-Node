@@ -3,7 +3,7 @@
 /**
  * Module dependencies.
  */
-import app from './app.ts'
+import app from './app'
 import http from 'http'
 import _debug from 'debug' // console log를 예쁘게 남겨준다.
 const debug = _debug('cheonil-restaurant-node:server')
@@ -22,7 +22,6 @@ const server = http.createServer(app)
 /**
  * Listen on provided port, on all network interfaces.
  */
-
 server.listen(port)
 server.on('error', onError)
 server.on('listening', onListening)
