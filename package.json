@@ -1,16 +1,16 @@
 {
   "//": "node version v20.11.0, 해당 버젼 esm 적용 버그가 있어 아래 스크립트와 같이 사용해야함",
-  
   "name": "cheonil-restaurant-node",
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node --no-warnings=ExperimentalWarning --loader ts-node/esm ./src/main.ts",
-    "dev": "nodemon ./src/main",
+    "start": "node --no-warnings=ExperimentalWarning --loader ts-node/esm ./src/index.ts",
+    "dev": "nodemon ./src/index",
     "model": "sequelize-auto -o './models' --caseFile p --caseModel p -d cheonildb -h localhost -u root -x root -p 3307 -e mysql -l ts && eslint --fix ./models"
   },
   "type": "module",
   "dependencies": {
+    "@rushstack/eslint-patch": "^1.7.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "express": "~4.16.1",
