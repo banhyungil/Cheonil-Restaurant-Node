@@ -1,11 +1,8 @@
-#!/usr/bin/env node
-
-/**
- * Module dependencies.
- */
-import app from './app'
 import http from 'http'
 import _debug from 'debug' // console log를 예쁘게 남겨준다.
+
+import app from './app.ts'
+
 const debug = _debug('cheonil-restaurant-node:server')
 
 /**

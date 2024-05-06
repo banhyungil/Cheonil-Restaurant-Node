@@ -4,6 +4,6 @@ export default {
         user: 'root',
         password: 'root',
         database: 'cheonildb',
-        port: 3307,
+        port: 3306,
     },
 }
