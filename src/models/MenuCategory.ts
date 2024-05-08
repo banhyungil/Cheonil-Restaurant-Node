@@ -14,6 +14,7 @@ export type MenuCategoryId = MenuCategory[MenuCategoryPk]
 export type MenuCategoryOptionalAttributes =
     | 'created'
     | 'updated'
+    | 'order'
     | 'menu_categorycol'
 export type MenuCategoryCreationAttributes = Optional<
     MenuCategoryAttributes,
@@ -46,6 +47,7 @@ export class MenuCategory
                 updated: {
                     type: DataTypes.DATE,
                     allowNull: true,
+                    defaultValue: Sequelize.Sequelize.fn('current_timestamp'),
                 },
                 order: {
                     type: DataTypes.TINYINT.UNSIGNED,

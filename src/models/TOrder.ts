@@ -5,8 +5,8 @@ export interface TOrderAttributes {
     id: number
     storeId: number
     amount?: number
-    payType?: 'cash' | 'card'
-    status: 'ready' | 'complete'
+    payType?: 'CASH' | 'CARD'
+    status: 'READY' | 'COMPLETE'
     payDate?: Date
     time: Date
     reqCmt?: string
@@ -14,7 +14,7 @@ export interface TOrderAttributes {
     updated?: Date
 }
 
-export type TOrderPk = 'id'
+export type TOrderPk = 'id' | 'storeId'
 export type TOrderId = TOrder[TOrderPk]
 export type TOrderOptionalAttributes =
     | 'id'
@@ -38,8 +38,8 @@ export class TOrder
     id!: number
     storeId!: number
     amount?: number
-    payType?: 'cash' | 'card'
-    status!: 'ready' | 'complete'
+    payType?: 'CASH' | 'CARD'
+    status!: 'READY' | 'COMPLETE'
     payDate?: Date
     time!: Date
     reqCmt?: string
@@ -58,6 +58,7 @@ export class TOrder
                 storeId: {
                     type: DataTypes.BIGINT.UNSIGNED,
                     allowNull: false,
+                    primaryKey: true,
                 },
                 amount: {
                     type: DataTypes.BIGINT,
@@ -65,20 +66,21 @@ export class TOrder
                     comment: '총 금액',
                 },
                 payType: {
-                    type: DataTypes.ENUM('cash', 'card'),
+                    type: DataTypes.ENUM('CASH', 'CARD'),
                     allowNull: true,
-                    defaultValue: 'cash',
+                    defaultValue: 'CASH',
                     comment: 'cash: 현금, card: 카드',
                 },
                 status: {
-                    type: DataTypes.ENUM('ready', 'complete'),
+                    type: DataTypes.ENUM('READY', 'COMPLETE'),
                     allowNull: false,
-                    defaultValue: 'ready',
+                    defaultValue: 'READY',
                     comment: 'ready: 준비, complete: 완료',
                 },
                 payDate: {
                     type: DataTypes.DATE,
                     allowNull: true,
+                    comment: '지급날짜',
                 },
                 time: {
                     type: DataTypes.DATE,
@@ -110,7 +112,7 @@ export class TOrder
                         name: 'PRIMARY',
                         unique: true,
                         using: 'BTREE',
-                        fields: [{ name: 'id' }],
+                        fields: [{ name: 'id' }, { name: 'storeId' }],
                     },
                     {
                         name: 'fk_t_order_store1_idx',

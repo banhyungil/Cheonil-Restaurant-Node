@@ -41,6 +41,7 @@ export class StoreCategory
                 updated: {
                     type: DataTypes.DATE,
                     allowNull: true,
+                    defaultValue: Sequelize.Sequelize.fn('current_timestamp'),
                 },
                 order: {
                     type: DataTypes.TINYINT.UNSIGNED,

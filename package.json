@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node --no-warnings=ExperimentalWarning --loader ts-node/esm ./src/index.ts",
     "dev": "nodemon src/index.ts",
-    "model": "sequelize-auto -o './src/models' --caseFile p --caseModel p -d cheonildb -h localhost -u root -x root -p 3306 -e mysql -l ts && eslint --fix ./src/models"
+    "model": "sequelize-auto -o './src/models' --caseFile p --caseModel p -d cheonildb -h localhost -u root -x root -p 3306 -e mysql -l ts && eslint --fix ./src/models",
+    "gm": "tsx ./generate-models.ts && eslint --fix ./src/models" 
   },
   "type": "module",
   "dependencies": {

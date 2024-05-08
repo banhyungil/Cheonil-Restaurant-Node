@@ -77,6 +77,7 @@ export class Menu
                 updated: {
                     type: DataTypes.DATE,
                     allowNull: true,
+                    defaultValue: Sequelize.Sequelize.fn('current_timestamp'),
                 },
             },
             {
