@@ -8,8 +8,8 @@ export interface MenuAttributes {
     nameAbv?: string
     price: number
     cmt?: string
-    created?: Date
-    updated?: Date
+    createdAt?: Date
+    updatedAt?: Date
 }
 
 export type MenuPk = 'id'
@@ -19,8 +19,8 @@ export type MenuOptionalAttributes =
     | 'categoryName'
     | 'nameAbv'
     | 'cmt'
-    | 'created'
-    | 'updated'
+    | 'createdAt'
+    | 'updatedAt'
 export type MenuCreationAttributes = Optional<
     MenuAttributes,
     MenuOptionalAttributes
@@ -36,8 +36,8 @@ export class Menu
     nameAbv?: string
     price!: number
     cmt?: string
-    created?: Date
-    updated?: Date
+    createdAt?: Date
+    updatedAt?: Date
 
     static initModel(sequelize: Sequelize.Sequelize): typeof Menu {
         return Menu.init(
@@ -69,12 +69,12 @@ export class Menu
                     type: DataTypes.STRING(1000),
                     allowNull: true,
                 },
-                created: {
+                createdAt: {
                     type: DataTypes.DATE,
                     allowNull: true,
                     defaultValue: Sequelize.Sequelize.fn('current_timestamp'),
                 },
-                updated: {
+                updatedAt: {
                     type: DataTypes.DATE,
                     allowNull: true,
                     defaultValue: Sequelize.Sequelize.fn('current_timestamp'),

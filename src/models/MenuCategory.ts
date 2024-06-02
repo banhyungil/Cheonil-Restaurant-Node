@@ -3,19 +3,14 @@ import { DataTypes, Model, Optional } from 'sequelize'
 
 export interface MenuCategoryAttributes {
     name: string
-    created?: Date
-    updated?: Date
     order: number
-    menu_categorycol?: string
+    createdAt?: Date
+    updatedAt?: Date
 }
 
 export type MenuCategoryPk = 'name'
 export type MenuCategoryId = MenuCategory[MenuCategoryPk]
-export type MenuCategoryOptionalAttributes =
-    | 'created'
-    | 'updated'
-    | 'order'
-    | 'menu_categorycol'
+export type MenuCategoryOptionalAttributes = 'order' | 'createdAt' | 'updatedAt'
 export type MenuCategoryCreationAttributes = Optional<
     MenuCategoryAttributes,
     MenuCategoryOptionalAttributes
@@ -26,10 +21,9 @@ export class MenuCategory
     implements MenuCategoryAttributes
 {
     name!: string
-    created?: Date
-    updated?: Date
     order!: number
-    menu_categorycol?: string
+    createdAt?: Date
+    updatedAt?: Date
 
     static initModel(sequelize: Sequelize.Sequelize): typeof MenuCategory {
         return MenuCategory.init(
@@ -39,24 +33,20 @@ export class MenuCategory
                     allowNull: false,
                     primaryKey: true,
                 },
-                created: {
-                    type: DataTypes.DATE,
-                    allowNull: true,
-                    defaultValue: Sequelize.Sequelize.fn('current_timestamp'),
-                },
-                updated: {
-                    type: DataTypes.DATE,
-                    allowNull: true,
-                    defaultValue: Sequelize.Sequelize.fn('current_timestamp'),
-                },
                 order: {
                     type: DataTypes.TINYINT.UNSIGNED,
                     allowNull: false,
                     defaultValue: 0,
                 },
-                menu_categorycol: {
-                    type: DataTypes.STRING(45),
+                createdAt: {
+                    type: DataTypes.DATE,
                     allowNull: true,
+                    defaultValue: Sequelize.Sequelize.fn('current_timestamp'),
+                },
+                updatedAt: {
+                    type: DataTypes.DATE,
+                    allowNull: true,
+                    defaultValue: Sequelize.Sequelize.fn('current_timestamp'),
                 },
             },
             {

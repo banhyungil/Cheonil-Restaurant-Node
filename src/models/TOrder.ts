@@ -1,31 +1,36 @@
 import * as Sequelize from 'sequelize'
 import { DataTypes, Model, Optional } from 'sequelize'
+import { TOrderMenu, TOrderMenuAttributes } from './TOrderMenu'
+import { Store, StoreAttributes } from './Store'
 
 export interface TOrderAttributes {
     id: number
     storeId: number
-    amount?: number
+    amount: number
     payType?: 'CASH' | 'CARD'
     status: 'READY' | 'COMPLETE'
-    payDate?: Date
-    time: Date
+    orderTime: Date
+    completeTime?: Date
+    payTime?: Date
     reqCmt?: string
-    created?: Date
-    updated?: Date
+    createdAt?: Date
+    updatedAt?: Date
+    orderMeneus?: TOrderMenuAttributes[]
+    store?: StoreAttributes
 }
 
-export type TOrderPk = 'id' | 'storeId'
+export type TOrderPk = 'id'
 export type TOrderId = TOrder[TOrderPk]
 export type TOrderOptionalAttributes =
     | 'id'
-    | 'amount'
     | 'payType'
     | 'status'
-    | 'payDate'
-    | 'time'
+    | 'orderTime'
+    | 'completeTime'
+    | 'payTime'
     | 'reqCmt'
-    | 'created'
-    | 'updated'
+    | 'createdAt'
+    | 'updatedAt'
 export type TOrderCreationAttributes = Optional<
     TOrderAttributes,
     TOrderOptionalAttributes
@@ -37,14 +42,15 @@ export class TOrder
 {
     id!: number
     storeId!: number
-    amount?: number
+    amount!: number
     payType?: 'CASH' | 'CARD'
     status!: 'READY' | 'COMPLETE'
-    payDate?: Date
-    time!: Date
+    orderTime!: Date
+    completeTime!: Date
+    payTime?: Date
     reqCmt?: string
-    created?: Date
-    updated?: Date
+    createdAt?: Date
+    updatedAt?: Date
 
     static initModel(sequelize: Sequelize.Sequelize): typeof TOrder {
         return TOrder.init(
@@ -58,47 +64,51 @@ export class TOrder
                 storeId: {
                     type: DataTypes.BIGINT.UNSIGNED,
                     allowNull: false,
-                    primaryKey: true,
                 },
                 amount: {
                     type: DataTypes.BIGINT,
-                    allowNull: true,
+                    allowNull: false,
                     comment: '총 금액',
                 },
                 payType: {
                     type: DataTypes.ENUM('CASH', 'CARD'),
                     allowNull: true,
                     defaultValue: 'CASH',
-                    comment: 'cash: 현금, card: 카드',
+                    comment: 'CASH: 현금, CARD: 카드',
                 },
                 status: {
                     type: DataTypes.ENUM('READY', 'COMPLETE'),
                     allowNull: false,
                     defaultValue: 'READY',
-                    comment: 'ready: 준비, complete: 완료',
+                    comment: 'READY: 준비, COMPLETE: 완료',
                 },
-                payDate: {
-                    type: DataTypes.DATE,
-                    allowNull: true,
-                    comment: '지급날짜',
-                },
-                time: {
+                orderTime: {
                     type: DataTypes.DATE,
                     allowNull: false,
                     defaultValue: Sequelize.Sequelize.fn('current_timestamp'),
                     comment: '주문 시간',
+                },
+                completeTime: {
+                    type: DataTypes.DATE,
+                    allowNull: true,
+                    comment: '주문 완료 시간',
+                },
+                payTime: {
+                    type: DataTypes.DATE,
+                    allowNull: true,
+                    comment: '지급날짜',
                 },
                 reqCmt: {
                     type: DataTypes.STRING(100),
                     allowNull: true,
                     comment: '기타 정보',
                 },
-                created: {
+                createdAt: {
                     type: DataTypes.DATE,
                     allowNull: true,
                     defaultValue: Sequelize.Sequelize.fn('current_timestamp'),
                 },
-                updated: {
+                updatedAt: {
                     type: DataTypes.DATE,
                     allowNull: true,
                 },
@@ -112,7 +122,7 @@ export class TOrder
                         name: 'PRIMARY',
                         unique: true,
                         using: 'BTREE',
-                        fields: [{ name: 'id' }, { name: 'storeId' }],
+                        fields: [{ name: 'id' }],
                     },
                     {
                         name: 'fk_t_order_store1_idx',

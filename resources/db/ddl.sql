@@ -16,8 +16,8 @@ CREATE TABLE `menu` (
   `nameAbv` varchar(10) DEFAULT NULL COMMENT '이름 약어',
   `price` bigint(20) NOT NULL,
   `cmt` varchar(1000) DEFAULT NULL,
-  `created` timestamp NULL DEFAULT current_timestamp(),
-  `updated` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `createdAt` timestamp NULL DEFAULT current_timestamp(),
+  `updatedAt` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`),
   KEY `fk_menu_menu_category1_idx` (`categoryName`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='메뉴';
@@ -27,8 +27,8 @@ CREATE TABLE `menu` (
 
 CREATE TABLE `menu_category` (
   `name` varchar(20) NOT NULL,
-  `created` datetime DEFAULT current_timestamp(),
-  `updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `createdAt` datetime DEFAULT current_timestamp(),
+  `updatedAt` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `order` tinyint(3) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='메뉴 카테고리';
@@ -57,8 +57,8 @@ CREATE TABLE `order_rsv` (
   `rsvTime` varchar(5) NOT NULL COMMENT 'HH:MM',
   `reqCmt` varchar(100) DEFAULT NULL COMMENT '기타 정보',
   `daysOfWeek` varchar(3) DEFAULT NULL COMMENT '요일 배열\r\nJS의 Date.getDay() 값\r\n0:일요일 ~ 6: 토요일\r\nex) 월요일, 수요일 예약\r\n[1, 3]',
-  `created` timestamp NULL DEFAULT current_timestamp(),
-  `updated` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `createdAt` timestamp NULL DEFAULT current_timestamp(),
+  `updatedAt` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`),
   KEY `fk_t_order_rsv_store1_idx` (`storeId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='주문 예약\n예약 정보에 따라 t_order를 생성한다';
@@ -72,8 +72,8 @@ CREATE TABLE `store` (
   `name` varchar(40) NOT NULL,
   `cmt` varchar(1000) DEFAULT NULL COMMENT '기타 정보',
   `placeCtgName` varchar(100) DEFAULT NULL COMMENT 'FK(placeCategory)\r\n장소 카테고리',
-  `created` timestamp NULL DEFAULT current_timestamp(),
-  `updated` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `createdAt` timestamp NULL DEFAULT current_timestamp(),
+  `updatedAt` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`),
   KEY `fk_store_store_category1_idx` (`categoryName`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -85,8 +85,8 @@ CREATE TABLE `store_category` (
   `name` varchar(40) NOT NULL,
   `order` tinyint(3) unsigned NOT NULL DEFAULT 0,
   `placeCtgName` varchar(100) DEFAULT NULL COMMENT 'FK(placeCategory)',
-  `created` timestamp NULL DEFAULT current_timestamp(),
-  `updated` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `createdAt` timestamp NULL DEFAULT current_timestamp(),
+  `updatedAt` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -96,17 +96,18 @@ CREATE TABLE `store_category` (
 CREATE TABLE `t_order` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `storeId` bigint(20) unsigned NOT NULL,
-  `amount` bigint(20) DEFAULT NULL COMMENT '총 금액',
+  `amount` bigint(20) NOT NULL COMMENT '총 금액',
   `payType` enum('CASH','CARD') DEFAULT 'CASH' COMMENT 'CASH: 현금, CARD: 카드',
   `status` enum('READY','COMPLETE') NOT NULL DEFAULT 'READY' COMMENT 'READY: 준비, COMPLETE: 완료',
-  `payDate` timestamp NULL DEFAULT NULL COMMENT '지급날짜',
-  `time` timestamp NOT NULL DEFAULT current_timestamp() COMMENT '주문 시간',
+  `orderTime` timestamp NOT NULL DEFAULT current_timestamp() COMMENT '주문 시간',
+  `completeTime` timestamp NULL DEFAULT NULL COMMENT '주문 완료 시간',
+  `payTime` timestamp NULL DEFAULT NULL COMMENT '지급날짜',
   `reqCmt` varchar(100) DEFAULT NULL COMMENT '기타 정보',
-  `created` timestamp NULL DEFAULT current_timestamp(),
-  `updated` timestamp NULL DEFAULT NULL,
+  `createdAt` timestamp NULL DEFAULT current_timestamp(),
+  `updatedAt` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`),
   KEY `fk_t_order_store1_idx` (`storeId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='주문';
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='주문';
 
 
 -- cheonildb.t_order_menu definition

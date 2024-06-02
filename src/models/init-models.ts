@@ -15,6 +15,11 @@ import type {
 } from './OrderMenuRsv'
 import { OrderRsv as _OrderRsv } from './OrderRsv'
 import type { OrderRsvAttributes, OrderRsvCreationAttributes } from './OrderRsv'
+import { PlaceCategory as _PlaceCategory } from './PlaceCategory'
+import type {
+    PlaceCategoryAttributes,
+    PlaceCategoryCreationAttributes,
+} from './PlaceCategory'
 import { Store as _Store } from './Store'
 import type { StoreAttributes, StoreCreationAttributes } from './Store'
 import { StoreCategory as _StoreCategory } from './StoreCategory'
@@ -36,6 +41,7 @@ export {
     _MenuCategory as MenuCategory,
     _OrderMenuRsv as OrderMenuRsv,
     _OrderRsv as OrderRsv,
+    _PlaceCategory as PlaceCategory,
     _Store as Store,
     _StoreCategory as StoreCategory,
     _TOrder as TOrder,
@@ -53,6 +59,8 @@ export type {
     OrderMenuRsvCreationAttributes,
     OrderRsvAttributes,
     OrderRsvCreationAttributes,
+    PlaceCategoryAttributes,
+    PlaceCategoryCreationAttributes,
     StoreAttributes,
     StoreCreationAttributes,
     StoreCategoryAttributes,
@@ -69,6 +77,7 @@ export function initModels(sequelize: Sequelize) {
     const MenuCategory = _MenuCategory.initModel(sequelize)
     const OrderMenuRsv = _OrderMenuRsv.initModel(sequelize)
     const OrderRsv = _OrderRsv.initModel(sequelize)
+    const PlaceCategory = _PlaceCategory.initModel(sequelize)
     const Store = _Store.initModel(sequelize)
     const StoreCategory = _StoreCategory.initModel(sequelize)
     const TOrder = _TOrder.initModel(sequelize)
@@ -80,6 +89,7 @@ export function initModels(sequelize: Sequelize) {
         MenuCategory: MenuCategory,
         OrderMenuRsv: OrderMenuRsv,
         OrderRsv: OrderRsv,
+        PlaceCategory: PlaceCategory,
         Store: Store,
         StoreCategory: StoreCategory,
         TOrder: TOrder,

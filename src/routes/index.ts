@@ -4,6 +4,7 @@ import menuCategoryRouter from './menuCategory.ts'
 import storeRouter from './store.ts'
 import storeCategoryRouter from './storeCategory.ts'
 import orderRouter from './order.ts'
+import placeCategoryRouter from './placeCategory.ts'
 // import { fileURLToPath } from 'url'
 const router = express.Router()
 
@@ -17,5 +18,6 @@ router.use('/menuCategory', menuCategoryRouter)
 router.use('/store', storeRouter)
 router.use('/storeCategory', storeCategoryRouter)
 router.use('/order', orderRouter)
-
+router.use('/placeCategory', placeCategoryRouter)
+4
 export default router

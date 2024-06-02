@@ -6,8 +6,9 @@ export interface StoreAttributes {
     categoryName?: string
     name: string
     cmt?: string
-    created?: Date
-    updated?: Date
+    placeCtgName?: string
+    createdAt?: Date
+    updatedAt?: Date
 }
 
 export type StorePk = 'id'
@@ -16,8 +17,9 @@ export type StoreOptionalAttributes =
     | 'id'
     | 'categoryName'
     | 'cmt'
-    | 'created'
-    | 'updated'
+    | 'placeCtgName'
+    | 'createdAt'
+    | 'updatedAt'
 export type StoreCreationAttributes = Optional<
     StoreAttributes,
     StoreOptionalAttributes
@@ -31,8 +33,9 @@ export class Store
     categoryName?: string
     name!: string
     cmt?: string
-    created?: Date
-    updated?: Date
+    placeCtgName?: string
+    createdAt?: Date
+    updatedAt?: Date
 
     static initModel(sequelize: Sequelize.Sequelize): typeof Store {
         return Store.init(
@@ -46,6 +49,7 @@ export class Store
                 categoryName: {
                     type: DataTypes.STRING(40),
                     allowNull: true,
+                    comment: 'FK(store_category)',
                 },
                 name: {
                     type: DataTypes.STRING(40),
@@ -56,12 +60,17 @@ export class Store
                     allowNull: true,
                     comment: '기타 정보',
                 },
-                created: {
+                placeCtgName: {
+                    type: DataTypes.STRING(100),
+                    allowNull: true,
+                    comment: 'FK(placeCategory)\r\n장소 카테고리',
+                },
+                createdAt: {
                     type: DataTypes.DATE,
                     allowNull: true,
                     defaultValue: Sequelize.Sequelize.fn('current_timestamp'),
                 },
-                updated: {
+                updatedAt: {
                     type: DataTypes.DATE,
                     allowNull: true,
                     defaultValue: Sequelize.Sequelize.fn('current_timestamp'),

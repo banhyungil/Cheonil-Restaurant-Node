@@ -4,25 +4,24 @@ import { DataTypes, Model, Optional } from 'sequelize'
 export interface OrderRsvAttributes {
     id: number
     storeId: number
-    amount?: number
-    payType: 'cash' | 'card' | 'credit'
-    rsvTime: string
+    amount: number
+    payType: 'CASH' | 'CARD'
+    rsvTimeF: string
     reqCmt?: string
-    periodType?: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 'sun'
-    created?: Date
-    updated?: Date
+    daysOfWeek?: string
+    createdAt?: Date
+    updatedAt?: Date
 }
 
 export type OrderRsvPk = 'id'
 export type OrderRsvId = OrderRsv[OrderRsvPk]
 export type OrderRsvOptionalAttributes =
     | 'id'
-    | 'amount'
     | 'payType'
     | 'reqCmt'
-    | 'periodType'
-    | 'created'
-    | 'updated'
+    | 'daysOfWeek'
+    | 'createdAt'
+    | 'updatedAt'
 export type OrderRsvCreationAttributes = Optional<
     OrderRsvAttributes,
     OrderRsvOptionalAttributes
@@ -34,13 +33,13 @@ export class OrderRsv
 {
     id!: number
     storeId!: number
-    amount?: number
-    payType!: 'cash' | 'card' | 'credit'
-    rsvTime!: string
+    amount!: number
+    payType!: 'CASH' | 'CARD'
+    rsvTimeF!: string
     reqCmt?: string
-    periodType?: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 'sun'
-    created?: Date
-    updated?: Date
+    daysOfWeek?: string
+    createdAt?: Date
+    updatedAt?: Date
 
     static initModel(sequelize: Sequelize.Sequelize): typeof OrderRsv {
         return OrderRsv.init(
@@ -57,16 +56,16 @@ export class OrderRsv
                 },
                 amount: {
                     type: DataTypes.BIGINT,
-                    allowNull: true,
+                    allowNull: false,
                     comment: '총 금액',
                 },
                 payType: {
-                    type: DataTypes.ENUM('cash', 'card', 'credit'),
+                    type: DataTypes.ENUM('CASH', 'CARD'),
                     allowNull: false,
-                    defaultValue: 'cash',
-                    comment: 'cash: 현금, card: 카드, credit: 외상',
+                    defaultValue: 'CASH',
+                    comment: 'CASH: 현금, CARD: 카드',
                 },
-                rsvTime: {
+                rsvTimeF: {
                     type: DataTypes.STRING(5),
                     allowNull: false,
                     comment: 'HH:MM',
@@ -76,24 +75,18 @@ export class OrderRsv
                     allowNull: true,
                     comment: '기타 정보',
                 },
-                periodType: {
-                    type: DataTypes.ENUM(
-                        'mon',
-                        'tue',
-                        'wed',
-                        'thu',
-                        'fri',
-                        'sat',
-                        'sun'
-                    ),
+                daysOfWeek: {
+                    type: DataTypes.STRING(3),
                     allowNull: true,
+                    comment:
+                        '요일 배열\r\nJS의 Date.getDay() 값\r\n0:일요일 ~ 6: 토요일\r\nex) 월요일, 수요일 예약\r\n[1, 3]',
                 },
-                created: {
+                createdAt: {
                     type: DataTypes.DATE,
                     allowNull: true,
                     defaultValue: Sequelize.Sequelize.fn('current_timestamp'),
                 },
-                updated: {
+                updatedAt: {
                     type: DataTypes.DATE,
                     allowNull: true,
                     defaultValue: Sequelize.Sequelize.fn('current_timestamp'),

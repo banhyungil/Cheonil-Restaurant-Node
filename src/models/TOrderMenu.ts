@@ -1,11 +1,13 @@
 import * as Sequelize from 'sequelize'
 import { DataTypes, Model, Optional } from 'sequelize'
+import { MenuAttributes } from './Menu'
 
 export interface TOrderMenuAttributes {
     orderId: number
     menuId: number
     price: number
     cnt: number
+    menu?: MenuAttributes
 }
 
 export type TOrderMenuPk = 'orderId' | 'menuId'
@@ -28,6 +30,7 @@ export class TOrderMenu
                     type: DataTypes.BIGINT.UNSIGNED,
                     allowNull: false,
                     primaryKey: true,
+                    references: { model: 'TOrder', key: 'id' },
                 },
                 menuId: {
                     type: DataTypes.BIGINT.UNSIGNED,
