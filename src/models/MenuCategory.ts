@@ -29,30 +29,22 @@ export class MenuCategory
         return MenuCategory.init(
             {
                 name: {
-                    type: DataTypes.STRING(20),
+                    type: DataTypes.STRING(45),
                     allowNull: false,
                     primaryKey: true,
+                    comment: '카테고리명',
                 },
                 order: {
                     type: DataTypes.TINYINT.UNSIGNED,
                     allowNull: false,
-                    defaultValue: 0,
-                },
-                createdAt: {
-                    type: DataTypes.DATE,
-                    allowNull: true,
-                    defaultValue: Sequelize.Sequelize.fn('current_timestamp'),
-                },
-                updatedAt: {
-                    type: DataTypes.DATE,
-                    allowNull: true,
-                    defaultValue: Sequelize.Sequelize.fn('current_timestamp'),
+                    defaultValue: 1,
+                    comment: '표시순서',
                 },
             },
             {
                 sequelize,
                 tableName: 'menu_category',
-                timestamps: false,
+                timestamps: true,
                 indexes: [
                     {
                         name: 'PRIMARY',

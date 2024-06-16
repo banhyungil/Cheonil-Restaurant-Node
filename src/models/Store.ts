@@ -2,22 +2,22 @@ import * as Sequelize from 'sequelize'
 import { DataTypes, Model, Optional } from 'sequelize'
 
 export interface StoreAttributes {
-    id: number
-    categoryName?: string
     name: string
+    categoryName: string
+    placeCtgName: string
     cmt?: string
-    placeCtgName?: string
+    latitude?: string
+    longitude?: string
     createdAt?: Date
     updatedAt?: Date
 }
 
-export type StorePk = 'id'
+export type StorePk = 'name'
 export type StoreId = Store[StorePk]
 export type StoreOptionalAttributes =
-    | 'id'
-    | 'categoryName'
     | 'cmt'
-    | 'placeCtgName'
+    | 'latitude'
+    | 'longitude'
     | 'createdAt'
     | 'updatedAt'
 export type StoreCreationAttributes = Optional<
@@ -29,68 +29,68 @@ export class Store
     extends Model<StoreAttributes, StoreCreationAttributes>
     implements StoreAttributes
 {
-    id!: number
-    categoryName?: string
     name!: string
+    categoryName!: string
+    placeCtgName!: string
     cmt?: string
-    placeCtgName?: string
+    latitude?: string
+    longitude?: string
     createdAt?: Date
     updatedAt?: Date
 
     static initModel(sequelize: Sequelize.Sequelize): typeof Store {
         return Store.init(
             {
-                id: {
-                    autoIncrement: true,
-                    type: DataTypes.BIGINT.UNSIGNED,
+                name: {
+                    type: DataTypes.STRING(45),
                     allowNull: false,
                     primaryKey: true,
                 },
                 categoryName: {
-                    type: DataTypes.STRING(40),
-                    allowNull: true,
-                    comment: 'FK(store_category)',
-                },
-                name: {
-                    type: DataTypes.STRING(40),
+                    type: DataTypes.STRING(45),
                     allowNull: false,
+                },
+                placeCtgName: {
+                    type: DataTypes.STRING(45),
+                    allowNull: false,
+                    comment: '기본적으로 매장 카테고리에 등록된 값과 일치',
                 },
                 cmt: {
                     type: DataTypes.STRING(1000),
                     allowNull: true,
                     comment: '기타 정보',
                 },
-                placeCtgName: {
-                    type: DataTypes.STRING(100),
+                latitude: {
+                    type: DataTypes.STRING(20),
                     allowNull: true,
-                    comment: 'FK(placeCategory)\r\n장소 카테고리',
+                    comment: '위도',
                 },
-                createdAt: {
-                    type: DataTypes.DATE,
+                longitude: {
+                    type: DataTypes.STRING(20),
                     allowNull: true,
-                    defaultValue: Sequelize.Sequelize.fn('current_timestamp'),
-                },
-                updatedAt: {
-                    type: DataTypes.DATE,
-                    allowNull: true,
-                    defaultValue: Sequelize.Sequelize.fn('current_timestamp'),
+                    comment: '경도',
                 },
             },
             {
                 sequelize,
                 tableName: 'store',
-                timestamps: false,
+                timestamps: true,
                 indexes: [
                     {
                         name: 'PRIMARY',
                         unique: true,
                         using: 'BTREE',
-                        fields: [{ name: 'id' }],
+                        fields: [{ name: 'name' }],
                     },
                     {
                         name: 'fk_store_store_category1_idx',
                         using: 'BTREE',
                         fields: [{ name: 'categoryName' }],
+                    },
+                    {
+                        name: 'fk_store_placeCategory1_idx',
+                        using: 'BTREE',
+                        fields: [{ name: 'placeCtgName' }],
                     },
                 ],
             }

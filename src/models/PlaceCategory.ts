@@ -25,14 +25,13 @@ export class PlaceCategory
         return PlaceCategory.init(
             {
                 name: {
-                    type: DataTypes.STRING(100),
+                    type: DataTypes.STRING(45),
                     allowNull: false,
                     primaryKey: true,
                 },
                 cmt: {
-                    type: DataTypes.STRING(400),
+                    type: DataTypes.STRING(45),
                     allowNull: true,
-                    comment: '주석',
                 },
             },
             {

@@ -3,23 +3,20 @@ import { DataTypes, Model, Optional } from 'sequelize'
 
 export interface OrderRsvAttributes {
     id: number
-    storeId: number
+    storeName: string
     amount: number
-    payType: 'CASH' | 'CARD'
-    rsvTimeF: string
+    rsvTime: string
+    weekDay: string
     reqCmt?: string
-    daysOfWeek?: string
     createdAt?: Date
     updatedAt?: Date
 }
 
-export type OrderRsvPk = 'id'
+export type OrderRsvPk = 'id' | 'storeName'
 export type OrderRsvId = OrderRsv[OrderRsvPk]
 export type OrderRsvOptionalAttributes =
     | 'id'
-    | 'payType'
     | 'reqCmt'
-    | 'daysOfWeek'
     | 'createdAt'
     | 'updatedAt'
 export type OrderRsvCreationAttributes = Optional<
@@ -32,12 +29,11 @@ export class OrderRsv
     implements OrderRsvAttributes
 {
     id!: number
-    storeId!: number
+    storeName!: string
     amount!: number
-    payType!: 'CASH' | 'CARD'
-    rsvTimeF!: string
+    rsvTime!: string
+    weekDay!: string
     reqCmt?: string
-    daysOfWeek?: string
     createdAt?: Date
     updatedAt?: Date
 
@@ -49,64 +45,50 @@ export class OrderRsv
                     type: DataTypes.BIGINT.UNSIGNED,
                     allowNull: false,
                     primaryKey: true,
+                    comment: '주문예약ID',
                 },
-                storeId: {
-                    type: DataTypes.BIGINT.UNSIGNED,
+                storeName: {
+                    type: DataTypes.STRING(45),
                     allowNull: false,
+                    primaryKey: true,
+                    comment: '매장명',
                 },
                 amount: {
-                    type: DataTypes.BIGINT,
+                    type: DataTypes.BIGINT.UNSIGNED,
                     allowNull: false,
                     comment: '총 금액',
                 },
-                payType: {
-                    type: DataTypes.ENUM('CASH', 'CARD'),
-                    allowNull: false,
-                    defaultValue: 'CASH',
-                    comment: 'CASH: 현금, CARD: 카드',
-                },
-                rsvTimeF: {
+                rsvTime: {
                     type: DataTypes.STRING(5),
                     allowNull: false,
                     comment: 'HH:MM',
                 },
+                weekDay: {
+                    type: DataTypes.TEXT,
+                    allowNull: false,
+                    comment: '요일 배열\nex) \n월요일: [1]\n월, 수: [1,3]',
+                },
                 reqCmt: {
-                    type: DataTypes.STRING(100),
+                    type: DataTypes.STRING(1000),
                     allowNull: true,
                     comment: '기타 정보',
-                },
-                daysOfWeek: {
-                    type: DataTypes.STRING(3),
-                    allowNull: true,
-                    comment:
-                        '요일 배열\r\nJS의 Date.getDay() 값\r\n0:일요일 ~ 6: 토요일\r\nex) 월요일, 수요일 예약\r\n[1, 3]',
-                },
-                createdAt: {
-                    type: DataTypes.DATE,
-                    allowNull: true,
-                    defaultValue: Sequelize.Sequelize.fn('current_timestamp'),
-                },
-                updatedAt: {
-                    type: DataTypes.DATE,
-                    allowNull: true,
-                    defaultValue: Sequelize.Sequelize.fn('current_timestamp'),
                 },
             },
             {
                 sequelize,
                 tableName: 'order_rsv',
-                timestamps: false,
+                timestamps: true,
                 indexes: [
                     {
                         name: 'PRIMARY',
                         unique: true,
                         using: 'BTREE',
-                        fields: [{ name: 'id' }],
+                        fields: [{ name: 'id' }, { name: 'storeName' }],
                     },
                     {
                         name: 'fk_t_order_rsv_store1_idx',
                         using: 'BTREE',
-                        fields: [{ name: 'storeId' }],
+                        fields: [{ name: 'storeName' }],
                     },
                 ],
             }

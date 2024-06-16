@@ -21,8 +21,7 @@ const init = () => {
 
     const models = initModels(sequelize)
 
-    const { TOrder, TOrderMenu, Menu, MenuCategory, Store, StoreCategory } =
-        models
+    const { TOrder, TOrderMenu, Menu, Store } = models
     TOrder.hasMany(TOrderMenu, { foreignKey: 'orderId', as: 'orderMenues' })
     TOrderMenu.belongsTo(TOrder, { foreignKey: 'orderId', as: 'orderMenues' })
     // Store.hasMany(TOrder, { foreignKey: 'storeId' })

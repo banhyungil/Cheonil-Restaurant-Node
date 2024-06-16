@@ -1,131 +1,220 @@
--- cheonildb.config definition
+-- MySQL Workbench Forward Engineering
 
-CREATE TABLE `config` (
-  `key` varchar(20) NOT NULL,
-  `config` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`config`)),
-  PRIMARY KEY (`key`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='설정\n각종 설정을 json 타입으로 저장한다.';
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+-- -----------------------------------------------------
+-- Schema cheonildb
+-- -----------------------------------------------------
 
--- cheonildb.menu definition
+-- -----------------------------------------------------
+-- Schema cheonildb
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `cheonildb` DEFAULT CHARACTER SET utf8mb4 ;
+USE `cheonildb` ;
 
-CREATE TABLE `menu` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `categoryName` varchar(20) DEFAULT NULL,
-  `name` varchar(20) NOT NULL,
-  `nameAbv` varchar(10) DEFAULT NULL COMMENT '이름 약어',
-  `price` bigint(20) NOT NULL,
-  `cmt` varchar(1000) DEFAULT NULL,
-  `createdAt` timestamp NULL DEFAULT current_timestamp(),
-  `updatedAt` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  PRIMARY KEY (`id`),
-  KEY `fk_menu_menu_category1_idx` (`categoryName`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='메뉴';
+-- -----------------------------------------------------
+-- Table `cheonildb`.`menu_category`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `cheonildb`.`menu_category` ;
 
-
--- cheonildb.menu_category definition
-
-CREATE TABLE `menu_category` (
-  `name` varchar(20) NOT NULL,
-  `createdAt` datetime DEFAULT current_timestamp(),
-  `updatedAt` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `order` tinyint(3) unsigned NOT NULL DEFAULT 0,
-  PRIMARY KEY (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='메뉴 카테고리';
-
-
--- cheonildb.order_menu_rsv definition
-
-CREATE TABLE `order_menu_rsv` (
-  `orderRsvId` bigint(20) unsigned NOT NULL,
-  `menuId` bigint(20) unsigned NOT NULL,
-  `price` bigint(20) NOT NULL COMMENT '가격\nmenu는 가격이 바뀔수가 있음',
-  `cnt` bigint(20) unsigned NOT NULL COMMENT '수량',
-  PRIMARY KEY (`orderRsvId`,`menuId`),
-  KEY `fk_t_order_menu_menu1_idx` (`menuId`),
-  KEY `fk_t_order_menu_copy1_t_order_rsv1_idx` (`orderRsvId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='주문 메뉴';
+CREATE TABLE IF NOT EXISTS `cheonildb`.`menu_category` (
+  `name` VARCHAR(45) NOT NULL COMMENT '카테고리명',
+  `order` TINYINT(3) UNSIGNED NOT NULL DEFAULT 1 COMMENT '표시순서',
+  `createdAt` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` DATETIME NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`name`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COMMENT = '메뉴 카테고리';
 
 
--- cheonildb.order_rsv definition
+-- -----------------------------------------------------
+-- Table `cheonildb`.`menu`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `cheonildb`.`menu` ;
 
-CREATE TABLE `order_rsv` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `storeId` bigint(20) unsigned NOT NULL,
-  `amount` bigint(20) DEFAULT NULL COMMENT '총 금액',
-  `payType` enum('CASH','CARD') NOT NULL DEFAULT 'CASH' COMMENT 'CASH: 현금, CARD: 카드',
-  `rsvTime` varchar(5) NOT NULL COMMENT 'HH:MM',
-  `reqCmt` varchar(100) DEFAULT NULL COMMENT '기타 정보',
-  `daysOfWeek` varchar(3) DEFAULT NULL COMMENT '요일 배열\r\nJS의 Date.getDay() 값\r\n0:일요일 ~ 6: 토요일\r\nex) 월요일, 수요일 예약\r\n[1, 3]',
-  `createdAt` timestamp NULL DEFAULT current_timestamp(),
-  `updatedAt` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  PRIMARY KEY (`id`),
-  KEY `fk_t_order_rsv_store1_idx` (`storeId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='주문 예약\n예약 정보에 따라 t_order를 생성한다';
-
-
--- cheonildb.store definition
-
-CREATE TABLE `store` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `categoryName` varchar(40) DEFAULT NULL COMMENT 'FK(store_category)',
-  `name` varchar(40) NOT NULL,
-  `cmt` varchar(1000) DEFAULT NULL COMMENT '기타 정보',
-  `placeCtgName` varchar(100) DEFAULT NULL COMMENT 'FK(placeCategory)\r\n장소 카테고리',
-  `createdAt` timestamp NULL DEFAULT current_timestamp(),
-  `updatedAt` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  PRIMARY KEY (`id`),
-  KEY `fk_store_store_category1_idx` (`categoryName`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+CREATE TABLE IF NOT EXISTS `cheonildb`.`menu` (
+  `name` VARCHAR(45) NOT NULL COMMENT '메뉴명',
+  `categoryName` VARCHAR(45) NOT NULL COMMENT '카테고리명',
+  `nameAbv` VARCHAR(45) NULL COMMENT '이름 약어',
+  `price` BIGINT(20) UNSIGNED NOT NULL,
+  `cmt` VARCHAR(1000) NULL,
+  `createdAt` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` DATETIME NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`name`),
+  INDEX `fk_menu_menu_category1_idx` (`categoryName` ASC) VISIBLE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COMMENT = '메뉴';
 
 
--- cheonildb.store_category definition
+-- -----------------------------------------------------
+-- Table `cheonildb`.`placeCategory`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `cheonildb`.`placeCategory` ;
 
-CREATE TABLE `store_category` (
-  `name` varchar(40) NOT NULL,
-  `order` tinyint(3) unsigned NOT NULL DEFAULT 0,
-  `placeCtgName` varchar(100) DEFAULT NULL COMMENT 'FK(placeCategory)',
-  `createdAt` timestamp NULL DEFAULT current_timestamp(),
-  `updatedAt` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  PRIMARY KEY (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
--- cheonildb.t_order definition
-
-CREATE TABLE `t_order` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `storeId` bigint(20) unsigned NOT NULL,
-  `amount` bigint(20) NOT NULL COMMENT '총 금액',
-  `payType` enum('CASH','CARD') DEFAULT 'CASH' COMMENT 'CASH: 현금, CARD: 카드',
-  `status` enum('READY','COMPLETE') NOT NULL DEFAULT 'READY' COMMENT 'READY: 준비, COMPLETE: 완료',
-  `orderTime` timestamp NOT NULL DEFAULT current_timestamp() COMMENT '주문 시간',
-  `completeTime` timestamp NULL DEFAULT NULL COMMENT '주문 완료 시간',
-  `payTime` timestamp NULL DEFAULT NULL COMMENT '지급날짜',
-  `reqCmt` varchar(100) DEFAULT NULL COMMENT '기타 정보',
-  `createdAt` timestamp NULL DEFAULT current_timestamp(),
-  `updatedAt` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  PRIMARY KEY (`id`),
-  KEY `fk_t_order_store1_idx` (`storeId`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='주문';
+CREATE TABLE IF NOT EXISTS `cheonildb`.`placeCategory` (
+  `name` VARCHAR(45) NOT NULL,
+  `cmt` VARCHAR(45) NULL,
+  PRIMARY KEY (`name`))
+ENGINE = InnoDB
+COMMENT = '장소 카테고리';
 
 
--- cheonildb.t_order_menu definition
+-- -----------------------------------------------------
+-- Table `cheonildb`.`store_category`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `cheonildb`.`store_category` ;
 
-CREATE TABLE `t_order_menu` (
-  `orderId` bigint(20) unsigned NOT NULL,
-  `menuId` bigint(20) unsigned NOT NULL,
-  `price` bigint(20) NOT NULL COMMENT '가격\nmenu는 가격이 바뀔수가 있음',
-  `cnt` bigint(20) unsigned NOT NULL COMMENT '수량',
-  PRIMARY KEY (`orderId`,`menuId`),
-  KEY `fk_t_order_menu_menu1_idx` (`menuId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='주문 메뉴';
+CREATE TABLE IF NOT EXISTS `cheonildb`.`store_category` (
+  `name` VARCHAR(45) NOT NULL,
+  `placeCtgName` VARCHAR(45) NOT NULL,
+  `order` TINYINT(3) UNSIGNED NULL,
+  `createdAt` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` DATETIME NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`name`),
+  INDEX `fk_store_category_placeCategory1_idx` (`placeCtgName` ASC) VISIBLE)
+ENGINE = InnoDB
+COMMENT = '매장 카테고리';
 
 
--- cheonildb.placeCategory definition
+-- -----------------------------------------------------
+-- Table `cheonildb`.`store`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `cheonildb`.`store` ;
 
-CREATE TABLE `placeCategory` (
-  `name` varchar(100) NOT NULL,
-  `cmt` varchar(400) DEFAULT NULL COMMENT '주석',
-  PRIMARY KEY (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='장소 카테고리';
+CREATE TABLE IF NOT EXISTS `cheonildb`.`store` (
+  `name` VARCHAR(45) NOT NULL,
+  `categoryName` VARCHAR(45) NOT NULL,
+  `placeCtgName` VARCHAR(45) NOT NULL COMMENT '기본적으로 매장 카테고리에 등록된 값과 일치',
+  `cmt` VARCHAR(1000) NULL COMMENT '기타 정보',
+  `latitude` VARCHAR(20) NULL COMMENT '위도',
+  `longitude` VARCHAR(20) NULL COMMENT '경도',
+  `createdAt` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` DATETIME NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`name`),
+  INDEX `fk_store_store_category1_idx` (`categoryName` ASC) VISIBLE,
+  INDEX `fk_store_placeCategory1_idx` (`placeCtgName` ASC) VISIBLE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COMMENT = '매장';
+
+
+-- -----------------------------------------------------
+-- Table `cheonildb`.`t_order`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `cheonildb`.`t_order` ;
+
+CREATE TABLE IF NOT EXISTS `cheonildb`.`t_order` (
+  `id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '주문ID',
+  `storeName` VARCHAR(45) NOT NULL COMMENT '매장명',
+  `amount` BIGINT(20) UNSIGNED NOT NULL COMMENT '총 금액\n외상인 경우는 어떻게 처리하지?...',
+  `status` ENUM('READY', 'COMPLETE') NOT NULL DEFAULT 'READY' COMMENT 'ready: 준비, complete: 완료',
+  `orderTime` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '주문 시간',
+  `completeTime` DATETIME NULL COMMENT '조리완료 시간',
+  `reqCmt` VARCHAR(100) NULL COMMENT '요청 사항',
+  `createdAt` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` DATETIME NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`, `storeName`),
+  INDEX `fk_t_order_store1_idx` (`storeName` ASC) VISIBLE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COMMENT = '주문';
+
+
+-- -----------------------------------------------------
+-- Table `cheonildb`.`t_order_menu`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `cheonildb`.`t_order_menu` ;
+
+CREATE TABLE IF NOT EXISTS `cheonildb`.`t_order_menu` (
+  `name` VARCHAR(45) NOT NULL COMMENT '메뉴명',
+  `orderId` BIGINT(20) UNSIGNED NOT NULL COMMENT '주문ID',
+  `storeName` VARCHAR(45) NOT NULL COMMENT '매장명',
+  `price` BIGINT(20) UNSIGNED NOT NULL COMMENT '가격\nmenu는 가격이 바뀔수가 있음',
+  `cnt` BIGINT(20) UNSIGNED NOT NULL COMMENT '수량',
+  INDEX `fk_t_order_menu_menu1_idx` (`name` ASC) VISIBLE,
+  INDEX `fk_t_order_menu_t_order1_idx` (`orderId` ASC, `storeName` ASC) VISIBLE,
+  PRIMARY KEY (`name`, `orderId`, `storeName`))
+ENGINE = InnoDB
+COMMENT = '주문 메뉴';
+
+
+-- -----------------------------------------------------
+-- Table `cheonildb`.`config`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `cheonildb`.`config` ;
+
+CREATE TABLE IF NOT EXISTS `cheonildb`.`config` (
+  `key` VARCHAR(20) NOT NULL,
+  `config` JSON NOT NULL,
+  PRIMARY KEY (`key`))
+ENGINE = InnoDB
+COMMENT = '설정\n각종 설정을 json 타입으로 저장한다.';
+
+
+-- -----------------------------------------------------
+-- Table `cheonildb`.`order_rsv`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `cheonildb`.`order_rsv` ;
+
+CREATE TABLE IF NOT EXISTS `cheonildb`.`order_rsv` (
+  `id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '주문예약ID',
+  `storeName` VARCHAR(45) NOT NULL COMMENT '매장명',
+  `amount` BIGINT(20) UNSIGNED NOT NULL COMMENT '총 금액',
+  `rsvTime` VARCHAR(5) NOT NULL COMMENT 'HH:MM',
+  `weekDay` JSON NOT NULL COMMENT '요일 배열\nex) \n월요일: [1]\n월, 수: [1,3]',
+  `reqCmt` VARCHAR(1000) NULL COMMENT '기타 정보',
+  `createdAt` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` DATETIME NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`, `storeName`),
+  INDEX `fk_t_order_rsv_store1_idx` (`storeName` ASC) VISIBLE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COMMENT = '주문 예약\n예약 정보에 따라 t_order를 생성한다';
+
+
+-- -----------------------------------------------------
+-- Table `cheonildb`.`order_menu_rsv`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `cheonildb`.`order_menu_rsv` ;
+
+CREATE TABLE IF NOT EXISTS `cheonildb`.`order_menu_rsv` (
+  `orderRsvId` BIGINT(20) UNSIGNED NOT NULL COMMENT '주문예약ID',
+  `name` VARCHAR(45) NOT NULL COMMENT '메뉴명',
+  `storeName` VARCHAR(45) NOT NULL COMMENT '매장명',
+  `price` BIGINT(20) UNSIGNED NOT NULL COMMENT '가격\nmenu는 가격이 바뀔수가 있음',
+  `cnt` BIGINT(20) UNSIGNED NOT NULL COMMENT '수량',
+  INDEX `fk_order_menu_rsv_menu1_idx` (`name` ASC) VISIBLE,
+  INDEX `fk_order_menu_rsv_order_rsv1_idx` (`orderRsvId` ASC, `storeName` ASC) VISIBLE,
+  PRIMARY KEY (`orderRsvId`, `name`, `storeName`))
+ENGINE = InnoDB
+COMMENT = '주문 메뉴';
+
+
+-- -----------------------------------------------------
+-- Table `cheonildb`.`payment`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `cheonildb`.`payment` ;
+
+CREATE TABLE IF NOT EXISTS `cheonildb`.`payment` (
+  `id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '결재ID',
+  `orderid` BIGINT(20) UNSIGNED NOT NULL COMMENT '주문ID',
+  `storeName` VARCHAR(45) NOT NULL COMMENT '매장명',
+  `amount` INT(20) UNSIGNED NOT NULL COMMENT '결재금액',
+  `payType` ENUM('CASH', 'CARD') NOT NULL COMMENT '결재방식',
+  `payDate` DATETIME NOT NULL COMMENT '결재일',
+  PRIMARY KEY (`id`, `orderid`, `storeName`),
+  INDEX `fk_payment_t_order1_idx` (`orderid` ASC, `storeName` ASC) VISIBLE)
+ENGINE = InnoDB
+COMMENT = '결재';
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

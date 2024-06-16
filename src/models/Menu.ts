@@ -2,9 +2,8 @@ import * as Sequelize from 'sequelize'
 import { DataTypes, Model, Optional } from 'sequelize'
 
 export interface MenuAttributes {
-    id: number
-    categoryName?: string
     name: string
+    categoryName: string
     nameAbv?: string
     price: number
     cmt?: string
@@ -12,11 +11,9 @@ export interface MenuAttributes {
     updatedAt?: Date
 }
 
-export type MenuPk = 'id'
+export type MenuPk = 'name'
 export type MenuId = Menu[MenuPk]
 export type MenuOptionalAttributes =
-    | 'id'
-    | 'categoryName'
     | 'nameAbv'
     | 'cmt'
     | 'createdAt'
@@ -30,9 +27,8 @@ export class Menu
     extends Model<MenuAttributes, MenuCreationAttributes>
     implements MenuAttributes
 {
-    id!: number
-    categoryName?: string
     name!: string
+    categoryName!: string
     nameAbv?: string
     price!: number
     cmt?: string
@@ -42,54 +38,41 @@ export class Menu
     static initModel(sequelize: Sequelize.Sequelize): typeof Menu {
         return Menu.init(
             {
-                id: {
-                    autoIncrement: true,
-                    type: DataTypes.BIGINT.UNSIGNED,
+                name: {
+                    type: DataTypes.STRING(45),
                     allowNull: false,
                     primaryKey: true,
+                    comment: '메뉴명',
                 },
                 categoryName: {
-                    type: DataTypes.STRING(20),
-                    allowNull: true,
-                },
-                name: {
-                    type: DataTypes.STRING(20),
+                    type: DataTypes.STRING(45),
                     allowNull: false,
+                    comment: '카테고리명',
                 },
                 nameAbv: {
-                    type: DataTypes.STRING(10),
+                    type: DataTypes.STRING(45),
                     allowNull: true,
                     comment: '이름 약어',
                 },
                 price: {
-                    type: DataTypes.BIGINT,
+                    type: DataTypes.BIGINT.UNSIGNED,
                     allowNull: false,
                 },
                 cmt: {
                     type: DataTypes.STRING(1000),
                     allowNull: true,
                 },
-                createdAt: {
-                    type: DataTypes.DATE,
-                    allowNull: true,
-                    defaultValue: Sequelize.Sequelize.fn('current_timestamp'),
-                },
-                updatedAt: {
-                    type: DataTypes.DATE,
-                    allowNull: true,
-                    defaultValue: Sequelize.Sequelize.fn('current_timestamp'),
-                },
             },
             {
                 sequelize,
                 tableName: 'menu',
-                timestamps: false,
+                timestamps: true,
                 indexes: [
                     {
                         name: 'PRIMARY',
                         unique: true,
                         using: 'BTREE',
-                        fields: [{ name: 'id' }],
+                        fields: [{ name: 'name' }],
                     },
                     {
                         name: 'fk_menu_menu_category1_idx',

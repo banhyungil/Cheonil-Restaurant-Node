@@ -37,9 +37,4 @@ app.use(function (err, req, res) {
 
 db.init()
 
-// sequelize 사용으로 mysql은 사용하지 않는다.
-// const connection = await mysql.createConnection(conifg.mysql)
-// connection.connect()
-// const [rows, fields] = await connection.execute('SELECT * FROM STORE')
-
 export default app
