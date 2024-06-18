@@ -111,7 +111,7 @@ COMMENT = '매장';
 DROP TABLE IF EXISTS `cheonildb`.`t_order` ;
 
 CREATE TABLE IF NOT EXISTS `cheonildb`.`t_order` (
-  `id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '주문ID',
+  `seq` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '주문 시퀀스',
   `storeName` VARCHAR(45) NOT NULL COMMENT '매장명',
   `amount` BIGINT(20) UNSIGNED NOT NULL COMMENT '총 금액\n외상인 경우는 어떻게 처리하지?...',
   `status` ENUM('READY', 'COMPLETE') NOT NULL DEFAULT 'READY' COMMENT 'ready: 준비, complete: 완료',
@@ -120,7 +120,7 @@ CREATE TABLE IF NOT EXISTS `cheonildb`.`t_order` (
   `reqCmt` VARCHAR(100) NULL COMMENT '요청 사항',
   `createdAt` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` DATETIME NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`, `storeName`),
+  PRIMARY KEY (`seq`, `storeName`),
   INDEX `fk_t_order_store1_idx` (`storeName` ASC) VISIBLE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
@@ -134,13 +134,13 @@ DROP TABLE IF EXISTS `cheonildb`.`t_order_menu` ;
 
 CREATE TABLE IF NOT EXISTS `cheonildb`.`t_order_menu` (
   `name` VARCHAR(45) NOT NULL COMMENT '메뉴명',
-  `orderId` BIGINT(20) UNSIGNED NOT NULL COMMENT '주문ID',
+  `orderSeq` BIGINT(20) UNSIGNED NOT NULL COMMENT '주문 시퀀스',
   `storeName` VARCHAR(45) NOT NULL COMMENT '매장명',
   `price` BIGINT(20) UNSIGNED NOT NULL COMMENT '가격\nmenu는 가격이 바뀔수가 있음',
   `cnt` BIGINT(20) UNSIGNED NOT NULL COMMENT '수량',
   INDEX `fk_t_order_menu_menu1_idx` (`name` ASC) VISIBLE,
-  INDEX `fk_t_order_menu_t_order1_idx` (`orderId` ASC, `storeName` ASC) VISIBLE,
-  PRIMARY KEY (`name`, `orderId`, `storeName`))
+  INDEX `fk_t_order_menu_t_order1_idx` (`orderSeq` ASC, `storeName` ASC) VISIBLE,
+  PRIMARY KEY (`name`, `orderSeq`, `storeName`))
 ENGINE = InnoDB
 COMMENT = '주문 메뉴';
 
@@ -164,7 +164,7 @@ COMMENT = '설정\n각종 설정을 json 타입으로 저장한다.';
 DROP TABLE IF EXISTS `cheonildb`.`order_rsv` ;
 
 CREATE TABLE IF NOT EXISTS `cheonildb`.`order_rsv` (
-  `id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '주문예약ID',
+  `seq` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '주문예약 시퀀스',
   `storeName` VARCHAR(45) NOT NULL COMMENT '매장명',
   `amount` BIGINT(20) UNSIGNED NOT NULL COMMENT '총 금액',
   `rsvTime` VARCHAR(5) NOT NULL COMMENT 'HH:MM',
@@ -172,7 +172,7 @@ CREATE TABLE IF NOT EXISTS `cheonildb`.`order_rsv` (
   `reqCmt` VARCHAR(1000) NULL COMMENT '기타 정보',
   `createdAt` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` DATETIME NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`, `storeName`),
+  PRIMARY KEY (`seq`, `storeName`),
   INDEX `fk_t_order_rsv_store1_idx` (`storeName` ASC) VISIBLE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
@@ -203,14 +203,14 @@ COMMENT = '주문 메뉴';
 DROP TABLE IF EXISTS `cheonildb`.`payment` ;
 
 CREATE TABLE IF NOT EXISTS `cheonildb`.`payment` (
-  `id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '결재ID',
-  `orderid` BIGINT(20) UNSIGNED NOT NULL COMMENT '주문ID',
+  `seq` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '결재ID',
+  `orderSeq` BIGINT(20) UNSIGNED NOT NULL COMMENT '주문ID',
   `storeName` VARCHAR(45) NOT NULL COMMENT '매장명',
   `amount` INT(20) UNSIGNED NOT NULL COMMENT '결재금액',
   `payType` ENUM('CASH', 'CARD') NOT NULL COMMENT '결재방식',
   `payDate` DATETIME NOT NULL COMMENT '결재일',
-  PRIMARY KEY (`id`, `orderid`, `storeName`),
-  INDEX `fk_payment_t_order1_idx` (`orderid` ASC, `storeName` ASC) VISIBLE)
+  PRIMARY KEY (`seq`, `orderSeq`, `storeName`),
+  INDEX `fk_payment_t_order1_idx` (`orderSeq` ASC, `storeName` ASC) VISIBLE)
 ENGINE = InnoDB
 COMMENT = '결재';
 

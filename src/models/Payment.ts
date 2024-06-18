@@ -35,7 +35,7 @@ export class Payment
                     type: DataTypes.BIGINT.UNSIGNED,
                     allowNull: false,
                     primaryKey: true,
-                    comment: '결재ID',
+                    comment: '결재 ID',
                 },
                 orderId: {
                     type: DataTypes.BIGINT.UNSIGNED,

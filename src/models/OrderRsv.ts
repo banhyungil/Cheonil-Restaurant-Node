@@ -12,7 +12,7 @@ export interface OrderRsvAttributes {
     updatedAt?: Date
 }
 
-export type OrderRsvPk = 'id' | 'storeName'
+export type OrderRsvPk = 'id'
 export type OrderRsvId = OrderRsv[OrderRsvPk]
 export type OrderRsvOptionalAttributes =
     | 'id'
@@ -45,12 +45,11 @@ export class OrderRsv
                     type: DataTypes.BIGINT.UNSIGNED,
                     allowNull: false,
                     primaryKey: true,
-                    comment: '주문예약ID',
+                    comment: '주문예약 ID',
                 },
                 storeName: {
                     type: DataTypes.STRING(45),
                     allowNull: false,
-                    primaryKey: true,
                     comment: '매장명',
                 },
                 amount: {
@@ -83,7 +82,7 @@ export class OrderRsv
                         name: 'PRIMARY',
                         unique: true,
                         using: 'BTREE',
-                        fields: [{ name: 'id' }, { name: 'storeName' }],
+                        fields: [{ name: 'id' }],
                     },
                     {
                         name: 'fk_t_order_rsv_store1_idx',
