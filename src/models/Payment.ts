@@ -3,14 +3,13 @@ import { DataTypes, Model, Optional } from 'sequelize'
 
 export interface PaymentAttributes {
     id: number
-    orderid: number
-    storeName: string
+    orderId: number
     amount: number
     payType: 'CASH' | 'CARD'
     payDate: Date
 }
 
-export type PaymentPk = 'id' | 'orderid' | 'storeName'
+export type PaymentPk = 'id'
 export type PaymentId = Payment[PaymentPk]
 export type PaymentOptionalAttributes = 'id'
 export type PaymentCreationAttributes = Optional<
@@ -23,8 +22,7 @@ export class Payment
     implements PaymentAttributes
 {
     id!: number
-    orderid!: number
-    storeName!: string
+    orderId!: number
     amount!: number
     payType!: 'CASH' | 'CARD'
     payDate!: Date
@@ -39,17 +37,9 @@ export class Payment
                     primaryKey: true,
                     comment: '결재ID',
                 },
-                orderid: {
+                orderId: {
                     type: DataTypes.BIGINT.UNSIGNED,
                     allowNull: false,
-                    primaryKey: true,
-                    comment: '주문ID',
-                },
-                storeName: {
-                    type: DataTypes.STRING(45),
-                    allowNull: false,
-                    primaryKey: true,
-                    comment: '매장명',
                 },
                 amount: {
                     type: DataTypes.INTEGER.UNSIGNED,
@@ -76,16 +66,12 @@ export class Payment
                         name: 'PRIMARY',
                         unique: true,
                         using: 'BTREE',
-                        fields: [
-                            { name: 'id' },
-                            { name: 'orderid' },
-                            { name: 'storeName' },
-                        ],
+                        fields: [{ name: 'id' }],
                     },
                     {
                         name: 'fk_payment_t_order1_idx',
                         using: 'BTREE',
-                        fields: [{ name: 'orderid' }, { name: 'storeName' }],
+                        fields: [{ name: 'orderId' }],
                     },
                 ],
             }

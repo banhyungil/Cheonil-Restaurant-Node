@@ -7,7 +7,7 @@ export interface TOrderAttributes {
     id: number
     storeName: string
     amount: number
-    status: 'READY' | 'COMPLETE'
+    status: 'READY' | 'COMPLETE' | 'PARTIAL_PAY' | 'PAY'
     orderTime: Date
     completeTime?: Date
     reqCmt?: string
@@ -17,7 +17,7 @@ export interface TOrderAttributes {
     store?: StoreAttributes
 }
 
-export type TOrderPk = 'id' | 'storeName'
+export type TOrderPk = 'id'
 export type TOrderId = TOrder[TOrderPk]
 export type TOrderOptionalAttributes =
     | 'id'
@@ -39,7 +39,7 @@ export class TOrder
     id!: number
     storeName!: string
     amount!: number
-    status!: 'READY' | 'COMPLETE'
+    status!: 'READY' | 'COMPLETE' | 'PARTIAL_PAY' | 'PAY'
     orderTime!: Date
     completeTime?: Date
     reqCmt?: string
@@ -54,12 +54,11 @@ export class TOrder
                     type: DataTypes.BIGINT.UNSIGNED,
                     allowNull: false,
                     primaryKey: true,
-                    comment: '주문ID',
+                    comment: '주문 ID',
                 },
                 storeName: {
                     type: DataTypes.STRING(45),
                     allowNull: false,
-                    primaryKey: true,
                     comment: '매장명',
                 },
                 amount: {
@@ -68,10 +67,16 @@ export class TOrder
                     comment: '총 금액\n외상인 경우는 어떻게 처리하지?...',
                 },
                 status: {
-                    type: DataTypes.ENUM('READY', 'COMPLETE'),
+                    type: DataTypes.ENUM(
+                        'READY',
+                        'COMPLETE',
+                        'PARTIAL_PAY',
+                        'PAY'
+                    ),
                     allowNull: false,
                     defaultValue: 'READY',
-                    comment: 'ready: 준비, complete: 완료',
+                    comment:
+                        'READY: 준비, COMPLETE: 처리 완료, PARTIAL_PAY: 부분 결재, PAY: 결재 완료\n',
                 },
                 orderTime: {
                     type: DataTypes.DATE,
@@ -99,7 +104,7 @@ export class TOrder
                         name: 'PRIMARY',
                         unique: true,
                         using: 'BTREE',
-                        fields: [{ name: 'id' }, { name: 'storeName' }],
+                        fields: [{ name: 'id' }],
                     },
                     {
                         name: 'fk_t_order_store1_idx',

@@ -3,15 +3,14 @@ import { DataTypes, Model, Optional } from 'sequelize'
 import { MenuAttributes } from './Menu'
 
 export interface TOrderMenuAttributes {
-    name: string
+    menuName: string
     orderId: number
-    storeName: string
     price: number
     cnt: number
     menu?: MenuAttributes
 }
 
-export type TOrderMenuPk = 'name' | 'orderId' | 'storeName'
+export type TOrderMenuPk = 'menuName' | 'orderId'
 export type TOrderMenuId = TOrderMenu[TOrderMenuPk]
 export type TOrderMenuCreationAttributes = TOrderMenuAttributes
 
@@ -19,16 +18,15 @@ export class TOrderMenu
     extends Model<TOrderMenuAttributes, TOrderMenuCreationAttributes>
     implements TOrderMenuAttributes
 {
-    name!: string
+    menuName!: string
     orderId!: number
-    storeName!: string
     price!: number
     cnt!: number
 
     static initModel(sequelize: Sequelize.Sequelize): typeof TOrderMenu {
         return TOrderMenu.init(
             {
-                name: {
+                menuName: {
                     type: DataTypes.STRING(45),
                     allowNull: false,
                     primaryKey: true,
@@ -38,13 +36,7 @@ export class TOrderMenu
                     type: DataTypes.BIGINT.UNSIGNED,
                     allowNull: false,
                     primaryKey: true,
-                    comment: '주문ID',
-                },
-                storeName: {
-                    type: DataTypes.STRING(45),
-                    allowNull: false,
-                    primaryKey: true,
-                    comment: '매장명',
+                    comment: '주문 ID',
                 },
                 price: {
                     type: DataTypes.BIGINT.UNSIGNED,
@@ -66,21 +58,17 @@ export class TOrderMenu
                         name: 'PRIMARY',
                         unique: true,
                         using: 'BTREE',
-                        fields: [
-                            { name: 'name' },
-                            { name: 'orderId' },
-                            { name: 'storeName' },
-                        ],
+                        fields: [{ name: 'menuName' }, { name: 'orderId' }],
                     },
                     {
                         name: 'fk_t_order_menu_menu1_idx',
                         using: 'BTREE',
-                        fields: [{ name: 'name' }],
+                        fields: [{ name: 'menuName' }],
                     },
                     {
                         name: 'fk_t_order_menu_t_order1_idx',
                         using: 'BTREE',
-                        fields: [{ name: 'orderId' }, { name: 'storeName' }],
+                        fields: [{ name: 'orderId' }],
                     },
                 ],
             }
