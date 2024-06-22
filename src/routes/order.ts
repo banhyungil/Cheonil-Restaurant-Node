@@ -1,14 +1,11 @@
-import { TestId } from './../models/Test'
 import express from 'express'
-import { TOrder, TOrderAttributes } from '../models/TOrder'
-import { TOrderMenu, TOrderMenuAttributes } from '../models/TOrderMenu'
+import { Order, OrderAttributes } from '../models/Order'
+import { OrderMenu, OrderMenuAttributes } from '../models/OrderMenu'
 import { Model, Op } from 'sequelize'
 import { Menu } from '../models/Menu'
 import { Store } from '../models/Store'
 import DB from '../models/index.ts'
 import qs from 'qs'
-import url from 'url'
-
 // import { fileURLToPath } from 'url'
 const router = express.Router()
 
@@ -46,10 +43,10 @@ router.get('/', async (req, res) => {
     })
     /* eslint-enable */
 
-    const result = await TOrder.findAll({
+    const result = await Order.findAll({
         include: [
             {
-                model: TOrderMenu,
+                model: OrderMenu,
                 as: 'orderMenues',
                 include: [
                     {
@@ -67,17 +64,17 @@ router.get('/', async (req, res) => {
         limit: limit ? Number(limit) : undefined,
         offset: offset ? Number(offset) : undefined,
     })
-    const orders = getPlain(result) as TOrderAttributes[]
+    const orders = getPlain(result) as OrderAttributes[]
 
     res.send({ list: orders })
 })
 
-router.get('/:id', async (req, res) => {
-    const { id } = req.params
-    const result = await TOrder.findOne({
+router.get('/:seq', async (req, res) => {
+    const { seq } = req.params
+    const result = await Order.findOne({
         include: [
             {
-                model: TOrderMenu,
+                model: OrderMenu,
                 as: 'orderMenues',
                 include: [
                     {
@@ -91,10 +88,10 @@ router.get('/:id', async (req, res) => {
                 as: 'store',
             },
         ],
-        where: { id: id },
+        where: { seq: seq },
     })
     if (result) {
-        const orderResult = getPlain(result) as TOrderAttributes[]
+        const orderResult = getPlain(result) as OrderAttributes[]
         res.send(orderResult[0])
     } else {
         res.send(null)
@@ -120,33 +117,33 @@ function getPlain(model: Model | Model[]) {
 // orderMenu 와 같이 생성
 router.post('/', async (req, res) => {
     const { order, orderMenues } = req.body as {
-        order: TOrderAttributes
-        orderMenues: TOrderMenuAttributes[]
+        order: OrderAttributes
+        orderMenues: OrderMenuAttributes[]
     }
 
-    await TOrder.create(order).then(async (nOrder) => {
+    await Order.create(order).then(async (nOrder) => {
         orderMenues.forEach((om) => {
-            om.orderId = nOrder.id
+            om.orderSeq = nOrder.seq
         })
 
-        await TOrderMenu.bulkCreate(orderMenues)
+        await OrderMenu.bulkCreate(orderMenues)
     })
 
     res.sendStatus(200)
 })
 
 // 주문 변경
-router.patch('/:id', async (req, res) => {
-    const id = req.params.id
+router.patch('/:seq', async (req, res) => {
+    const seq = req.params.seq
     const { order, orderMenues = [] } = req.body as {
-        order: TOrderAttributes
-        orderMenues: TOrderMenuAttributes[]
+        order: OrderAttributes
+        orderMenues: OrderMenuAttributes[]
     }
 
     await DB.sequelize.transaction((t) => {
         const prms = [
-            TOrder.update(order, { where: { id } }),
-            ...orderMenues.map((om) => TOrderMenu.upsert(om)),
+            Order.update(order, { where: { seq } }),
+            ...orderMenues.map((om) => OrderMenu.upsert(om)),
         ]
         return Promise.all(prms)
     })
@@ -154,11 +151,11 @@ router.patch('/:id', async (req, res) => {
     res.sendStatus(200)
 })
 
-router.delete('/:id', async (req, res) => {
-    const id = req.params.id
+router.delete('/:seq', async (req, res) => {
+    const seq = req.params.seq
 
-    TOrderMenu.destroy({ where: { orderId: id } })
-    TOrder.destroy({ where: { id } })
+    OrderMenu.destroy({ where: { orderSeq: seq } })
+    Order.destroy({ where: { seq } })
 
     res.sendStatus(200)
 })

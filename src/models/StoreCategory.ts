@@ -3,7 +3,7 @@ import { DataTypes, Model, Optional } from 'sequelize'
 
 export interface StoreCategoryAttributes {
     name: string
-    placeCtgName: string
+    placeCtgNm?: string
     order?: number
     createdAt?: Date
     updatedAt?: Date
@@ -12,6 +12,7 @@ export interface StoreCategoryAttributes {
 export type StoreCategoryPk = 'name'
 export type StoreCategoryId = StoreCategory[StoreCategoryPk]
 export type StoreCategoryOptionalAttributes =
+    | 'placeCtgNm'
     | 'order'
     | 'createdAt'
     | 'updatedAt'
@@ -25,7 +26,7 @@ export class StoreCategory
     implements StoreCategoryAttributes
 {
     name!: string
-    placeCtgName!: string
+    placeCtgNm?: string
     order?: number
     createdAt?: Date
     updatedAt?: Date
@@ -38,9 +39,9 @@ export class StoreCategory
                     allowNull: false,
                     primaryKey: true,
                 },
-                placeCtgName: {
+                placeCtgNm: {
                     type: DataTypes.STRING(45),
-                    allowNull: false,
+                    allowNull: true,
                 },
                 order: {
                     type: DataTypes.TINYINT.UNSIGNED,
@@ -49,7 +50,7 @@ export class StoreCategory
             },
             {
                 sequelize,
-                tableName: 'store_category',
+                tableName: 'StoreCategory',
                 timestamps: true,
                 indexes: [
                     {
@@ -61,7 +62,7 @@ export class StoreCategory
                     {
                         name: 'fk_store_category_placeCategory1_idx',
                         using: 'BTREE',
-                        fields: [{ name: 'placeCtgName' }],
+                        fields: [{ name: 'placeCtgNm' }],
                     },
                 ],
             }

@@ -3,8 +3,8 @@ import { DataTypes, Model, Optional } from 'sequelize'
 
 export interface MenuAttributes {
     name: string
-    categoryName: string
-    nameAbv?: string
+    ctgNm: string
+    abv?: string
     price: number
     cmt?: string
     createdAt?: Date
@@ -13,11 +13,7 @@ export interface MenuAttributes {
 
 export type MenuPk = 'name'
 export type MenuId = Menu[MenuPk]
-export type MenuOptionalAttributes =
-    | 'nameAbv'
-    | 'cmt'
-    | 'createdAt'
-    | 'updatedAt'
+export type MenuOptionalAttributes = 'abv' | 'cmt' | 'createdAt' | 'updatedAt'
 export type MenuCreationAttributes = Optional<
     MenuAttributes,
     MenuOptionalAttributes
@@ -28,8 +24,8 @@ export class Menu
     implements MenuAttributes
 {
     name!: string
-    categoryName!: string
-    nameAbv?: string
+    ctgNm!: string
+    abv?: string
     price!: number
     cmt?: string
     createdAt?: Date
@@ -44,18 +40,18 @@ export class Menu
                     primaryKey: true,
                     comment: '메뉴명',
                 },
-                categoryName: {
+                ctgNm: {
                     type: DataTypes.STRING(45),
                     allowNull: false,
                     comment: '카테고리명',
                 },
-                nameAbv: {
+                abv: {
                     type: DataTypes.STRING(45),
                     allowNull: true,
-                    comment: '이름 약어',
+                    comment: '메뉴 약어',
                 },
                 price: {
-                    type: DataTypes.BIGINT.UNSIGNED,
+                    type: DataTypes.INTEGER.UNSIGNED,
                     allowNull: false,
                 },
                 cmt: {
@@ -65,7 +61,7 @@ export class Menu
             },
             {
                 sequelize,
-                tableName: 'menu',
+                tableName: 'Menu',
                 timestamps: true,
                 indexes: [
                     {
@@ -77,7 +73,7 @@ export class Menu
                     {
                         name: 'fk_menu_menu_category1_idx',
                         using: 'BTREE',
-                        fields: [{ name: 'categoryName' }],
+                        fields: [{ name: 'ctgNm' }],
                     },
                 ],
             }

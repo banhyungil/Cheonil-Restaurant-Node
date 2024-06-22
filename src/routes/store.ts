@@ -15,16 +15,16 @@ router.post('/', async (req, res) => {
     res.sendStatus(200)
 })
 
-router.put('/:id', async (req, res) => {
-    const { id } = req.params
+router.put('/:name', async (req, res) => {
+    const { name } = req.params
     const store = req.body
-    await Store.update(store, { where: { id } })
+    await Store.update(store, { where: { name } })
     res.sendStatus(200)
 })
 
-router.delete('/:id', async (req, res) => {
-    const { id } = req.params
-    await Store.destroy({ where: { id } })
+router.delete('/:name', async (req, res) => {
+    const { name } = req.params
+    await Store.destroy({ where: { name } })
     res.sendStatus(200)
 })
 

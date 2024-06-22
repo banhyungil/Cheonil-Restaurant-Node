@@ -32,7 +32,7 @@ export class Config
             },
             {
                 sequelize,
-                tableName: 'config',
+                tableName: 'Config',
                 timestamps: false,
                 indexes: [
                     {

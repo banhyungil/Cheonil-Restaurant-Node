@@ -19,5 +19,4 @@ router.use('/store', storeRouter)
 router.use('/storeCategory', storeCategoryRouter)
 router.use('/order', orderRouter)
 router.use('/placeCategory', placeCategoryRouter)
-4
 export default router

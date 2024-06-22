@@ -3,8 +3,8 @@ import { DataTypes, Model, Optional } from 'sequelize'
 
 export interface StoreAttributes {
     name: string
-    categoryName: string
-    placeCtgName: string
+    ctgNm: string
+    placeCtgNm?: string
     cmt?: string
     latitude?: string
     longitude?: string
@@ -15,6 +15,7 @@ export interface StoreAttributes {
 export type StorePk = 'name'
 export type StoreId = Store[StorePk]
 export type StoreOptionalAttributes =
+    | 'placeCtgNm'
     | 'cmt'
     | 'latitude'
     | 'longitude'
@@ -30,8 +31,8 @@ export class Store
     implements StoreAttributes
 {
     name!: string
-    categoryName!: string
-    placeCtgName!: string
+    ctgNm!: string
+    placeCtgNm?: string
     cmt?: string
     latitude?: string
     longitude?: string
@@ -46,13 +47,13 @@ export class Store
                     allowNull: false,
                     primaryKey: true,
                 },
-                categoryName: {
+                ctgNm: {
                     type: DataTypes.STRING(45),
                     allowNull: false,
                 },
-                placeCtgName: {
+                placeCtgNm: {
                     type: DataTypes.STRING(45),
-                    allowNull: false,
+                    allowNull: true,
                     comment: '기본적으로 매장 카테고리에 등록된 값과 일치',
                 },
                 cmt: {
@@ -73,7 +74,7 @@ export class Store
             },
             {
                 sequelize,
-                tableName: 'store',
+                tableName: 'Store',
                 timestamps: true,
                 indexes: [
                     {
@@ -85,12 +86,12 @@ export class Store
                     {
                         name: 'fk_store_store_category1_idx',
                         using: 'BTREE',
-                        fields: [{ name: 'categoryName' }],
+                        fields: [{ name: 'ctgNm' }],
                     },
                     {
                         name: 'fk_store_placeCategory1_idx',
                         using: 'BTREE',
-                        fields: [{ name: 'placeCtgName' }],
+                        fields: [{ name: 'placeCtgNm' }],
                     },
                 ],
             }

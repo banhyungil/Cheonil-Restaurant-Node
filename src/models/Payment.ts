@@ -2,16 +2,16 @@ import * as Sequelize from 'sequelize'
 import { DataTypes, Model, Optional } from 'sequelize'
 
 export interface PaymentAttributes {
-    id: number
-    orderId: number
+    seq: number
+    orderSeq: number
     amount: number
     payType: 'CASH' | 'CARD'
     payDate: Date
 }
 
-export type PaymentPk = 'id'
+export type PaymentPk = 'seq'
 export type PaymentId = Payment[PaymentPk]
-export type PaymentOptionalAttributes = 'id'
+export type PaymentOptionalAttributes = 'seq'
 export type PaymentCreationAttributes = Optional<
     PaymentAttributes,
     PaymentOptionalAttributes
@@ -21,8 +21,8 @@ export class Payment
     extends Model<PaymentAttributes, PaymentCreationAttributes>
     implements PaymentAttributes
 {
-    id!: number
-    orderId!: number
+    seq!: number
+    orderSeq!: number
     amount!: number
     payType!: 'CASH' | 'CARD'
     payDate!: Date
@@ -30,16 +30,17 @@ export class Payment
     static initModel(sequelize: Sequelize.Sequelize): typeof Payment {
         return Payment.init(
             {
-                id: {
+                seq: {
                     autoIncrement: true,
                     type: DataTypes.BIGINT.UNSIGNED,
                     allowNull: false,
                     primaryKey: true,
-                    comment: '결재 ID',
+                    comment: '결재 SEQ',
                 },
-                orderId: {
+                orderSeq: {
                     type: DataTypes.BIGINT.UNSIGNED,
                     allowNull: false,
+                    comment: '주문 Seq',
                 },
                 amount: {
                     type: DataTypes.INTEGER.UNSIGNED,
@@ -59,19 +60,19 @@ export class Payment
             },
             {
                 sequelize,
-                tableName: 'payment',
+                tableName: 'Payment',
                 timestamps: false,
                 indexes: [
                     {
                         name: 'PRIMARY',
                         unique: true,
                         using: 'BTREE',
-                        fields: [{ name: 'id' }],
+                        fields: [{ name: 'seq' }],
                     },
                     {
                         name: 'fk_payment_t_order1_idx',
                         using: 'BTREE',
-                        fields: [{ name: 'orderId' }],
+                        fields: [{ name: 'orderSeq' }],
                     },
                 ],
             }

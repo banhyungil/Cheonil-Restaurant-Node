@@ -21,13 +21,13 @@ const init = () => {
 
     const models = initModels(sequelize)
 
-    const { TOrder, TOrderMenu, Menu, Store } = models
-    TOrder.hasMany(TOrderMenu, { foreignKey: 'orderId', as: 'orderMenues' })
-    TOrderMenu.belongsTo(TOrder, { foreignKey: 'orderId', as: 'orderMenues' })
-    // Store.hasMany(TOrder, { foreignKey: 'storeId' })
-    TOrder.belongsTo(Store, { foreignKey: 'storeId', as: 'store' })
-    // Menu.hasMany(TOrderMenu, { foreignKey: 'menuId' })
-    TOrderMenu.belongsTo(Menu, { foreignKey: 'menuId', as: 'menu' })
+    const { Order, OrderMenu, Menu, Store } = models
+    Order.hasMany(OrderMenu, { foreignKey: 'orderId', as: 'orderMenues' })
+    OrderMenu.belongsTo(Order, { foreignKey: 'orderId', as: 'orderMenues' })
+    // Store.hasMany(Order, { foreignKey: 'storeId' })
+    Order.belongsTo(Store, { foreignKey: 'storeName', as: 'store' })
+    // Menu.hasMany(OrderMenu, { foreignKey: 'menuId' })
+    OrderMenu.belongsTo(Menu, { foreignKey: 'menuName', as: 'menu' })
     // MenuCategory.hasMany(Menu)
     // StoreCategory.hasMany(Store)
 

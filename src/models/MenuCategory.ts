@@ -43,7 +43,7 @@ export class MenuCategory
             },
             {
                 sequelize,
-                tableName: 'menu_category',
+                tableName: 'MenuCategory',
                 timestamps: true,
                 indexes: [
                     {

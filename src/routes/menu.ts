@@ -15,17 +15,17 @@ router.post('/', async (req, res) => {
     res.sendStatus(200)
 })
 
-router.put('/:id', async (req, res) => {
-    const id = req.params.id
+router.put('/:name', async (req, res) => {
+    const { name } = req.params
     const menu = req.body
-    await Menu.update(menu, { where: { id } })
+    await Menu.update(menu, { where: { name } })
 
     res.sendStatus(200)
 })
 
-router.delete('/:id', async (req, res) => {
-    const id = req.params.id
-    await Menu.destroy({ where: { id } })
+router.delete('/:name', async (req, res) => {
+    const { name } = req.params
+    await Menu.destroy({ where: { name } })
 
     res.sendStatus(200)
 })

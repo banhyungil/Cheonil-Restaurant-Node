@@ -36,7 +36,7 @@ export class PlaceCategory
             },
             {
                 sequelize,
-                tableName: 'placeCategory',
+                tableName: 'PlaceCategory',
                 timestamps: false,
                 indexes: [
                     {

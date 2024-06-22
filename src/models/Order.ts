@@ -1,11 +1,9 @@
 import * as Sequelize from 'sequelize'
 import { DataTypes, Model, Optional } from 'sequelize'
-import { TOrderMenuAttributes } from './TOrderMenu'
-import { StoreAttributes } from './Store'
 
-export interface TOrderAttributes {
-    id: number
-    storeName: string
+export interface OrderAttributes {
+    seq: number
+    storeNm: string
     amount: number
     status: 'READY' | 'COMPLETE' | 'PARTIAL_PAY' | 'PAY'
     orderTime: Date
@@ -13,31 +11,29 @@ export interface TOrderAttributes {
     reqCmt?: string
     createdAt?: Date
     updatedAt?: Date
-    orderMeneus?: TOrderMenuAttributes[]
-    store?: StoreAttributes
 }
 
-export type TOrderPk = 'id'
-export type TOrderId = TOrder[TOrderPk]
-export type TOrderOptionalAttributes =
-    | 'id'
+export type OrderPk = 'seq'
+export type OrderId = Order[OrderPk]
+export type OrderOptionalAttributes =
+    | 'seq'
     | 'status'
     | 'orderTime'
     | 'completeTime'
     | 'reqCmt'
     | 'createdAt'
     | 'updatedAt'
-export type TOrderCreationAttributes = Optional<
-    TOrderAttributes,
-    TOrderOptionalAttributes
+export type OrderCreationAttributes = Optional<
+    OrderAttributes,
+    OrderOptionalAttributes
 >
 
-export class TOrder
-    extends Model<TOrderAttributes, TOrderCreationAttributes>
-    implements TOrderAttributes
+export class Order
+    extends Model<OrderAttributes, OrderCreationAttributes>
+    implements OrderAttributes
 {
-    id!: number
-    storeName!: string
+    seq!: number
+    storeNm!: string
     amount!: number
     status!: 'READY' | 'COMPLETE' | 'PARTIAL_PAY' | 'PAY'
     orderTime!: Date
@@ -46,17 +42,17 @@ export class TOrder
     createdAt?: Date
     updatedAt?: Date
 
-    static initModel(sequelize: Sequelize.Sequelize): typeof TOrder {
-        return TOrder.init(
+    static initModel(sequelize: Sequelize.Sequelize): typeof Order {
+        return Order.init(
             {
-                id: {
+                seq: {
                     autoIncrement: true,
                     type: DataTypes.BIGINT.UNSIGNED,
                     allowNull: false,
                     primaryKey: true,
-                    comment: '주문 ID',
+                    comment: '주문 SEQ',
                 },
-                storeName: {
+                storeNm: {
                     type: DataTypes.STRING(45),
                     allowNull: false,
                     comment: '매장명',
@@ -97,19 +93,19 @@ export class TOrder
             },
             {
                 sequelize,
-                tableName: 't_order',
+                tableName: 'Order',
                 timestamps: true,
                 indexes: [
                     {
                         name: 'PRIMARY',
                         unique: true,
                         using: 'BTREE',
-                        fields: [{ name: 'id' }],
+                        fields: [{ name: 'seq' }],
                     },
                     {
                         name: 'fk_t_order_store1_idx',
                         using: 'BTREE',
-                        fields: [{ name: 'storeName' }],
+                        fields: [{ name: 'storeNm' }],
                     },
                 ],
             }

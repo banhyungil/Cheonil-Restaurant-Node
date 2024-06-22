@@ -27,7 +27,7 @@ const sequelizeAuto = new SequelizeAuto(
         singularize: true,
         useDefine: false,
         caseFile: 'p',
-        caseModel: 'p',
+        // caseModel: 'p',
         lang: 'ts',
     }
 )

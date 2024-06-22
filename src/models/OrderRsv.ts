@@ -2,8 +2,8 @@ import * as Sequelize from 'sequelize'
 import { DataTypes, Model, Optional } from 'sequelize'
 
 export interface OrderRsvAttributes {
-    id: number
-    storeName: string
+    seq: number
+    storeNm: string
     amount: number
     rsvTime: string
     weekDay: string
@@ -12,10 +12,10 @@ export interface OrderRsvAttributes {
     updatedAt?: Date
 }
 
-export type OrderRsvPk = 'id'
+export type OrderRsvPk = 'seq'
 export type OrderRsvId = OrderRsv[OrderRsvPk]
 export type OrderRsvOptionalAttributes =
-    | 'id'
+    | 'seq'
     | 'reqCmt'
     | 'createdAt'
     | 'updatedAt'
@@ -28,8 +28,8 @@ export class OrderRsv
     extends Model<OrderRsvAttributes, OrderRsvCreationAttributes>
     implements OrderRsvAttributes
 {
-    id!: number
-    storeName!: string
+    seq!: number
+    storeNm!: string
     amount!: number
     rsvTime!: string
     weekDay!: string
@@ -40,20 +40,20 @@ export class OrderRsv
     static initModel(sequelize: Sequelize.Sequelize): typeof OrderRsv {
         return OrderRsv.init(
             {
-                id: {
+                seq: {
                     autoIncrement: true,
                     type: DataTypes.BIGINT.UNSIGNED,
                     allowNull: false,
                     primaryKey: true,
-                    comment: '주문예약 ID',
+                    comment: '주문예약 SEQ',
                 },
-                storeName: {
+                storeNm: {
                     type: DataTypes.STRING(45),
                     allowNull: false,
                     comment: '매장명',
                 },
                 amount: {
-                    type: DataTypes.BIGINT.UNSIGNED,
+                    type: DataTypes.INTEGER.UNSIGNED,
                     allowNull: false,
                     comment: '총 금액',
                 },
@@ -75,19 +75,19 @@ export class OrderRsv
             },
             {
                 sequelize,
-                tableName: 'order_rsv',
+                tableName: 'OrderRsv',
                 timestamps: true,
                 indexes: [
                     {
                         name: 'PRIMARY',
                         unique: true,
                         using: 'BTREE',
-                        fields: [{ name: 'id' }],
+                        fields: [{ name: 'seq' }],
                     },
                     {
                         name: 'fk_t_order_rsv_store1_idx',
                         using: 'BTREE',
-                        fields: [{ name: 'storeName' }],
+                        fields: [{ name: 'storeNm' }],
                     },
                 ],
             }
