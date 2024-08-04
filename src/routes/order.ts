@@ -6,6 +6,7 @@ import { Menu } from '../models/Menu'
 import { Store } from '../models/Store'
 import DB from '../models/index.ts'
 import qs from 'qs'
+import { Payment } from '../models/Payment.ts'
 // import { fileURLToPath } from 'url'
 const router = express.Router()
 
@@ -25,6 +26,7 @@ router.get('/', async (req, res) => {
 
     const info = qs.parse(queryStr) ?? {}
     const { limit, offset, sortBy } = info
+
     delete info.limit
     delete info.offset
     delete info.sortBy
@@ -54,6 +56,10 @@ router.get('/', async (req, res) => {
                         as: 'menu',
                     },
                 ],
+            },
+            {
+                model: Payment,
+                as: 'payments',
             },
             {
                 model: Store,

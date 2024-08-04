@@ -1,6 +1,6 @@
 export default {
     mysql: {
-        host: '127.0.0.1',
+        host: 'localhost',
         user: 'root',
         password: 'root',
         database: 'cheonildb',

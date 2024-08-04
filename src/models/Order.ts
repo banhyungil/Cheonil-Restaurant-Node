@@ -1,5 +1,8 @@
 import * as Sequelize from 'sequelize'
 import { DataTypes, Model, Optional } from 'sequelize'
+import { OrderMenu } from './OrderMenu'
+import { Payment } from './Payment'
+import { Store } from './Store'
 
 export interface OrderAttributes {
     seq: number
@@ -11,6 +14,9 @@ export interface OrderAttributes {
     reqCmt?: string
     createdAt?: Date
     updatedAt?: Date
+    orderMenues?: OrderMenu[]
+    payments?: Payment[]
+    store?: Store
 }
 
 export type OrderPk = 'seq'

@@ -13,11 +13,10 @@
         "noImplicitAny": true,
         "noEmit": true,
         "allowImportingTsExtensions": true,
-        // "module": "ESNext",
-        // "moduleResolution": "Node",
-        // "target": "ES2022",
-        // "esModuleInterop": true,
-        // "outDir": "dist"
+        "paths": {
+            "@": ["./src"],
+            "@base": ["./"]
+        }
     },
     "include": ["src/**/*.ts"],
     "exclude": ["node_modules"],
