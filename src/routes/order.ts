@@ -147,10 +147,7 @@ router.patch('/:seq', async (req, res) => {
     }
 
     await DB.sequelize.transaction((t) => {
-        const prms = [
-            MyOrder.update(order, { where: { seq } }),
-            ...orderMenues.map((om) => OrderMenu.upsert(om)),
-        ]
+        const prms = [MyOrder.update(order, { where: { seq } }), ...orderMenues.map((om) => OrderMenu.upsert(om))]
         return Promise.all(prms)
     })
 

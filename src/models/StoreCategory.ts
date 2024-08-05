@@ -1,84 +1,76 @@
-import * as Sequelize from 'sequelize';
-import { DataTypes, Model, Optional } from 'sequelize';
+import * as Sequelize from 'sequelize'
+import { DataTypes, Model, Optional } from 'sequelize'
 
 export interface StoreCategoryAttributes {
-    name: string;
-    placeCtgName: string;
-    options?: string;
-    createdAt?: Date;
-    updatedAt?: Date;
+    name: string
+    placeCtgNm: string
+    options?: string
+    createdAt?: Date
+    updatedAt?: Date
 }
 
-export type StoreCategoryPk = "name";
-export type StoreCategoryId = StoreCategory[StoreCategoryPk];
-export type StoreCategoryOptionalAttributes = "options" | "createdAt" | "updatedAt";
-export type StoreCategoryCreationAttributes = Optional<StoreCategoryAttributes, StoreCategoryOptionalAttributes>;
+export type StoreCategoryPk = 'name'
+export type StoreCategoryId = StoreCategory[StoreCategoryPk]
+export type StoreCategoryOptionalAttributes = 'options' | 'createdAt' | 'updatedAt'
+export type StoreCategoryCreationAttributes = Optional<StoreCategoryAttributes, StoreCategoryOptionalAttributes>
 
 export class StoreCategory extends Model<StoreCategoryAttributes, StoreCategoryCreationAttributes> implements StoreCategoryAttributes {
-    name!: string;
-    placeCtgName!: string;
-    options?: string;
-    createdAt?: Date;
-    updatedAt?: Date;
-
+    name!: string
+    placeCtgNm!: string
+    options?: string
+    createdAt?: Date
+    updatedAt?: Date
 
     static initModel(sequelize: Sequelize.Sequelize): typeof StoreCategory {
-        return sequelize.define('StoreCategory', {
-        name: {
-            type: DataTypes.STRING(45),
-            allowNull: false,
-            primaryKey: true,
-            comment: "매장 카테고리 명"
-        },
-        placeCtgName: {
-            type: DataTypes.STRING(100),
-            allowNull: false,
-            comment: "장소 카테고리 이름"
-        },
-        options: {
-            type: DataTypes.TEXT,
-            allowNull: true,
-            comment: "추가정보"
-        },
-        createdAt: {
-            type: DataTypes.DATE,
-            allowNull: true,
-            defaultValue: Sequelize.Sequelize.fn('current_timestamp'),
-            comment: "생성시간"
-        },
-        updatedAt: {
-            type: DataTypes.DATE,
-            allowNull: true,
-            defaultValue: Sequelize.Sequelize.fn('current_timestamp'),
-            comment: "수정시간"
-        }
-    }, {
-        tableName: 'StoreCategory',
-        timestamps: false,
-        indexes: [
+        return sequelize.define(
+            'StoreCategory',
             {
-                name: "PRIMARY",
-                unique: true,
-                using: "BTREE",
-                fields: [
-                    { name: "name" },
-                ]
+                name: {
+                    type: DataTypes.STRING(45),
+                    allowNull: false,
+                    primaryKey: true,
+                    comment: '매장 카테고리 명',
+                },
+                placeCtgNm: {
+                    type: DataTypes.STRING(100),
+                    allowNull: false,
+                    comment: '장소 카테고리 이름',
+                },
+                options: {
+                    type: DataTypes.TEXT,
+                    allowNull: true,
+                    comment: '추가정보',
+                },
+                createdAt: {
+                    type: DataTypes.DATE,
+                    allowNull: true,
+                    defaultValue: Sequelize.Sequelize.fn('current_timestamp'),
+                    comment: '생성시간',
+                },
+                updatedAt: {
+                    type: DataTypes.DATE,
+                    allowNull: true,
+                    defaultValue: Sequelize.Sequelize.fn('current_timestamp'),
+                    comment: '수정시간',
+                },
             },
             {
-                name: "FK_PlaceCategory_TO_StoreCategory",
-                using: "BTREE",
-                fields: [
-                    { name: "placeCtgName" },
-                ]
+                tableName: 'StoreCategory',
+                timestamps: false,
+                indexes: [
+                    {
+                        name: 'PRIMARY',
+                        unique: true,
+                        using: 'BTREE',
+                        fields: [{ name: 'name' }],
+                    },
+                    {
+                        name: 'FK_PlaceCategory_TO_StoreCategory',
+                        using: 'BTREE',
+                        fields: [{ name: 'placeCtgNm' }],
+                    },
+                ],
             },
-            {
-                name: "idx_placeCtgName",
-                using: "BTREE",
-                fields: [
-                    { name: "placeCtgName" },
-                ]
-            },
-        ]
-    }) as typeof StoreCategory;
+        ) as typeof StoreCategory
     }
 }

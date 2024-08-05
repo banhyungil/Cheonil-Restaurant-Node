@@ -4,11 +4,11 @@ import EnvVars from '../common/EnvVars'
 type RequiredK<T extends object, K extends keyof T> = Required<Pick<T, K>> & Omit<T, K>
 
 const database: RequiredK<Options, 'username' | 'database' | 'password'> = {
-    host: EnvVars.Db.Host ,
-    port: +EnvVars.Db.Port ,
-    database: EnvVars.Db.Name ,
-    username: EnvVars.Db.User ,
-    password: EnvVars.Db.Pwd ,
+    host: EnvVars.Db.Host,
+    port: +EnvVars.Db.Port,
+    database: EnvVars.Db.Name,
+    username: EnvVars.Db.User,
+    password: EnvVars.Db.Pwd,
     dialect: 'mysql',
     timezone: '+09:00',
     // schema: 'public',
