@@ -1,12 +1,12 @@
 import express from 'express'
-import { Order, OrderAttributes } from '../models/Order'
 import { OrderMenu, OrderMenuAttributes } from '../models/OrderMenu'
 import { Model, Op } from 'sequelize'
 import { Menu } from '../models/Menu'
 import { Store } from '../models/Store'
-import DB from '../models/index.ts'
+import DB from '@src/models/index'
 import qs from 'qs'
-import { Payment } from '../models/Payment.ts'
+import { Payment } from '@src/models/Payment'
+import { MyOrder, MyOrderAttributes } from '@src/models/MyOrder'
 // import { fileURLToPath } from 'url'
 const router = express.Router()
 
@@ -45,7 +45,7 @@ router.get('/', async (req, res) => {
     })
     /* eslint-enable */
 
-    const result = await Order.findAll({
+    const result = await MyOrder.findAll({
         include: [
             {
                 model: OrderMenu,
@@ -70,14 +70,14 @@ router.get('/', async (req, res) => {
         limit: limit ? Number(limit) : undefined,
         offset: offset ? Number(offset) : undefined,
     })
-    const orders = getPlain(result) as OrderAttributes[]
+    const orders = getPlain(result) as MyOrderAttributes[]
 
     res.send({ list: orders })
 })
 
 router.get('/:seq', async (req, res) => {
     const { seq } = req.params
-    const result = await Order.findOne({
+    const result = await MyOrder.findOne({
         include: [
             {
                 model: OrderMenu,
@@ -97,7 +97,7 @@ router.get('/:seq', async (req, res) => {
         where: { seq: seq },
     })
     if (result) {
-        const orderResult = getPlain(result) as OrderAttributes[]
+        const orderResult = getPlain(result) as MyOrderAttributes[]
         res.send(orderResult[0])
     } else {
         res.send(null)
@@ -123,11 +123,11 @@ function getPlain(model: Model | Model[]) {
 // orderMenu 와 같이 생성
 router.post('/', async (req, res) => {
     const { order, orderMenues } = req.body as {
-        order: OrderAttributes
+        order: MyOrderAttributes
         orderMenues: OrderMenuAttributes[]
     }
 
-    await Order.create(order).then(async (nOrder) => {
+    await MyOrder.create(order).then(async (nOrder) => {
         orderMenues.forEach((om) => {
             om.orderSeq = nOrder.seq
         })
@@ -142,13 +142,13 @@ router.post('/', async (req, res) => {
 router.patch('/:seq', async (req, res) => {
     const seq = req.params.seq
     const { order, orderMenues = [] } = req.body as {
-        order: OrderAttributes
+        order: MyOrderAttributes
         orderMenues: OrderMenuAttributes[]
     }
 
     await DB.sequelize.transaction((t) => {
         const prms = [
-            Order.update(order, { where: { seq } }),
+            MyOrder.update(order, { where: { seq } }),
             ...orderMenues.map((om) => OrderMenu.upsert(om)),
         ]
         return Promise.all(prms)
@@ -161,7 +161,7 @@ router.delete('/:seq', async (req, res) => {
     const seq = req.params.seq
 
     OrderMenu.destroy({ where: { orderSeq: seq } })
-    Order.destroy({ where: { seq } })
+    MyOrder.destroy({ where: { seq } })
 
     res.sendStatus(200)
 })

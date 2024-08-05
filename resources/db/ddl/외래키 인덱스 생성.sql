@@ -1,0 +1,11 @@
+CREATE INDEX idx_ctgNm ON Menu(ctgNm);
+CREATE INDEX idx_name ON OrderMenu(name);
+CREATE INDEX idx_orderSeq ON OrderMenu(orderSeq);
+CREATE INDEX idx_storeNm ON OrderRsv(storeNm);
+CREATE INDEX idx_orderSeq ON Payment(orderSeq);
+CREATE INDEX idx_menuNm ON OrderMenuRsv(menuNm);
+CREATE INDEX idx_orderRsvSeq ON OrderMenuRsv(orderRsvSeq);
+CREATE INDEX idx_placeCtgName ON Store(placeCtgName);
+CREATE INDEX idx_ctgNm ON Store(ctgNm);
+CREATE INDEX idx_storeNm ON MyOrder(storeNm);
+CREATE INDEX idx_placeCtgName ON StoreCategory(placeCtgName);

@@ -1,4 +1,3 @@
-node_modules
-public
-test*
-Test*
+**/node_modules
+dist/
+**/**/*.log

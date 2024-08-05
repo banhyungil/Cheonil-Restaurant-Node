@@ -1,5 +1,8 @@
-import development from './development.ts'
-import product from './product.ts'
+import { env } from 'node:process'
+import dConfig from './development'
+import pConfig from './production'
 
-const conifg = process.env.PRODUCT == 'product' ? product : development
-export default conifg
+const environment = env.NODE_ENV || 'development'
+
+// eslint-disable-next-line node/no-unsupported-features/es-syntax
+export default environment == 'development' ? dConfig : pConfig

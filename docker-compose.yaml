@@ -1,0 +1,43 @@
+networks:
+  xm-union:
+    name: xm-union
+    driver: bridge
+volumes:
+  v-portainer:
+  v-postgres:
+services:
+  postgres:
+    container_name: postgres
+    image: realhubvms/postgres
+    ports:
+      - 5434:5432
+    environment:
+      - POSTGRES_PASSWORD=nice2122!
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
+    volumes:
+      - v-postgres:/var/lib/postgresql/data \
+    restart: always
+    networks:
+      - xm-union
+  xm-union-manage:
+    container_name: xm-union-manage
+    image: realhubvms/xm-union-manage
+    environment:
+      - PORT=8010
+      - WS_PORT=8110
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=postgres
+      - DB_USER=postgres
+      - DB_PWD=nice2122!
+    ports:
+      - "8010:8010"
+      - "8110:8110"
+    depends_on:
+      - postgres
+    restart: always
+    networks:
+      - xm-union
+
+      
