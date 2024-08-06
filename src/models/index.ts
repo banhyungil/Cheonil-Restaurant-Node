@@ -21,12 +21,12 @@ const init = async () => {
         host,
         port,
     })
-    /**
-     * @see https://sequelize.org/docs/v6/core-concepts/raw-queries/
-     * @example
-     * const [results, metadata] = await sequelize.query('UPDATE users SET y = 42 WHERE x = 12');
-     */
     const { cnt } = (
+        /**
+         * @see https://sequelize.org/docs/v6/core-concepts/raw-queries/
+         * @example
+         * const [results, metadata] = await sequelize.query('UPDATE users SET y = 42 WHERE x = 12');
+         */
         await sequelize.query(
             `SELECT COUNT(*) as cnt
                                         FROM INFORMATION_SCHEMA.TABLES
@@ -68,14 +68,14 @@ const init = async () => {
     OrderMenu.belongsTo(MyOrder, { foreignKey: 'orderSeq', as: 'orderMenues' })
     Payment.belongsTo(MyOrder, { foreignKey: 'orderSeq', as: 'payments' })
 
-    MyOrder.belongsTo(Store, { foreignKey: 'storeNm', as: 'store' })
-    OrderMenu.belongsTo(Menu, { foreignKey: 'menuNm', as: 'menu' })
+    MyOrder.belongsTo(Store, { foreignKey: 'storeSeq', as: 'store' })
+    OrderMenu.belongsTo(Menu, { foreignKey: 'menuSeq', as: 'menu' })
     // MenuCategory.hasMany(Menu)
     // StoreCategory.hasMany(Store)
 
     db.sequelize = sequelize
     db.models = models
 }
-db.init = init
+    db.init = init
 
 export default db

@@ -1,33 +1,34 @@
 import express from 'express'
-import { Menu } from '../models/Menu'
+import { Menu, MenuCreationAttributes } from '../models/Menu'
+import HttpStatusCodes from '@src/common/HttpStatusCodes'
 // import { fileURLToPath } from 'url'
 const router = express.Router()
 
 router.get('/', async (req, res) => {
     const menues = await Menu.findAll()
-    res.send({ list: menues })
+    res.status(200).send(menues.map((menu) => menu.get({ plain: true })))
 })
 
 router.post('/', async (req, res) => {
-    const menu = req.body
-    await Menu.create(menu)
+    const menu = req.body as MenuCreationAttributes
+    const nMenu = await Menu.create(menu)
 
-    res.sendStatus(200)
+    res.status(HttpStatusCodes.OK).send(nMenu.get({ plain: true }))
 })
 
-router.put('/:name', async (req, res) => {
-    const { name } = req.params
+router.put('/:seq', async (req, res) => {
+    const { seq } = req.params
     const menu = req.body
-    await Menu.update(menu, { where: { name } })
+    await Menu.update(menu, { where: { seq } })
 
-    res.sendStatus(200)
+    res.status(HttpStatusCodes.CREATED).sendStatus(200)
 })
 
-router.delete('/:name', async (req, res) => {
-    const { name } = req.params
-    await Menu.destroy({ where: { name } })
+router.delete('/:seq', async (req, res) => {
+    const { seq } = req.params
+    await Menu.destroy({ where: { seq } })
 
-    res.sendStatus(200)
+    res.status(HttpStatusCodes.NO_CONTENT).sendStatus(200)
 })
 
 export default router

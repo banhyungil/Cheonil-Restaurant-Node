@@ -6,8 +6,8 @@ import _ from 'lodash'
 import SequelizeAuto, { AutoOptions } from 'sequelize-auto'
 import config from './src/config/development'
 
-const auto = getSequelizeAuto({ noWrite: true })
 const configDb = config.database
+const auto = getSequelizeAuto({ noWrite: true })
 
 run()
 
@@ -19,12 +19,15 @@ async function run() {
                 schemas: {},
             } as OpenAPIV3.ComponentsObject
 
+            /* eslint-disable @typescript-eslint/no-unsafe-assignment */
             Object.entries(data.tables).forEach(([_tableName, colInfo]) => {
                 const tableName = _tableName.replace('public.', '')
                 const properties = {} as OpenAPIV3.SchemaObject['properties']
                 const serverCols = ['createdBy', 'updatedBy', 'createdAt', 'updatedAt']
+                debugger
                 // properties 생성
-                Object.entries(colInfo).forEach(([_colName, colMeta]) => {
+                Object.entries(colInfo).forEach(([_colName, _colMeta]) => {
+                    const colMeta = _colMeta as { comment: string; type: string }
                     const colName = snakeToCamel(_colName)
                     properties![colName] = {
                         description: colMeta.comment ?? '',
