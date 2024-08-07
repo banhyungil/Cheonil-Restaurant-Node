@@ -4,7 +4,7 @@ import { DataTypes, Model, Optional } from 'sequelize'
 export interface StoreAttributes {
     seq: number
     ctgNm: string
-    placeCtgNm: string
+    placeCtgNm?: string
     name: string
     cmt?: string
     latitude?: number
@@ -16,13 +16,13 @@ export interface StoreAttributes {
 
 export type StorePk = 'seq'
 export type StoreId = Store[StorePk]
-export type StoreOptionalAttributes = 'cmt' | 'latitude' | 'longitude' | 'options' | 'createdAt' | 'updatedAt'
+export type StoreOptionalAttributes = 'placeCtgNm' | 'cmt' | 'latitude' | 'longitude' | 'options' | 'createdAt' | 'updatedAt'
 export type StoreCreationAttributes = Optional<StoreAttributes, StoreOptionalAttributes>
 
 export class Store extends Model<StoreAttributes, StoreCreationAttributes> implements StoreAttributes {
     seq!: number
     ctgNm!: string
-    placeCtgNm!: string
+    placeCtgNm?: string
     name!: string
     cmt?: string
     latitude?: number
@@ -48,7 +48,7 @@ export class Store extends Model<StoreAttributes, StoreCreationAttributes> imple
                 },
                 placeCtgNm: {
                     type: DataTypes.STRING(100),
-                    allowNull: false,
+                    allowNull: true,
                     comment: '장소 카테고리 명',
                 },
                 name: {

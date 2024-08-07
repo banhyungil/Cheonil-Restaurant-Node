@@ -13,28 +13,46 @@ const db = {} as {
     sequelize: Sequelize
     models: ReturnType<typeof initModels>
 }
-const init = async () => {
-    const { database, username, password, host, port, dialect } = conifg.database
 
-    const sequelize = new Sequelize(database, username, password, {
-        dialect,
-        host,
-        port,
-    })
-    const { cnt } = (
+const { database, username, password, host, port, dialect } = conifg.database
+
+const sequelize = new Sequelize(database, username, password, {
+    dialect,
+    host,
+    port,
+})
+
+const models = initModels(sequelize)
+
+const { MyOrder, OrderMenu, Menu, Store, Payment } = models
+MyOrder.hasMany(OrderMenu, { foreignKey: 'orderSeq', as: 'orderMenues' })
+MyOrder.hasMany(Payment, { foreignKey: 'orderSeq', as: 'payments' })
+OrderMenu.belongsTo(MyOrder, { foreignKey: 'orderSeq', as: 'orderMenues' })
+Payment.belongsTo(MyOrder, { foreignKey: 'orderSeq', as: 'payments' })
+
+MyOrder.belongsTo(Store, { foreignKey: 'storeSeq', as: 'store' })
+OrderMenu.belongsTo(Menu, { foreignKey: 'menuSeq', as: 'menu' })
+// MenuCategory.hasMany(Menu)
+// StoreCategory.hasMany(Store)
+
+db.sequelize = sequelize
+db.models = models
+db.init = async () => {
+    const { cnt } =
         /**
          * @see https://sequelize.org/docs/v6/core-concepts/raw-queries/
          * @example
          * const [results, metadata] = await sequelize.query('UPDATE users SET y = 42 WHERE x = 12');
          */
-        await sequelize.query(
-            `SELECT COUNT(*) as cnt
+        (
+            await sequelize.query(
+                `SELECT COUNT(*) as cnt
                                         FROM INFORMATION_SCHEMA.TABLES
                                         WHERE TABLE_SCHEMA = '${database}'
                                         AND TABLE_NAME = 'MyOrder';`,
-            {},
-        )
-    )[0][0] as { cnt: number }
+                {},
+            )
+        )[0][0] as { cnt: number }
 
     // database가 없는 경우 생성
     if (cnt == 0) {
@@ -59,23 +77,6 @@ const init = async () => {
             }
         })()
     }
-
-    const models = initModels(sequelize)
-
-    const { MyOrder, OrderMenu, Menu, Store, Payment } = models
-    MyOrder.hasMany(OrderMenu, { foreignKey: 'orderSeq', as: 'orderMenues' })
-    MyOrder.hasMany(Payment, { foreignKey: 'orderSeq', as: 'payments' })
-    OrderMenu.belongsTo(MyOrder, { foreignKey: 'orderSeq', as: 'orderMenues' })
-    Payment.belongsTo(MyOrder, { foreignKey: 'orderSeq', as: 'payments' })
-
-    MyOrder.belongsTo(Store, { foreignKey: 'storeSeq', as: 'store' })
-    OrderMenu.belongsTo(Menu, { foreignKey: 'menuSeq', as: 'menu' })
-    // MenuCategory.hasMany(Menu)
-    // StoreCategory.hasMany(Store)
-
-    db.sequelize = sequelize
-    db.models = models
 }
-    db.init = init
 
 export default db

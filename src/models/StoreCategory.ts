@@ -3,7 +3,7 @@ import { DataTypes, Model, Optional } from 'sequelize'
 
 export interface StoreCategoryAttributes {
     name: string
-    placeCtgNm: string
+    placeCtgNm?: string
     options?: string
     createdAt?: Date
     updatedAt?: Date
@@ -11,12 +11,12 @@ export interface StoreCategoryAttributes {
 
 export type StoreCategoryPk = 'name'
 export type StoreCategoryId = StoreCategory[StoreCategoryPk]
-export type StoreCategoryOptionalAttributes = 'options' | 'createdAt' | 'updatedAt'
+export type StoreCategoryOptionalAttributes = 'placeCtgNm' | 'options' | 'createdAt' | 'updatedAt'
 export type StoreCategoryCreationAttributes = Optional<StoreCategoryAttributes, StoreCategoryOptionalAttributes>
 
 export class StoreCategory extends Model<StoreCategoryAttributes, StoreCategoryCreationAttributes> implements StoreCategoryAttributes {
     name!: string
-    placeCtgNm!: string
+    placeCtgNm?: string
     options?: string
     createdAt?: Date
     updatedAt?: Date
@@ -33,7 +33,7 @@ export class StoreCategory extends Model<StoreCategoryAttributes, StoreCategoryC
                 },
                 placeCtgNm: {
                     type: DataTypes.STRING(100),
-                    allowNull: false,
+                    allowNull: true,
                     comment: '장소 카테고리 이름',
                 },
                 options: {
