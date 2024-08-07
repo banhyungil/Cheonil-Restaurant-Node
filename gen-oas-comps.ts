@@ -11,6 +11,24 @@ const auto = getSequelizeAuto({ noWrite: true })
 
 run()
 
+interface TableColumnMeta {
+    allowNull: boolean
+    autoIncrement: boolean
+    comment: string
+    defaultValue: any
+    foreignKey: {
+        constraint_name: string
+        source_schema: string
+        source_table: string
+        source_column: string
+        target_schema: string | null
+        target_table?: string | null // 'target_table' 속성 추가
+        target_column?: string | null // 'target_column' 속성 추가
+    }
+    primaryKey: boolean
+    type: string
+}
+
 async function run() {
     await auto
         .run()
@@ -24,10 +42,10 @@ async function run() {
                 const tableName = _tableName.replace('public.', '')
                 const properties = {} as OpenAPIV3.SchemaObject['properties']
                 const serverCols = ['createdBy', 'updatedBy', 'createdAt', 'updatedAt']
-                debugger
+
                 // properties 생성
                 Object.entries(colInfo).forEach(([_colName, _colMeta]) => {
-                    const colMeta = _colMeta as { comment: string; type: string }
+                    const colMeta = _colMeta as TableColumnMeta
                     const colName = snakeToCamel(_colName)
                     properties![colName] = {
                         description: colMeta.comment ?? '',
@@ -40,6 +58,7 @@ async function run() {
                 const schema = camelToPascal(snakeToCamel(tableName))
 
                 const propKeys = Object.keys(properties!)
+
                 // serverCols가 있는 경우면 schema 2개를 분리
                 if (serverCols.some((col) => propKeys.includes(col))) {
                     // serverColumn 제외

@@ -15,7 +15,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Menu'
+                  $ref: '#/components/schemas/MenuCreation'
     post:
       description: 메뉴 등록
       requestBody:
@@ -31,6 +31,72 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Menu'
+  /api/menu/{seq}:
+    put:
+      description: 메뉴 수정
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Menu'
+      responses:
+        '200':
+          description: 성공 (OK)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Menu'
+    delete:
+      description: 메뉴 삭제
+      responses:
+        '204':
+          description: 성공 (No Content)
+  /api/menuCategory:
+    get:
+      description: 메뉴 카테고리 조회
+      responses:
+        '200':
+          description: 성공 (OK)
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MenuCategory'
+    post:
+      description: 메뉴 카테고리 생성
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MenuCategory'
+      responses:
+        '200':
+          description: 성공 (OK)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MenuCategory'
+  /api/menuCategory/{seq}:
+    put:
+      description: 메뉴 카테고리 수정
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MenuCategory'
+      responses:
+        '200':
+          description: 성공 (OK)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MenuCategory'
+    delete:
+      responses:
+        '204':
+          description: 성공 (No Content)
 security:
   - bearerAuth: []
 components:
@@ -49,8 +115,8 @@ components:
           schema:
             type: string
             example: /api/{resources}/{resource id}
-    NotContent:
-      description: 성공 (Not Content)
+    NoContent:
+      description: 성공 (No Content)
     Unauthorized:
       description: 인증 실패
     Forbidden:
@@ -62,39 +128,42 @@ components:
     LOGIN_FAIL_EXCEED:
       description: 로그인 시도 횟수를 초과하였습니다
   schemas:
-    StoreCategoryNSC:
+    Payment:
       type: object
       properties:
-        name:
-          description: 매장 카테고리 명
+        seq:
+          description: 결재 Seq
           type: string
-        placeCtgName:
-          description: 장소 카테고리 이름
+        orderSeq:
+          description: 주문 Seq
           type: string
-        options:
-          description: 추가정보
+        amount:
+          description: 결재 금액
           type: string
-    StoreCategory:
-      allOf:
-        - $ref: '#/components/schemas/StoreCategoryNSC'
-        - type: object
-          properties:
-            createdAt:
-              description: 생성시간
-              type: string
-              format: date-time
-            updatedAt:
-              description: 수정시간
-              type: string
-              format: date-time
+        payType:
+          description: 'CASH: 현금, CARD: 카드'
+          type: string
+        payAt:
+          description: 지급날짜
+          type: string
+          format: date-time
+    Setting:
+      type: object
+      properties:
+        config:
+          description: 설정 정보
+          type: string
     MenuNSC:
       type: object
       properties:
-        name:
-          description: 메뉴 명
+        seq:
+          description: 메뉴 Seq
           type: string
         ctgNm:
           description: 카테고리 명
+          type: string
+        name:
+          description: 메뉴 명
           type: string
         abv:
           description: 이름 약어
@@ -108,133 +177,16 @@ components:
         options:
           description: 추가정보
           type: string
-    Menu:
+    MenuCreation:
       allOf:
         - $ref: '#/components/schemas/MenuNSC'
         - type: object
           properties:
-            createdAt:
-              description: 생성시간
-              type: string
-              format: date-time
-            updatedAt:
-              description: 수정시간
-              type: string
-              format: date-time
-    OrderMenuRsv:
-      type: object
-      properties:
-        menuNm:
-          description: 메뉴 명
-          type: string
-        orderRsvSeq:
-          description: 주문예약 Seq
-          type: string
-        price:
-          description: 가격 menu는 가격이 바뀔수가 있음
-          type: string
-        cnt:
-          description: 수량
-          type: string
-    MyOrderNSC:
-      type: object
-      properties:
-        seq:
-          description: 주문 Seq
-          type: string
-        storeNm:
-          description: 매장 명
-          type: string
-        amount:
-          description: 총 금액
-          type: string
-        status:
-          description: 'READY: 준비, COMPLETE: 완료'
-          type: string
-        orderAt:
-          description: 주문 시간
-          type: string
-          format: date-time
-        completeAt:
-          description: 조리완료 시간
-          type: string
-          format: date-time
-        cmt:
-          description: 비고
-          type: string
-    MyOrder:
+            seq:
+              nullable: true
+    Menu:
       allOf:
-        - $ref: '#/components/schemas/MyOrderNSC'
-        - type: object
-          properties:
-            updatedAt:
-              description: 수정시간
-              type: string
-              format: date-time
-    StoreNSC:
-      type: object
-      properties:
-        name:
-          description: 매장 명
-          type: string
-        ctgNm:
-          description: 매장 카테고리 명
-          type: string
-        placeCtgName:
-          description: 장소 카테고리 명
-          type: string
-        cmt:
-          description: 기타 정보
-          type: string
-        latitude:
-          description: 위도
-          type: string
-        longitude:
-          description: 경도
-          type: string
-        options:
-          description: 추가정보
-          type: string
-    Store:
-      allOf:
-        - $ref: '#/components/schemas/StoreNSC'
-        - type: object
-          properties:
-            createdAt:
-              description: 생성시간
-              type: string
-              format: date-time
-            updatedAt:
-              description: 수정시간
-              type: string
-              format: date-time
-    OrderRsvNSC:
-      type: object
-      properties:
-        seq:
-          description: 주문예약 Seq
-          type: string
-        storeNm:
-          description: 매장 명
-          type: string
-        amount:
-          description: 총 금액
-          type: string
-        rsvTime:
-          description: HH:MM
-          type: string
-        dayType:
-          description: 요일
-          type: string
-        cmt:
-          description: 비고
-          type: string
-        options:
-          description: 추가정보
-          type: string
-    OrderRsv:
-      allOf:
-        - $ref: '#/components/schemas/OrderRsvNSC'
+        - $ref: '#/components/schemas/MenuNSC'
         - type: object
           properties:
             createdAt:
@@ -279,36 +231,83 @@ components:
               description: 수정시간
               type: string
               format: date-time
-    Payment:
+    MyOrderNSC:
       type: object
       properties:
         seq:
-          description: 결재 Seq
-          type: string
-        orderSeq:
           description: 주문 Seq
           type: string
+        storeSeq:
+          description: 매장 Seq
+          type: string
         amount:
-          description: 결재 금액
+          description: 총 금액
           type: string
-        payType:
-          description: 'CASH: 현금, CARD: 카드'
+        status:
+          description: 'READY: 준비, COMPLETE: 완료'
           type: string
-        payAt:
-          description: 지급날짜
+        orderAt:
+          description: 주문 시간
           type: string
           format: date-time
-    Setting:
+        completeAt:
+          description: 조리완료 시간
+          type: string
+          format: date-time
+        cmt:
+          description: 비고
+          type: string
+    MyOrder:
+      allOf:
+        - $ref: '#/components/schemas/MyOrderNSC'
+        - type: object
+          properties:
+            updatedAt:
+              description: 수정시간
+              type: string
+              format: date-time
+    OrderRsvNSC:
       type: object
       properties:
-        config:
-          description: 설정 정보
+        seq:
+          description: 주문예약 Seq
           type: string
+        storeSeq:
+          description: 매장 Seq
+          type: string
+        amount:
+          description: 총 금액
+          type: string
+        rsvTime:
+          description: HH:MM
+          type: string
+        dayType:
+          description: 요일
+          type: string
+        cmt:
+          description: 비고
+          type: string
+        options:
+          description: 추가정보
+          type: string
+    OrderRsv:
+      allOf:
+        - $ref: '#/components/schemas/OrderRsvNSC'
+        - type: object
+          properties:
+            createdAt:
+              description: 생성시간
+              type: string
+              format: date-time
+            updatedAt:
+              description: 수정시간
+              type: string
+              format: date-time
     OrderMenu:
       type: object
       properties:
-        name:
-          description: 메뉴 명
+        menuSeq:
+          description: 메뉴 Seq
           type: string
         orderSeq:
           description: 주문 Seq
@@ -319,3 +318,83 @@ components:
         cnt:
           description: 수량
           type: string
+    OrderMenuRsv:
+      type: object
+      properties:
+        menuSeq:
+          description: 메뉴 Seq
+          type: string
+        orderRsvSeq:
+          description: 주문예약 Seq
+          type: string
+        price:
+          description: 가격 menu는 가격이 바뀔수가 있음
+          type: string
+        cnt:
+          description: 수량
+          type: string
+    StoreNSC:
+      type: object
+      properties:
+        seq:
+          description: 매장 Seq
+          type: string
+        ctgNm:
+          description: 매장 카테고리 명
+          type: string
+        placeCtgNm:
+          description: 장소 카테고리 명
+          type: string
+        name:
+          description: 매장 명
+          type: string
+        cmt:
+          description: 기타 정보
+          type: string
+        latitude:
+          description: 위도
+          type: string
+        longitude:
+          description: 경도
+          type: string
+        options:
+          description: 추가정보
+          type: string
+    Store:
+      allOf:
+        - $ref: '#/components/schemas/StoreNSC'
+        - type: object
+          properties:
+            createdAt:
+              description: 생성시간
+              type: string
+              format: date-time
+            updatedAt:
+              description: 수정시간
+              type: string
+              format: date-time
+    StoreCategoryNSC:
+      type: object
+      properties:
+        name:
+          description: 매장 카테고리 명
+          type: string
+        placeCtgNm:
+          description: 장소 카테고리 이름
+          type: string
+        options:
+          description: 추가정보
+          type: string
+    StoreCategory:
+      allOf:
+        - $ref: '#/components/schemas/StoreCategoryNSC'
+        - type: object
+          properties:
+            createdAt:
+              description: 생성시간
+              type: string
+              format: date-time
+            updatedAt:
+              description: 수정시간
+              type: string
+              format: date-time
