@@ -1,8 +1,10 @@
 import express from 'express'
-import { Menu, MenuCreationAttributes } from '../models/Menu'
+import { MenuCreationAttributes } from '../models/Menu'
+import DB from '../models'
 import HttpStatusCodes from '@src/common/HttpStatusCodes'
 // import { fileURLToPath } from 'url'
 const router = express.Router()
+const { Menu } = DB.models
 
 router.get('/', async (req, res) => {
     const menues = await Menu.findAll()

@@ -1,7 +1,8 @@
 import express from 'express'
-import { MenuCategory } from '../models/MenuCategory'
+import DB from '../models'
 
 const router = express.Router()
+const { MenuCategory } = DB.models
 
 router.get('/', async (req, res) => {
     const menues = await MenuCategory.findAll()
