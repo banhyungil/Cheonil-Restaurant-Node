@@ -2,21 +2,23 @@ import * as Sequelize from 'sequelize'
 import { DataTypes, Model, Optional } from 'sequelize'
 
 export interface StoreCategoryAttributes {
+    seq: number
+    placeCtgseq?: number
     name: string
-    placeCtgNm?: string
     options?: string
     createdAt?: Date
     updatedAt?: Date
 }
 
-export type StoreCategoryPk = 'name'
+export type StoreCategoryPk = 'seq'
 export type StoreCategoryId = StoreCategory[StoreCategoryPk]
-export type StoreCategoryOptionalAttributes = 'placeCtgNm' | 'options' | 'createdAt' | 'updatedAt'
+export type StoreCategoryOptionalAttributes = 'seq' | 'placeCtgseq' | 'options' | 'createdAt' | 'updatedAt'
 export type StoreCategoryCreationAttributes = Optional<StoreCategoryAttributes, StoreCategoryOptionalAttributes>
 
 export class StoreCategory extends Model<StoreCategoryAttributes, StoreCategoryCreationAttributes> implements StoreCategoryAttributes {
+    seq!: number
+    placeCtgseq?: number
     name!: string
-    placeCtgNm?: string
     options?: string
     createdAt?: Date
     updatedAt?: Date
@@ -25,16 +27,23 @@ export class StoreCategory extends Model<StoreCategoryAttributes, StoreCategoryC
         return sequelize.define(
             'StoreCategory',
             {
+                seq: {
+                    autoIncrement: true,
+                    type: DataTypes.BIGINT.UNSIGNED,
+                    allowNull: false,
+                    primaryKey: true,
+                    comment: '매장 카테고리 Seq',
+                },
+                placeCtgseq: {
+                    type: DataTypes.BIGINT.UNSIGNED,
+                    allowNull: true,
+                    comment: '장소 카테고리 Seq',
+                },
                 name: {
                     type: DataTypes.STRING(45),
                     allowNull: false,
-                    primaryKey: true,
                     comment: '매장 카테고리 명',
-                },
-                placeCtgNm: {
-                    type: DataTypes.STRING(100),
-                    allowNull: true,
-                    comment: '장소 카테고리 이름',
+                    unique: 'name',
                 },
                 options: {
                     type: DataTypes.TEXT,
@@ -62,12 +71,18 @@ export class StoreCategory extends Model<StoreCategoryAttributes, StoreCategoryC
                         name: 'PRIMARY',
                         unique: true,
                         using: 'BTREE',
+                        fields: [{ name: 'seq' }],
+                    },
+                    {
+                        name: 'name',
+                        unique: true,
+                        using: 'BTREE',
                         fields: [{ name: 'name' }],
                     },
                     {
                         name: 'FK_PlaceCategory_TO_StoreCategory',
                         using: 'BTREE',
-                        fields: [{ name: 'placeCtgNm' }],
+                        fields: [{ name: 'placeCtgseq' }],
                     },
                 ],
             },

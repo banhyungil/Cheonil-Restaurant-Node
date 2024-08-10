@@ -3,7 +3,7 @@ import { DataTypes, Model, Optional } from 'sequelize'
 
 export interface MenuAttributes {
     seq: number
-    ctgNm: string
+    ctgSeq: number
     name: string
     abv?: string
     price: number
@@ -20,7 +20,7 @@ export type MenuCreationAttributes = Optional<MenuAttributes, MenuOptionalAttrib
 
 export class Menu extends Model<MenuAttributes, MenuCreationAttributes> implements MenuAttributes {
     seq!: number
-    ctgNm!: string
+    ctgSeq!: number
     name!: string
     abv?: string
     price!: number
@@ -40,10 +40,10 @@ export class Menu extends Model<MenuAttributes, MenuCreationAttributes> implemen
                     primaryKey: true,
                     comment: '메뉴 Seq',
                 },
-                ctgNm: {
-                    type: DataTypes.STRING(20),
+                ctgSeq: {
+                    type: DataTypes.BIGINT.UNSIGNED,
                     allowNull: false,
-                    comment: '카테고리 명',
+                    comment: '메뉴 카테고리 Seq',
                 },
                 name: {
                     type: DataTypes.STRING(45),
@@ -103,7 +103,7 @@ export class Menu extends Model<MenuAttributes, MenuCreationAttributes> implemen
                     {
                         name: 'FK_MenuCategory_TO_Menu',
                         using: 'BTREE',
-                        fields: [{ name: 'ctgNm' }],
+                        fields: [{ name: 'ctgSeq' }],
                     },
                 ],
             },

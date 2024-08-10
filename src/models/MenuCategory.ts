@@ -2,18 +2,20 @@ import * as Sequelize from 'sequelize'
 import { DataTypes, Model, Optional } from 'sequelize'
 
 export interface MenuCategoryAttributes {
+    seq: number
     name: string
     options?: string
     createdAt?: Date
     updatedAt?: Date
 }
 
-export type MenuCategoryPk = 'name'
+export type MenuCategoryPk = 'seq'
 export type MenuCategoryId = MenuCategory[MenuCategoryPk]
-export type MenuCategoryOptionalAttributes = 'options' | 'createdAt' | 'updatedAt'
+export type MenuCategoryOptionalAttributes = 'seq' | 'options' | 'createdAt' | 'updatedAt'
 export type MenuCategoryCreationAttributes = Optional<MenuCategoryAttributes, MenuCategoryOptionalAttributes>
 
 export class MenuCategory extends Model<MenuCategoryAttributes, MenuCategoryCreationAttributes> implements MenuCategoryAttributes {
+    seq!: number
     name!: string
     options?: string
     createdAt?: Date
@@ -23,11 +25,18 @@ export class MenuCategory extends Model<MenuCategoryAttributes, MenuCategoryCrea
         return sequelize.define(
             'MenuCategory',
             {
+                seq: {
+                    autoIncrement: true,
+                    type: DataTypes.BIGINT.UNSIGNED,
+                    allowNull: false,
+                    primaryKey: true,
+                    comment: '메뉴 카테고리 Seq',
+                },
                 name: {
                     type: DataTypes.STRING(20),
                     allowNull: false,
-                    primaryKey: true,
                     comment: '메뉴 카테고리 명',
+                    unique: 'name',
                 },
                 options: {
                     type: DataTypes.TEXT,
@@ -53,6 +62,12 @@ export class MenuCategory extends Model<MenuCategoryAttributes, MenuCategoryCrea
                 indexes: [
                     {
                         name: 'PRIMARY',
+                        unique: true,
+                        using: 'BTREE',
+                        fields: [{ name: 'seq' }],
+                    },
+                    {
+                        name: 'name',
                         unique: true,
                         using: 'BTREE',
                         fields: [{ name: 'name' }],

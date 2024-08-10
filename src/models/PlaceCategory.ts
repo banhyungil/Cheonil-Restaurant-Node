@@ -2,17 +2,19 @@ import * as Sequelize from 'sequelize'
 import { DataTypes, Model, Optional } from 'sequelize'
 
 export interface PlaceCategoryAttributes {
+    seq: number
     name: string
     cmt?: string
     options?: string
 }
 
-export type PlaceCategoryPk = 'name'
+export type PlaceCategoryPk = 'seq'
 export type PlaceCategoryId = PlaceCategory[PlaceCategoryPk]
-export type PlaceCategoryOptionalAttributes = 'cmt' | 'options'
+export type PlaceCategoryOptionalAttributes = 'seq' | 'cmt' | 'options'
 export type PlaceCategoryCreationAttributes = Optional<PlaceCategoryAttributes, PlaceCategoryOptionalAttributes>
 
 export class PlaceCategory extends Model<PlaceCategoryAttributes, PlaceCategoryCreationAttributes> implements PlaceCategoryAttributes {
+    seq!: number
     name!: string
     cmt?: string
     options?: string
@@ -21,11 +23,18 @@ export class PlaceCategory extends Model<PlaceCategoryAttributes, PlaceCategoryC
         return sequelize.define(
             'PlaceCategory',
             {
+                seq: {
+                    autoIncrement: true,
+                    type: DataTypes.BIGINT.UNSIGNED,
+                    allowNull: false,
+                    primaryKey: true,
+                    comment: '장소 카테고리 Seq',
+                },
                 name: {
                     type: DataTypes.STRING(100),
                     allowNull: false,
-                    primaryKey: true,
                     comment: '장소 카테고리 명',
+                    unique: 'name',
                 },
                 cmt: {
                     type: DataTypes.STRING(1000),
@@ -44,6 +53,12 @@ export class PlaceCategory extends Model<PlaceCategoryAttributes, PlaceCategoryC
                 indexes: [
                     {
                         name: 'PRIMARY',
+                        unique: true,
+                        using: 'BTREE',
+                        fields: [{ name: 'seq' }],
+                    },
+                    {
+                        name: 'name',
                         unique: true,
                         using: 'BTREE',
                         fields: [{ name: 'name' }],

@@ -3,8 +3,8 @@ import { DataTypes, Model, Optional } from 'sequelize'
 
 export interface StoreAttributes {
     seq: number
-    ctgNm: string
-    placeCtgNm?: string
+    ctgSeq: number
+    placeCtgseq?: number
     name: string
     cmt?: string
     latitude?: number
@@ -16,13 +16,13 @@ export interface StoreAttributes {
 
 export type StorePk = 'seq'
 export type StoreId = Store[StorePk]
-export type StoreOptionalAttributes = 'seq' | 'placeCtgNm' | 'cmt' | 'latitude' | 'longitude' | 'options' | 'createdAt' | 'updatedAt'
+export type StoreOptionalAttributes = 'seq' | 'placeCtgseq' | 'cmt' | 'latitude' | 'longitude' | 'options' | 'createdAt' | 'updatedAt'
 export type StoreCreationAttributes = Optional<StoreAttributes, StoreOptionalAttributes>
 
 export class Store extends Model<StoreAttributes, StoreCreationAttributes> implements StoreAttributes {
     seq!: number
-    ctgNm!: string
-    placeCtgNm?: string
+    ctgSeq!: number
+    placeCtgseq?: number
     name!: string
     cmt?: string
     latitude?: number
@@ -42,15 +42,15 @@ export class Store extends Model<StoreAttributes, StoreCreationAttributes> imple
                     primaryKey: true,
                     comment: '매장 Seq',
                 },
-                ctgNm: {
-                    type: DataTypes.STRING(45),
+                ctgSeq: {
+                    type: DataTypes.BIGINT.UNSIGNED,
                     allowNull: false,
-                    comment: '매장 카테고리 명',
+                    comment: '매장 카테고리 Seq',
                 },
-                placeCtgNm: {
-                    type: DataTypes.STRING(100),
+                placeCtgseq: {
+                    type: DataTypes.BIGINT.UNSIGNED,
                     allowNull: true,
-                    comment: '장소 카테고리 명',
+                    comment: '장소 카테고리 Seq',
                 },
                 name: {
                     type: DataTypes.STRING(45),
@@ -108,14 +108,14 @@ export class Store extends Model<StoreAttributes, StoreCreationAttributes> imple
                         fields: [{ name: 'name' }],
                     },
                     {
-                        name: 'FK_StoreCategory_TO_Store',
-                        using: 'BTREE',
-                        fields: [{ name: 'ctgNm' }],
-                    },
-                    {
                         name: 'FK_PlaceCategory_TO_Store',
                         using: 'BTREE',
-                        fields: [{ name: 'placeCtgNm' }],
+                        fields: [{ name: 'placeCtgseq' }],
+                    },
+                    {
+                        name: 'FK_StoreCategory_TO_Store',
+                        using: 'BTREE',
+                        fields: [{ name: 'ctgSeq' }],
                     },
                 ],
             },

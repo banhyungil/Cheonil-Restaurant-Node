@@ -1,21 +1,25 @@
 -- cheonil.MenuCategory definition
 
 CREATE TABLE `MenuCategory` (
+  `seq` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '메뉴 카테고리 Seq',
   `name` varchar(20) NOT NULL COMMENT '메뉴 카테고리 명',
   `options` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '추가정보' CHECK (json_valid(`options`)),
   `createdAt` timestamp NULL DEFAULT current_timestamp() COMMENT '생성시간',
   `updatedAt` timestamp NULL DEFAULT current_timestamp() COMMENT '수정시간',
-  PRIMARY KEY (`name`)
+  PRIMARY KEY (`seq`),
+  UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='메뉴 카테고리';
 
 
 -- cheonil.PlaceCategory definition
 
 CREATE TABLE `PlaceCategory` (
+  `seq` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '장소 카테고리 Seq',
   `name` varchar(100) NOT NULL COMMENT '장소 카테고리 명',
   `cmt` varchar(1000) DEFAULT NULL COMMENT '비고',
   `options` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '추가정보' CHECK (json_valid(`options`)),
-  PRIMARY KEY (`name`)
+  PRIMARY KEY (`seq`),
+  UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='장소 카테고리';
 
 
@@ -30,7 +34,7 @@ CREATE TABLE `Setting` (
 
 CREATE TABLE `Menu` (
   `seq` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '메뉴 Seq',
-  `ctgNm` varchar(20) NOT NULL COMMENT '카테고리 명',
+  `ctgSeq` bigint(20) unsigned NOT NULL COMMENT '메뉴 카테고리 Seq',
   `name` varchar(45) NOT NULL COMMENT '메뉴 명',
   `abv` varchar(10) DEFAULT NULL COMMENT '이름 약어',
   `price` int(10) unsigned NOT NULL COMMENT '가격',
@@ -40,22 +44,24 @@ CREATE TABLE `Menu` (
   `updatedAt` timestamp NULL DEFAULT current_timestamp() COMMENT '수정시간',
   PRIMARY KEY (`seq`),
   UNIQUE KEY `name` (`name`),
-  KEY `FK_MenuCategory_TO_Menu` (`ctgNm`),
-  CONSTRAINT `FK_MenuCategory_TO_Menu` FOREIGN KEY (`ctgNm`) REFERENCES `MenuCategory` (`name`)
+  KEY `FK_MenuCategory_TO_Menu` (`ctgSeq`),
+  CONSTRAINT `FK_MenuCategory_TO_Menu` FOREIGN KEY (`ctgSeq`) REFERENCES `MenuCategory` (`seq`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='메뉴';
 
 
 -- cheonil.StoreCategory definition
 
 CREATE TABLE `StoreCategory` (
+  `seq` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '매장 카테고리 Seq',
+  `placeCtgseq` bigint(20) unsigned NULL COMMENT '장소 카테고리 Seq',
   `name` varchar(45) NOT NULL COMMENT '매장 카테고리 명',
-  `placeCtgNm` varchar(100) DEFAULT NULL COMMENT '장소 카테고리 이름',
   `options` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '추가정보' CHECK (json_valid(`options`)),
   `createdAt` timestamp NULL DEFAULT current_timestamp() COMMENT '생성시간',
   `updatedAt` timestamp NULL DEFAULT current_timestamp() COMMENT '수정시간',
-  PRIMARY KEY (`name`),
-  KEY `FK_PlaceCategory_TO_StoreCategory` (`placeCtgNm`),
-  CONSTRAINT `FK_PlaceCategory_TO_StoreCategory` FOREIGN KEY (`placeCtgNm`) REFERENCES `PlaceCategory` (`name`)
+  PRIMARY KEY (`seq`),
+  UNIQUE KEY `name` (`name`),
+  KEY `FK_PlaceCategory_TO_StoreCategory` (`placeCtgseq`),
+  CONSTRAINT `FK_PlaceCategory_TO_StoreCategory` FOREIGN KEY (`placeCtgseq`) REFERENCES `PlaceCategory` (`seq`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='매장 카테고리';
 
 
@@ -63,8 +69,8 @@ CREATE TABLE `StoreCategory` (
 
 CREATE TABLE `Store` (
   `seq` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '매장 Seq',
-  `ctgNm` varchar(45) NOT NULL COMMENT '매장 카테고리 명',
-  `placeCtgNm` varchar(100) DEFAULT NULL COMMENT '장소 카테고리 명',
+  `ctgSeq` bigint(20) unsigned NOT NULL COMMENT '매장 카테고리 Seq',
+  `placeCtgseq` bigint(20) unsigned NULL COMMENT '장소 카테고리 Seq',
   `name` varchar(45) NOT NULL COMMENT '매장 명',
   `cmt` varchar(1000) DEFAULT NULL COMMENT '기타 정보',
   `latitude` float DEFAULT NULL COMMENT '위도',
@@ -74,10 +80,10 @@ CREATE TABLE `Store` (
   `updatedAt` timestamp NULL DEFAULT current_timestamp() COMMENT '수정시간',
   PRIMARY KEY (`seq`),
   UNIQUE KEY `name` (`name`),
-  KEY `FK_StoreCategory_TO_Store` (`ctgNm`),
-  KEY `FK_PlaceCategory_TO_Store` (`placeCtgNm`),
-  CONSTRAINT `FK_PlaceCategory_TO_Store` FOREIGN KEY (`placeCtgNm`) REFERENCES `PlaceCategory` (`name`),
-  CONSTRAINT `FK_StoreCategory_TO_Store` FOREIGN KEY (`ctgNm`) REFERENCES `StoreCategory` (`name`)
+  KEY `FK_PlaceCategory_TO_Store` (`placeCtgseq`),
+  KEY `FK_StoreCategory_TO_Store` (`ctgSeq`),
+  CONSTRAINT `FK_PlaceCategory_TO_Store` FOREIGN KEY (`placeCtgseq`) REFERENCES `PlaceCategory` (`seq`),
+  CONSTRAINT `FK_StoreCategory_TO_Store` FOREIGN KEY (`ctgSeq`) REFERENCES `StoreCategory` (`seq`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='매장';
 
 
