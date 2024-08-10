@@ -97,6 +97,15 @@ paths:
       responses:
         '204':
           description: 성공 (No Content)
+  /api/order:
+    get:
+      responses:
+        '200':
+          description: 성공 (OK)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MyOrder'
 security:
   - bearerAuth: []
 components:

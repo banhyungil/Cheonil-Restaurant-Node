@@ -40,14 +40,14 @@ DROP TABLE IF EXISTS `cheonildb`.`menu` ;
 
 CREATE TABLE IF NOT EXISTS `cheonildb`.`menu` (
   `name` VARCHAR(45) NOT NULL COMMENT '메뉴명',
-  `categoryName` VARCHAR(45) NOT NULL COMMENT '카테고리명',
+  `plcategoryNm` VARCHAR(45) NOT NULL COMMENT '카테고리명',
   `nameAbv` VARCHAR(45) NULL COMMENT '이름 약어',
   `price` BIGINT(20) UNSIGNED NOT NULL,
   `cmt` VARCHAR(1000) NULL,
   `createdAt` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` DATETIME NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`name`),
-  INDEX `fk_menu_menu_category1_idx` (`categoryName` ASC) VISIBLE)
+  INDEX `fk_menu_menu_category1_idx` (`plcategoryNm` ASC) VISIBLE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COMMENT = '메뉴';
@@ -73,12 +73,12 @@ DROP TABLE IF EXISTS `cheonildb`.`store_category` ;
 
 CREATE TABLE IF NOT EXISTS `cheonildb`.`store_category` (
   `name` VARCHAR(45) NOT NULL,
-  `placeCtgName` VARCHAR(45) NOT NULL,
+  `placeCtgNm` VARCHAR(45) NULL,
   `order` TINYINT(3) UNSIGNED NULL,
   `createdAt` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` DATETIME NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`name`),
-  INDEX `fk_store_category_placeCategory1_idx` (`placeCtgName` ASC) VISIBLE)
+  INDEX `fk_store_category_placeCategory1_idx` (`placeCtgNm` ASC) VISIBLE)
 ENGINE = InnoDB
 COMMENT = '매장 카테고리';
 
@@ -90,16 +90,16 @@ DROP TABLE IF EXISTS `cheonildb`.`store` ;
 
 CREATE TABLE IF NOT EXISTS `cheonildb`.`store` (
   `name` VARCHAR(45) NOT NULL,
-  `categoryName` VARCHAR(45) NOT NULL,
-  `placeCtgName` VARCHAR(45) NOT NULL COMMENT '기본적으로 매장 카테고리에 등록된 값과 일치',
+  `plcategoryNm` VARCHAR(45) NOT NULL,
+  `placeCtgNm` VARCHAR(45) NOT NULL COMMENT '기본적으로 매장 카테고리에 등록된 값과 일치',
   `cmt` VARCHAR(1000) NULL COMMENT '기타 정보',
   `latitude` VARCHAR(20) NULL COMMENT '위도',
   `longitude` VARCHAR(20) NULL COMMENT '경도',
   `createdAt` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` DATETIME NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`name`),
-  INDEX `fk_store_store_category1_idx` (`categoryName` ASC) VISIBLE,
-  INDEX `fk_store_placeCategory1_idx` (`placeCtgName` ASC) VISIBLE)
+  INDEX `fk_store_store_category1_idx` (`plcategoryNm` ASC) VISIBLE,
+  INDEX `fk_store_placeCategory1_idx` (`placeCtgNm` ASC) VISIBLE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COMMENT = '매장';

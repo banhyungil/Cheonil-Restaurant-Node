@@ -1,31 +1,49 @@
 import express from 'express'
-import { Store } from '../models/Store'
+import { StoreAttributes, StoreCreationAttributes } from '../models/Store'
+import DB from '@src/models'
+import HttpStatusCodes from '@src/common/HttpStatusCodes'
 // import { fileURLToPath } from 'url'
 const router = express.Router()
 
-/* GET home page. */
+const { Store } = DB.models
 router.get('/', async (req, res) => {
-    const stores = await Store.findAll()
-    res.send({ list: stores })
+    const stores = await Store.findAll({ raw: true })
+
+    res.status(HttpStatusCodes.OK).send(stores)
 })
 
 router.post('/', async (req, res) => {
-    const store = req.body
-    await Store.create(store)
+    const body = req.body as StoreCreationAttributes
+    const nStore = await Store.create(body)
+
+    res.status(HttpStatusCodes.CREATED).send(nStore.toJSON())
+})
+
+router.put('/:seq', async (req, res) => {
+    const { seq } = req.params
+    const body = req.body as StoreAttributes
+
+    const [_, uStores] = await Store.update(body, { where: { seq }, returning: true })
+    if (uStores.length == 0) {
+        res.sendStatus(HttpStatusCodes.BAD_REQUEST)
+        return
+    } else if (uStores.length > 1) {
+        res.sendStatus(HttpStatusCodes.NOT_IMPLEMENTED)
+        return
+    }
+
     res.sendStatus(200)
 })
 
-router.put('/:name', async (req, res) => {
-    const { name } = req.params
-    const store = req.body
-    await Store.update(store, { where: { name } })
-    res.sendStatus(200)
-})
+router.delete('/:seq', async (req, res) => {
+    const { seq } = req.params
+    const delCnt = await Store.destroy({ where: { seq } })
+    if (delCnt == 0) {
+        res.sendStatus(HttpStatusCodes.BAD_REQUEST)
+        return
+    }
 
-router.delete('/:name', async (req, res) => {
-    const { name } = req.params
-    await Store.destroy({ where: { name } })
-    res.sendStatus(200)
+    res.sendStatus(HttpStatusCodes.NO_CONTENT)
 })
 
 export default router

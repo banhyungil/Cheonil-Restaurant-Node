@@ -37,6 +37,7 @@ export class Store extends Model<StoreAttributes, StoreCreationAttributes> imple
             {
                 seq: {
                     type: DataTypes.BIGINT.UNSIGNED,
+                    autoIncrement: true,
                     allowNull: false,
                     primaryKey: true,
                     comment: '매장 Seq',

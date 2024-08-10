@@ -1,26 +1,16 @@
 import express from 'express'
-import { OrderMenu, OrderMenuAttributes } from '../models/OrderMenu'
-import { Model, Op } from 'sequelize'
-import { Menu } from '../models/Menu'
-import { Store } from '../models/Store'
-import DB from '@src/models/index'
+import DB from '@src/models'
+import { OrderMenuAttributes } from '../models/OrderMenu'
+import { MyOrderAttributes } from '@src/models/MyOrder'
+import { Op } from 'sequelize'
 import qs from 'qs'
-import { Payment } from '@src/models/Payment'
-import { MyOrder, MyOrderAttributes } from '@src/models/MyOrder'
+import HttpStatusCodes from '@src/common/HttpStatusCodes'
+import OrderService from '@src/services/OrderService'
 // import { fileURLToPath } from 'url'
 const router = express.Router()
 
-// router.use((req, res, next) => {
-//     const timeCols = ['completeTime']
-//     const order = req.body.order
-//     timeCols.forEach((col) => {
-//         if (order && col in order && order[col] instanceof Date == false) {
-//             req.body[col] = new Date(req.body[col])
-//             console.log('req.body[col]', req.body[col])
-//         }
-//     })
-//     next()
-// })
+const { MyOrder, OrderMenu, Payment, Menu, Store } = DB.models
+
 router.get('/', async (req, res) => {
     const queryStr = req.url.slice(req.url.indexOf('?') + 1)
 
@@ -45,7 +35,7 @@ router.get('/', async (req, res) => {
     })
     /* eslint-enable */
 
-    const result = await MyOrder.findAll({
+    const orders = await MyOrder.findAll({
         include: [
             {
                 model: OrderMenu,
@@ -70,14 +60,13 @@ router.get('/', async (req, res) => {
         limit: limit ? Number(limit) : undefined,
         offset: offset ? Number(offset) : undefined,
     })
-    const orders = getPlain(result) as MyOrderAttributes[]
 
-    res.send({ list: orders })
+    res.status(HttpStatusCodes.OK).send(orders.map((order) => order.toJSON()))
 })
 
 router.get('/:seq', async (req, res) => {
     const { seq } = req.params
-    const result = await MyOrder.findOne({
+    const order = await MyOrder.findOne({
         include: [
             {
                 model: OrderMenu,
@@ -96,29 +85,13 @@ router.get('/:seq', async (req, res) => {
         ],
         where: { seq: seq },
     })
-    if (result) {
-        const orderResult = getPlain(result) as MyOrderAttributes[]
-        res.send(orderResult[0])
-    } else {
-        res.send(null)
+    if (order == null) {
+        res.sendStatus(HttpStatusCodes.BAD_REQUEST)
+        return
     }
+
+    res.status(HttpStatusCodes.OK).send(order.toJSON())
 })
-
-function getPlain(model: Model | Model[]) {
-    const models = Array.isArray(model) ? model : [model]
-    return models.map((model) => {
-        const result = model.dataValues
-        Object.entries(result).forEach(([k, v]) => {
-            if (Array.isArray(v)) {
-                result[k] = v.map((subModel) => subModel.dataValues)
-            } else if (typeof v == 'object' && v != null && 'dataValues' in v) {
-                result[k] = v.dataValues
-            }
-        })
-
-        return result
-    })
-}
 
 // orderMenu 와 같이 생성
 router.post('/', async (req, res) => {
@@ -135,7 +108,14 @@ router.post('/', async (req, res) => {
         await OrderMenu.bulkCreate(orderMenues)
     })
 
-    res.sendStatus(200)
+    const nMyOrder = await OrderService.getOrder(order.seq)
+
+    if (nMyOrder == null) {
+        res.sendStatus(HttpStatusCodes.BAD_REQUEST)
+        return
+    }
+
+    res.status(HttpStatusCodes.CREATED).send(nMyOrder.toJSON())
 })
 
 // 주문 변경
@@ -146,21 +126,30 @@ router.patch('/:seq', async (req, res) => {
         orderMenues: OrderMenuAttributes[]
     }
 
-    await DB.sequelize.transaction((t) => {
+    await DB.sequelize.transaction(() => {
         const prms = [MyOrder.update(order, { where: { seq } }), ...orderMenues.map((om) => OrderMenu.upsert(om))]
         return Promise.all(prms)
     })
 
-    res.sendStatus(200)
+    const uOrder = await OrderService.getOrder(+seq)
+
+    res.status(HttpStatusCodes.OK).send(uOrder!.toJSON())
 })
 
 router.delete('/:seq', async (req, res) => {
     const seq = req.params.seq
 
-    OrderMenu.destroy({ where: { orderSeq: seq } })
-    MyOrder.destroy({ where: { seq } })
+    await DB.sequelize.transaction(async () => {
+        await OrderMenu.destroy({ where: { orderSeq: seq } })
+        const delCnt = await MyOrder.destroy({ where: { seq } })
 
-    res.sendStatus(200)
+        if (delCnt == 0) {
+            res.sendStatus(HttpStatusCodes.BAD_REQUEST)
+            return
+        }
+    })
+
+    res.sendStatus(HttpStatusCodes.NO_CONTENT)
 })
 
 export default router

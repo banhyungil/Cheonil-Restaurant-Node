@@ -1,36 +1,48 @@
 import express from 'express'
-import { MenuCreationAttributes } from '../models/Menu'
+import { MenuAttributes, MenuCreationAttributes } from '../models/Menu'
 import DB from '../models'
 import HttpStatusCodes from '@src/common/HttpStatusCodes'
-// import { fileURLToPath } from 'url'
+
 const router = express.Router()
 const { Menu } = DB.models
 
 router.get('/', async (req, res) => {
     const menues = await Menu.findAll()
-    res.status(200).send(menues.map((menu) => menu.get({ plain: true })))
+
+    res.status(200).send(menues.map((menu) => menu.toJSON()))
 })
 
 router.post('/', async (req, res) => {
-    const menu = req.body as MenuCreationAttributes
-    const nMenu = await Menu.create(menu)
+    const body = req.body as MenuCreationAttributes
+    const nMenu = await Menu.create(body)
 
-    res.status(HttpStatusCodes.OK).send(nMenu.get({ plain: true }))
+    res.status(HttpStatusCodes.OK).send(nMenu.toJSON())
 })
 
 router.put('/:seq', async (req, res) => {
     const { seq } = req.params
-    const menu = req.body
-    await Menu.update(menu, { where: { seq } })
+    const body = req.body as MenuAttributes
+    const [_, uMenues] = await Menu.update(body, { where: { seq }, returning: true })
+    if (uMenues.length == 0) {
+        res.sendStatus(HttpStatusCodes.BAD_REQUEST)
+        return
+    } else if (uMenues.length > 1) {
+        res.sendStatus(HttpStatusCodes.NOT_IMPLEMENTED)
+        return
+    }
 
-    res.status(HttpStatusCodes.CREATED).sendStatus(200)
+    res.status(HttpStatusCodes.OK).send(uMenues[0].toJSON())
 })
 
 router.delete('/:seq', async (req, res) => {
     const { seq } = req.params
-    await Menu.destroy({ where: { seq } })
+    const delCnt = await Menu.destroy({ where: { seq } })
+    if (delCnt == 0) {
+        res.sendStatus(HttpStatusCodes.BAD_REQUEST)
+        return
+    }
 
-    res.status(HttpStatusCodes.NO_CONTENT).sendStatus(200)
+    res.sendStatus(HttpStatusCodes.NO_CONTENT)
 })
 
 export default router
