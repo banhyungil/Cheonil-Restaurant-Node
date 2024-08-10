@@ -1,5 +1,8 @@
 import * as Sequelize from 'sequelize'
 import { DataTypes, Model, Optional } from 'sequelize'
+import { OrderMenu } from './OrderMenu'
+import { Payment } from './Payment'
+import { Store } from './Store'
 
 export interface MyOrderAttributes {
     seq: number
@@ -10,6 +13,9 @@ export interface MyOrderAttributes {
     completeAt?: Date
     cmt?: string
     updatedAt: Date
+    orderMenues?: OrderMenu[]
+    payments?: Payment[]
+    store?: Store
 }
 
 export type MyOrderPk = 'seq'
@@ -26,6 +32,9 @@ export class MyOrder extends Model<MyOrderAttributes, MyOrderCreationAttributes>
     completeAt?: Date
     cmt?: string
     updatedAt!: Date
+    orderMenues?: OrderMenu[]
+    payments?: Payment[]
+    store?: Store
 
     static initModel(sequelize: Sequelize.Sequelize): typeof MyOrder {
         return sequelize.define(

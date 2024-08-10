@@ -1,11 +1,13 @@
 import * as Sequelize from 'sequelize'
 import { DataTypes, Model, Optional } from 'sequelize'
+import { Menu } from './Menu'
 
 export interface OrderMenuAttributes {
     menuSeq: number
     orderSeq: number
     price: number
     cnt: number
+    menu?: Menu
 }
 
 export type OrderMenuPk = 'menuSeq' | 'orderSeq'
@@ -17,6 +19,7 @@ export class OrderMenu extends Model<OrderMenuAttributes, OrderMenuCreationAttri
     orderSeq!: number
     price!: number
     cnt!: number
+    menu?: Menu
 
     static initModel(sequelize: Sequelize.Sequelize): typeof OrderMenu {
         return sequelize.define(
