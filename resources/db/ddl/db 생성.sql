@@ -49,7 +49,7 @@ CREATE TABLE `Menu` (
 
 CREATE TABLE `StoreCategory` (
   `name` varchar(45) NOT NULL COMMENT '매장 카테고리 명',
-  `placeCtgNm` varchar(100) NULL COMMENT '장소 카테고리 이름',
+  `placeCtgNm` varchar(100) DEFAULT NULL COMMENT '장소 카테고리 이름',
   `options` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '추가정보' CHECK (json_valid(`options`)),
   `createdAt` timestamp NULL DEFAULT current_timestamp() COMMENT '생성시간',
   `updatedAt` timestamp NULL DEFAULT current_timestamp() COMMENT '수정시간',
@@ -64,7 +64,7 @@ CREATE TABLE `StoreCategory` (
 CREATE TABLE `Store` (
   `seq` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '매장 Seq',
   `ctgNm` varchar(45) NOT NULL COMMENT '매장 카테고리 명',
-  `placeCtgNm` varchar(100) NULL COMMENT '장소 카테고리 명',
+  `placeCtgNm` varchar(100) DEFAULT NULL COMMENT '장소 카테고리 명',
   `name` varchar(45) NOT NULL COMMENT '매장 명',
   `cmt` varchar(1000) DEFAULT NULL COMMENT '기타 정보',
   `latitude` float DEFAULT NULL COMMENT '위도',

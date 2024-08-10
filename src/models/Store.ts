@@ -16,7 +16,7 @@ export interface StoreAttributes {
 
 export type StorePk = 'seq'
 export type StoreId = Store[StorePk]
-export type StoreOptionalAttributes = 'placeCtgNm' | 'cmt' | 'latitude' | 'longitude' | 'options' | 'createdAt' | 'updatedAt'
+export type StoreOptionalAttributes = 'seq' | 'placeCtgNm' | 'cmt' | 'latitude' | 'longitude' | 'options' | 'createdAt' | 'updatedAt'
 export type StoreCreationAttributes = Optional<StoreAttributes, StoreOptionalAttributes>
 
 export class Store extends Model<StoreAttributes, StoreCreationAttributes> implements StoreAttributes {
@@ -36,8 +36,8 @@ export class Store extends Model<StoreAttributes, StoreCreationAttributes> imple
             'Store',
             {
                 seq: {
-                    type: DataTypes.BIGINT.UNSIGNED,
                     autoIncrement: true,
+                    type: DataTypes.BIGINT.UNSIGNED,
                     allowNull: false,
                     primaryKey: true,
                     comment: '매장 Seq',
