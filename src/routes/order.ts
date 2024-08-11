@@ -100,7 +100,9 @@ router.post('/', async (req, res) => {
         orderMenues: OrderMenuAttributes[]
     }
 
-    await MyOrder.create(order).then(async (nOrder) => {
+    let nOrder = {} as InstanceType<typeof MyOrder>
+    await DB.sequelize.transaction(async () => {
+        nOrder = await MyOrder.create(order)
         orderMenues.forEach((om) => {
             om.orderSeq = nOrder.seq
         })
@@ -108,7 +110,7 @@ router.post('/', async (req, res) => {
         await OrderMenu.bulkCreate(orderMenues)
     })
 
-    const nMyOrder = await OrderService.getOrder(order.seq)
+    const nMyOrder = await OrderService.getOrder(nOrder?.seq)
 
     if (nMyOrder == null) {
         res.sendStatus(HttpStatusCodes.BAD_REQUEST)
@@ -120,7 +122,7 @@ router.post('/', async (req, res) => {
 
 // 주문 변경
 router.patch('/:seq', async (req, res) => {
-    const seq = req.params.seq
+    const seq = +req.params.seq
     const { order, orderMenues = [] } = req.body as {
         order: MyOrderAttributes
         orderMenues: OrderMenuAttributes[]
@@ -131,9 +133,9 @@ router.patch('/:seq', async (req, res) => {
         return Promise.all(prms)
     })
 
-    const uOrder = await OrderService.getOrder(+seq)
+    const uOrder = await OrderService.getOrder(seq)
 
-    res.status(HttpStatusCodes.OK).send(uOrder!.toJSON())
+    res.status(HttpStatusCodes.OK).send(uOrder?.toJSON())
 })
 
 router.delete('/:seq', async (req, res) => {

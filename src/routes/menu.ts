@@ -19,19 +19,18 @@ router.post('/', async (req, res) => {
     res.status(HttpStatusCodes.OK).send(nMenu.toJSON())
 })
 
-router.put('/:seq', async (req, res) => {
+router.patch('/:seq', async (req, res) => {
     const { seq } = req.params
     const body = req.body as MenuAttributes
-    const [_, uMenues] = await Menu.update(body, { where: { seq }, returning: true })
-    if (uMenues.length == 0) {
+    const [uCnt] = await Menu.update(body, { where: { seq } })
+    if (uCnt == 0) {
         res.sendStatus(HttpStatusCodes.BAD_REQUEST)
-        return
-    } else if (uMenues.length > 1) {
-        res.sendStatus(HttpStatusCodes.NOT_IMPLEMENTED)
         return
     }
 
-    res.status(HttpStatusCodes.OK).send(uMenues[0].toJSON())
+    const uMenue = await Menu.findOne({ where: { seq } })
+
+    res.status(HttpStatusCodes.OK).send(uMenue?.toJSON())
 })
 
 router.delete('/:seq', async (req, res) => {

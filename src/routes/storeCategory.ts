@@ -19,25 +19,23 @@ router.post('/', async (req, res) => {
     res.status(HttpStatusCodes.CREATED).send(nStoreCtg.toJSON())
 })
 
-router.put('/:name', async (req, res) => {
-    const name = req.params.name
+router.patch('/:seq', async (req, res) => {
+    const seq = +req.params.seq
     const storeCtg = req.body as StoreCategoryAttributes
 
-    const [_, uStoreCtgs] = await StoreCategory.update(storeCtg, { where: { name }, returning: true })
-    if (uStoreCtgs.length == 0) {
+    const [uCnt] = await StoreCategory.update(storeCtg, { where: { seq } })
+    if (uCnt == 0) {
         res.sendStatus(HttpStatusCodes.BAD_REQUEST)
         return
-    } else if (uStoreCtgs.length > 1) {
-        res.sendStatus(HttpStatusCodes.NOT_IMPLEMENTED)
-        return
     }
+    const uStoreCtg = await StoreCategory.findOne({ where: { seq } })
 
-    res.status(HttpStatusCodes.OK).send(uStoreCtgs[0].toJSON())
+    res.status(HttpStatusCodes.OK).send(uStoreCtg?.toJSON())
 })
 
-router.delete('/:name', async (req, res) => {
-    const name = req.params.name
-    const delCnt = await StoreCategory.destroy({ where: { name } })
+router.delete('/:seq', async (req, res) => {
+    const { seq } = req.params
+    const delCnt = await StoreCategory.destroy({ where: { seq } })
     if (delCnt == 0) {
         res.sendStatus(HttpStatusCodes.BAD_REQUEST)
         return

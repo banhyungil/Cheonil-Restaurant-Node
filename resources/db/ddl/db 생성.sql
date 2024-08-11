@@ -1,7 +1,7 @@
 -- cheonil.MenuCategory definition
 
 CREATE TABLE `MenuCategory` (
-  `seq` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '메뉴 카테고리 Seq',
+  `seq` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT '메뉴 카테고리 Seq',
   `name` varchar(20) NOT NULL COMMENT '메뉴 카테고리 명',
   `options` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '추가정보' CHECK (json_valid(`options`)),
   `createdAt` timestamp NULL DEFAULT current_timestamp() COMMENT '생성시간',
@@ -14,7 +14,7 @@ CREATE TABLE `MenuCategory` (
 -- cheonil.PlaceCategory definition
 
 CREATE TABLE `PlaceCategory` (
-  `seq` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '장소 카테고리 Seq',
+  `seq` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT '장소 카테고리 Seq',
   `name` varchar(100) NOT NULL COMMENT '장소 카테고리 명',
   `cmt` varchar(1000) DEFAULT NULL COMMENT '비고',
   `options` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '추가정보' CHECK (json_valid(`options`)),
@@ -33,8 +33,8 @@ CREATE TABLE `Setting` (
 -- cheonil.Menu definition
 
 CREATE TABLE `Menu` (
-  `seq` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '메뉴 Seq',
-  `ctgSeq` bigint(20) unsigned NOT NULL COMMENT '메뉴 카테고리 Seq',
+  `seq` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT '메뉴 Seq',
+  `ctgSeq` smallint(5) unsigned NOT NULL COMMENT '메뉴 카테고리 Seq',
   `name` varchar(45) NOT NULL COMMENT '메뉴 명',
   `abv` varchar(10) DEFAULT NULL COMMENT '이름 약어',
   `price` int(10) unsigned NOT NULL COMMENT '가격',
@@ -52,25 +52,25 @@ CREATE TABLE `Menu` (
 -- cheonil.StoreCategory definition
 
 CREATE TABLE `StoreCategory` (
-  `seq` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '매장 카테고리 Seq',
-  `placeCtgseq` bigint(20) unsigned NULL COMMENT '장소 카테고리 Seq',
+  `seq` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT '매장 카테고리 Seq',
+  `placeCtgSeq` smallint(5) unsigned DEFAULT NULL COMMENT '장소 카테고리 Seq',
   `name` varchar(45) NOT NULL COMMENT '매장 카테고리 명',
   `options` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '추가정보' CHECK (json_valid(`options`)),
   `createdAt` timestamp NULL DEFAULT current_timestamp() COMMENT '생성시간',
   `updatedAt` timestamp NULL DEFAULT current_timestamp() COMMENT '수정시간',
   PRIMARY KEY (`seq`),
   UNIQUE KEY `name` (`name`),
-  KEY `FK_PlaceCategory_TO_StoreCategory` (`placeCtgseq`),
-  CONSTRAINT `FK_PlaceCategory_TO_StoreCategory` FOREIGN KEY (`placeCtgseq`) REFERENCES `PlaceCategory` (`seq`)
+  KEY `FK_PlaceCategory_TO_StoreCategory` (`placeCtgSeq`),
+  CONSTRAINT `FK_PlaceCategory_TO_StoreCategory` FOREIGN KEY (`placeCtgSeq`) REFERENCES `PlaceCategory` (`seq`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='매장 카테고리';
 
 
 -- cheonil.Store definition
 
 CREATE TABLE `Store` (
-  `seq` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '매장 Seq',
-  `ctgSeq` bigint(20) unsigned NOT NULL COMMENT '매장 카테고리 Seq',
-  `placeCtgseq` bigint(20) unsigned NULL COMMENT '장소 카테고리 Seq',
+  `seq` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT '매장 Seq',
+  `ctgSeq` smallint(5) unsigned NOT NULL COMMENT '매장 카테고리 Seq',
+  `placeCtgSeq` smallint(5) unsigned DEFAULT NULL COMMENT '장소 카테고리 Seq',
   `name` varchar(45) NOT NULL COMMENT '매장 명',
   `cmt` varchar(1000) DEFAULT NULL COMMENT '기타 정보',
   `latitude` float DEFAULT NULL COMMENT '위도',
@@ -80,9 +80,9 @@ CREATE TABLE `Store` (
   `updatedAt` timestamp NULL DEFAULT current_timestamp() COMMENT '수정시간',
   PRIMARY KEY (`seq`),
   UNIQUE KEY `name` (`name`),
-  KEY `FK_PlaceCategory_TO_Store` (`placeCtgseq`),
+  KEY `FK_PlaceCategory_TO_Store` (`placeCtgSeq`),
   KEY `FK_StoreCategory_TO_Store` (`ctgSeq`),
-  CONSTRAINT `FK_PlaceCategory_TO_Store` FOREIGN KEY (`placeCtgseq`) REFERENCES `PlaceCategory` (`seq`),
+  CONSTRAINT `FK_PlaceCategory_TO_Store` FOREIGN KEY (`placeCtgSeq`) REFERENCES `PlaceCategory` (`seq`),
   CONSTRAINT `FK_StoreCategory_TO_Store` FOREIGN KEY (`ctgSeq`) REFERENCES `StoreCategory` (`seq`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='매장';
 
@@ -91,7 +91,7 @@ CREATE TABLE `Store` (
 
 CREATE TABLE `MyOrder` (
   `seq` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '주문 Seq',
-  `storeSeq` bigint(20) unsigned NOT NULL COMMENT '매장 Seq',
+  `storeSeq` smallint(5) unsigned NOT NULL COMMENT '매장 Seq',
   `amount` int(10) unsigned NOT NULL COMMENT '총 금액',
   `status` enum('READY','COMPLETE') NOT NULL DEFAULT 'READY' COMMENT 'READY: 준비, COMPLETE: 완료',
   `orderAt` timestamp NOT NULL DEFAULT current_timestamp() COMMENT '주문 시간',
@@ -107,7 +107,7 @@ CREATE TABLE `MyOrder` (
 -- cheonil.OrderMenu definition
 
 CREATE TABLE `OrderMenu` (
-  `menuSeq` bigint(20) unsigned NOT NULL COMMENT '메뉴 Seq',
+  `menuSeq` smallint(5) unsigned NOT NULL COMMENT '메뉴 Seq',
   `orderSeq` bigint(20) unsigned NOT NULL COMMENT '주문 Seq',
   `price` int(10) unsigned NOT NULL COMMENT '가격 menu는 가격이 바뀔수가 있음',
   `cnt` tinyint(3) unsigned NOT NULL COMMENT '수량',
@@ -122,7 +122,7 @@ CREATE TABLE `OrderMenu` (
 
 CREATE TABLE `OrderRsv` (
   `seq` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '주문예약 Seq',
-  `storeSeq` bigint(20) unsigned NOT NULL COMMENT '매장 Seq',
+  `storeSeq` smallint(5) unsigned NOT NULL COMMENT '매장 Seq',
   `amount` int(10) unsigned NOT NULL COMMENT '총 금액',
   `rsvTime` char(5) NOT NULL COMMENT 'HH:MM',
   `dayType` enum('MON','TUE','WED','THU','FRI','SAT','SUN') DEFAULT NULL COMMENT '요일',
@@ -153,7 +153,7 @@ CREATE TABLE `Payment` (
 -- cheonil.OrderMenuRsv definition
 
 CREATE TABLE `OrderMenuRsv` (
-  `menuSeq` bigint(20) unsigned NOT NULL COMMENT '메뉴 Seq',
+  `menuSeq` smallint(5) unsigned NOT NULL COMMENT '메뉴 Seq',
   `orderRsvSeq` bigint(20) unsigned NOT NULL COMMENT '주문예약 Seq',
   `price` int(10) unsigned NOT NULL COMMENT '가격 menu는 가격이 바뀔수가 있음',
   `cnt` tinyint(3) unsigned NOT NULL COMMENT '수량',

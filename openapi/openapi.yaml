@@ -15,7 +15,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/MenuCreation'
+                  $ref: '#/components/schemas/Menu'
     post:
       description: 메뉴 등록
       requestBody:

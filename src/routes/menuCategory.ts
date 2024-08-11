@@ -18,25 +18,23 @@ router.post('/', async (req, res) => {
     res.status(HttpStatusCodes.OK).send(nMenuCtg.get({ plain: true }))
 })
 
-router.put('/:name', async (req, res) => {
-    const name = req.params.name
+router.patch('/:seq', async (req, res) => {
+    const { seq } = req.params
     const body = req.body as MenuCategoryAttributes
 
-    const [_, uMenuCtgs] = await MenuCategory.update(body, { where: { name }, returning: true })
-    if (uMenuCtgs.length == 0) {
+    const [uCnt] = await MenuCategory.update(body, { where: { seq } })
+    if (uCnt == 0) {
         res.sendStatus(HttpStatusCodes.BAD_REQUEST)
         return
-    } else if (uMenuCtgs.length > 1) {
-        res.sendStatus(HttpStatusCodes.NOT_IMPLEMENTED)
-        return
     }
+    const uMenuCtg = await MenuCategory.findOne({ where: { seq } })
 
-    res.status(HttpStatusCodes.OK).send(uMenuCtgs[0].toJSON())
+    res.status(HttpStatusCodes.OK).send(uMenuCtg?.toJSON())
 })
 
-router.delete('/:name', async (req, res) => {
-    const name = req.params.name
-    const delCnt = await MenuCategory.destroy({ where: { name } })
+router.delete('/:seq', async (req, res) => {
+    const { seq } = req.params
+    const delCnt = await MenuCategory.destroy({ where: { seq } })
     if (delCnt == 0) {
         res.sendStatus(HttpStatusCodes.BAD_REQUEST)
         return

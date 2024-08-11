@@ -19,20 +19,19 @@ router.post('/', async (req, res) => {
     res.status(HttpStatusCodes.CREATED).send(nStore.toJSON())
 })
 
-router.put('/:seq', async (req, res) => {
+router.patch('/:seq', async (req, res) => {
     const { seq } = req.params
     const body = req.body as StoreAttributes
 
-    const [_, uStores] = await Store.update(body, { where: { seq }, returning: true })
-    if (uStores.length == 0) {
+    const [uCnt] = await Store.update(body, { where: { seq } })
+    if (uCnt == 0) {
         res.sendStatus(HttpStatusCodes.BAD_REQUEST)
-        return
-    } else if (uStores.length > 1) {
-        res.sendStatus(HttpStatusCodes.NOT_IMPLEMENTED)
         return
     }
 
-    res.sendStatus(200)
+    const uStore = await Store.findOne({ where: { seq } })
+
+    res.status(200).send(uStore?.toJSON())
 })
 
 router.delete('/:seq', async (req, res) => {
