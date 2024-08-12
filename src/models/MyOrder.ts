@@ -8,7 +8,7 @@ export interface MyOrderAttributes {
     seq: number
     storeSeq: number
     amount: number
-    status: 'READY' | 'COMPLETE'
+    status: 'READY' | 'COOKED' | 'PAID'
     orderAt: Date
     completeAt?: Date
     cmt?: string
@@ -27,7 +27,7 @@ export class MyOrder extends Model<MyOrderAttributes, MyOrderCreationAttributes>
     seq!: number
     storeSeq!: number
     amount!: number
-    status!: 'READY' | 'COMPLETE'
+    status!: 'READY' | 'COOKED' | 'PAID'
     orderAt!: Date
     completeAt?: Date
     cmt?: string
