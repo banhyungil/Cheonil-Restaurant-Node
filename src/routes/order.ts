@@ -6,6 +6,7 @@ import { Op } from 'sequelize'
 import qs from 'qs'
 import HttpStatusCodes from '@src/common/HttpStatusCodes'
 import OrderService from '@src/services/OrderService'
+import { PaymentAttributes } from '@src/models/Payment'
 // import { fileURLToPath } from 'url'
 const router = express.Router()
 
@@ -15,22 +16,36 @@ router.get('/', async (req, res) => {
     const queryStr = req.url.slice(req.url.indexOf('?') + 1)
 
     const info = qs.parse(queryStr) ?? {}
-    const { limit, offset, sortBy } = info
+    const { limit, offset, sortBy, payTypes } = info
 
     delete info.limit
     delete info.offset
     delete info.sortBy
+    delete info.payTypes
+
+    let paymentWhereInfo
+    if (payTypes) {
+        paymentWhereInfo = {
+            payType: {
+                [Op.in]: payTypes,
+            },
+        }
+    }
 
     /* eslint-disable */
     const whereInfo = {} as Record<string, Object>
     Object.entries(info).forEach(([col, oi]) => {
         const opInfo = oi as Object
+
+
+        // 조건 연산자
         Object.entries(opInfo).forEach(([opKey, val]) => {
             const type = opKey as keyof typeof Op
 
             whereInfo[col] = {
                 [Op[type]]: val
             }
+            
         })
     })
     /* eslint-enable */
@@ -50,6 +65,7 @@ router.get('/', async (req, res) => {
             {
                 model: Payment,
                 as: 'payments',
+                where: paymentWhereInfo,
             },
             {
                 model: Store,
