@@ -1,1 +1,1 @@
-docker build -t realhubvms/xm-union-manage .
+docker build -t banhyungil/cheonil-restaurant-node .

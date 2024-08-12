@@ -1,43 +1,40 @@
+version: '1.0'
 networks:
-  xm-union:
-    name: xm-union
+  cheonil:
+    name: cheonil
     driver: bridge
 volumes:
-  v-portainer:
-  v-postgres:
+  v-db:
 services:
-  postgres:
-    container_name: postgres
-    image: realhubvms/postgres
-    ports:
-      - 5434:5432
-    environment:
-      - POSTGRES_PASSWORD=nice2122!
-      - POSTGRES_USER=postgres
-      - POSTGRES_DB=postgres
+  db:
+    container_name: db
+    image: mariadb
+    restart: always
     volumes:
-      - v-postgres:/var/lib/postgresql/data \
-    restart: always
-    networks:
-      - xm-union
-  xm-union-manage:
-    container_name: xm-union-manage
-    image: realhubvms/xm-union-manage
-    environment:
-      - PORT=8010
-      - WS_PORT=8110
-      - DB_HOST=postgres
-      - DB_PORT=5432
-      - DB_NAME=postgres
-      - DB_USER=postgres
-      - DB_PWD=nice2122!
+      - v-db:/var/lib/mysql
     ports:
-      - "8010:8010"
-      - "8110:8110"
-    depends_on:
-      - postgres
-    restart: always
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_USER: root
+      MARIADB_ROOT_PASSWORD: nice2122!
+      MYSQL_DATABASE: cheonil
     networks:
-      - xm-union
+      - cheonil
+  cheonil-server:
+    container_name: cheonil-server
+    image: ban/cheonil-restaurant-node
+    restart: always
+    ports:
+      - 8000:8000
+    environment:
+      PORT: 8000
+      WS_PORT: 8100
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_NAME: cheonil
+      DB_USER: root
+      DB_PWD: nice2122!
+    networks:
+      - cheonil
 
-      
+

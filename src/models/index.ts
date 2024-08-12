@@ -1,6 +1,6 @@
 import { initModels } from './init-models'
 import { Sequelize } from 'sequelize'
-import conifg from '../config/index'
+import conifg from '../config'
 import cls from 'cls-hooked'
 import path from 'path'
 import { readFileSync } from 'fs'
@@ -58,7 +58,7 @@ db.init = async () => {
     if (cnt == 0) {
         // db 생성
         await (async () => {
-            const filePath = path.join(__dirname, '../../resources/db/ddl/db 생성.sql')
+            const filePath = path.join(__dirname, '../resources/db/ddl/db 생성.sql')
             const sql = readFileSync(filePath, { encoding: 'utf-8' })
             const ddls = sql.split(';')
             for (const ddl of ddls) {
@@ -68,7 +68,7 @@ db.init = async () => {
         })()
 
         await (async () => {
-            const filePath = path.join(__dirname, '../../resources/db/ddl/외래키 삭제.sql')
+            const filePath = path.join(__dirname, '../resources/db/ddl/외래키 삭제.sql')
             const sql = readFileSync(filePath, { encoding: 'utf-8' })
             const ddls = sql.split('\n')
             for (const ddl of ddls) {

@@ -8,7 +8,7 @@ import Db from './models'
 import cookieParser from 'cookie-parser'
 import morgan from 'morgan'
 import path from 'path'
-import helmet from 'helmet'
+// import helmet from 'helmet'
 import express, { Request, Response, NextFunction } from 'express'
 import logger from 'jet-logger'
 
@@ -71,7 +71,7 @@ app.use(
 )
 
 // **** Front-End Content **** //
-const oasYaml = readFileSync(path.join(__dirname, '../openapi/openapi.yaml'), { encoding: 'utf-8' })
+const oasYaml = readFileSync(path.join(__dirname, './openapi/openapi.yaml'), { encoding: 'utf-8' })
 const oOas = Yaml.load(oasYaml) as object
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(oOas))
 

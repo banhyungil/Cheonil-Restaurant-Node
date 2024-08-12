@@ -37,7 +37,6 @@ function getSequelizeAuto(options?: Partial<AutoOptions>) {
             // caseProp: 'c',
             lang: 'ts',
             useDefine: true,
-            
 
             // noInitModels: true,
             ...configDb,

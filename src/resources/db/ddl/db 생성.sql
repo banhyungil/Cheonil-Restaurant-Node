@@ -98,7 +98,9 @@ CREATE TABLE `MyOrder` (
   `completeAt` timestamp NULL DEFAULT NULL COMMENT '조리완료 시간',
   `cmt` varchar(1000) DEFAULT NULL COMMENT '비고',
   `updatedAt` timestamp NOT NULL DEFAULT current_timestamp() COMMENT '수정시간',
-  PRIMARY KEY (`seq`)
+  PRIMARY KEY (`seq`),
+  KEY `FK_Store_TO_MyOrder` (`storeSeq`),
+  CONSTRAINT `FK_Store_TO_MyOrder` FOREIGN KEY (`storeSeq`) REFERENCES `Store` (`seq`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='주문';
 
 
