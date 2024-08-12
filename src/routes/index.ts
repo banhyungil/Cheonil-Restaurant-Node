@@ -6,6 +6,7 @@ import menuCategoryRouter from './menuCategory'
 import storeRouter from './store'
 import storeCategoryRouter from './storeCategory'
 import orderRouter from './order'
+import paymentRouter from './payment'
 import placeCategoryRouter from './placeCategory'
 // import { fileURLToPath } from 'url'
 const apiRouter = Router(),
@@ -16,6 +17,7 @@ apiRouter.use(Paths.MenuCategory, menuCategoryRouter)
 apiRouter.use(Paths.Store, storeRouter)
 apiRouter.use(Paths.StoreCategory, storeCategoryRouter)
 apiRouter.use(Paths.Order, orderRouter)
+apiRouter.use(Paths.Payment, paymentRouter)
 apiRouter.use(Paths.PlaceCategory, placeCategoryRouter)
 
 export default apiRouter

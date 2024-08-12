@@ -60,8 +60,9 @@ router.get('/', async (req, res) => {
         limit: limit ? Number(limit) : undefined,
         offset: offset ? Number(offset) : undefined,
     })
+    const totalCnt = await MyOrder.count({ where: whereInfo })
 
-    res.status(HttpStatusCodes.OK).send(orders.map((order) => order.toJSON()))
+    res.status(HttpStatusCodes.OK).send({ orders: orders.map((order) => order.toJSON()), totalCnt })
 })
 
 router.get('/:seq', async (req, res) => {
@@ -139,10 +140,11 @@ router.patch('/:seq', async (req, res) => {
 })
 
 router.delete('/:seq', async (req, res) => {
-    const seq = req.params.seq
+    const seq = +req.params.seq
 
     await DB.sequelize.transaction(async () => {
         await OrderMenu.destroy({ where: { orderSeq: seq } })
+        await Payment.destroy({ where: { orderSeq: seq } })
         const delCnt = await MyOrder.destroy({ where: { seq } })
 
         if (delCnt == 0) {

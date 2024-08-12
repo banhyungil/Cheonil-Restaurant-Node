@@ -9,5 +9,6 @@ export default {
     Store: '/store',
     StoreCategory: '/storeCategory',
     Order: '/order',
+    Payment: '/payment',
     PlaceCategory: '/placeCategory',
 } as const
