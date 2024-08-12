@@ -93,14 +93,12 @@ CREATE TABLE `MyOrder` (
   `seq` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '주문 Seq',
   `storeSeq` smallint(5) unsigned NOT NULL COMMENT '매장 Seq',
   `amount` int(10) unsigned NOT NULL COMMENT '총 금액',
-  `status` enum('READY','COMPLETE') NOT NULL DEFAULT 'READY' COMMENT 'READY: 준비, COMPLETE: 완료',
+  `status` enum('READY','COOKED','PAID') NOT NULL DEFAULT 'READY' COMMENT 'READY: 준비, COOKED: 요리 완료, PAID: 결제 완료',
   `orderAt` timestamp NOT NULL DEFAULT current_timestamp() COMMENT '주문 시간',
   `completeAt` timestamp NULL DEFAULT NULL COMMENT '조리완료 시간',
   `cmt` varchar(1000) DEFAULT NULL COMMENT '비고',
   `updatedAt` timestamp NOT NULL DEFAULT current_timestamp() COMMENT '수정시간',
-  PRIMARY KEY (`seq`),
-  KEY `FK_Store_TO_MyOrder` (`storeSeq`),
-  CONSTRAINT `FK_Store_TO_MyOrder` FOREIGN KEY (`storeSeq`) REFERENCES `Store` (`seq`)
+  PRIMARY KEY (`seq`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='주문';
 
 

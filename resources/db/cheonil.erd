@@ -4,8 +4,8 @@
   "settings": {
     "width": 4000,
     "height": 4000,
-    "scrollTop": -279,
-    "scrollLeft": 0,
+    "scrollTop": -774,
+    "scrollLeft": -997,
     "zoomLevel": 0.9,
     "show": 431,
     "database": 1,
@@ -1151,19 +1151,19 @@
         "id": "5_o08leArP_OtMZcAXC5F",
         "tableId": "5nbLlTZmUaQsJJ2QZ-0dj",
         "name": "status",
-        "comment": "READY: 준비, COMPLETE: 완료",
-        "dataType": "enum('READY','COMPLETE')",
+        "comment": "READY: 준비, COOKED: 조리 완료, PAID: 결제 완료",
+        "dataType": "enum('READY','COOKED', 'PAID')",
         "default": "'READY'",
         "options": 8,
         "ui": {
           "keys": 0,
           "widthName": 60,
-          "widthComment": 161,
-          "widthDataType": 147,
+          "widthComment": 266,
+          "widthDataType": 172,
           "widthDefault": 60
         },
         "meta": {
-          "updateAt": 1722821237768,
+          "updateAt": 1723446380162,
           "createAt": 1715396727602
         }
       },
@@ -2979,7 +2979,7 @@
           "columnIds": [
             "j1nruv59FkA6ekVq6OYTw"
           ],
-          "x": 2157.7618,
+          "x": 2262.7618,
           "y": 874.5953,
           "direction": 2
         },
@@ -3007,7 +3007,7 @@
           "columnIds": [
             "j1nruv59FkA6ekVq6OYTw"
           ],
-          "x": 1830.7618,
+          "x": 1883.2618,
           "y": 998.5953,
           "direction": 8
         },
@@ -3552,8 +3552,8 @@
       -1,
       -1,
       {
-        "comment": 1715399306231,
-        "dataType": 1722819054366,
+        "comment": 1723446380162,
+        "dataType": 1723445877515,
         "default": 1722821237767
       }
     ],
