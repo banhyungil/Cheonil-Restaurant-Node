@@ -12,10 +12,26 @@ const router = express.Router()
 
 const { MyOrder, OrderMenu, Payment, Menu, Store } = DB.Models
 
-router.get('/', async (req, res) => {
-    const queryStr = req.url.slice(req.url.indexOf('?') + 1)
+function validateQueryParamInfo(queryParams: string) {
+    const info = qs.parse(queryParams) ?? {}
+    const { limit, offset, sortBy, payTypes } = info
 
-    const info = qs.parse(queryStr) ?? {}
+    if (limit && (isNaN(Number(limit)) || Number(limit) < 0)) return false
+    if (offset && (isNaN(Number(offset)) || Number(offset) < 0)) return false
+    if (sortBy && typeof sortBy != 'string') return false
+    if (payTypes && !Array.isArray(payTypes)) return false
+
+    return true
+}
+router.get('/', async (req, res) => {
+    const queryParams = req.url.slice(req.url.indexOf('?') + 1)
+
+    if (validateQueryParamInfo(queryParams) == false) {
+        res.sendStatus(HttpStatusCodes.BAD_REQUEST)
+        return
+    }
+
+    const info = qs.parse(queryParams) ?? {}
     const { limit, offset, sortBy, payTypes } = info
 
     delete info.limit
@@ -76,6 +92,31 @@ router.get('/', async (req, res) => {
         limit: limit ? Number(limit) : undefined,
         offset: offset ? Number(offset) : undefined,
     })
+    // test
+    const test = await MyOrder.findAll({
+        include: [
+            {
+                model: OrderMenu,
+                as: 'orderMenues',
+                include: [
+                    {
+                        model: Menu,
+                        as: 'menu',
+                    },
+                ],
+            },
+            {
+                model: Payment,
+                as: 'payments',
+                where: paymentWhereInfo,
+            },
+            {
+                model: Store,
+                as: 'store',
+            },
+        ],
+    })
+
     const totalCnt = await MyOrder.count({ where: whereInfo })
 
     res.status(HttpStatusCodes.OK).send({ orders: orders.map((order) => order.toJSON()), totalCnt })

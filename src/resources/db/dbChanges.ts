@@ -14,12 +14,7 @@ interface DbChange {
     cmt: string
 }
 
-const dbChanges = [
-    {
-        version: '1.0.1',
-        cmt: 'channel not null 조건 제거',
-    },
-] as Readonly<DbChange[]>
+const dbChanges = [] as Readonly<DbChange[]>
 
 // 오름차순 정렬
 export default dbChanges.toSorted((a, b) => a.version.localeCompare(b.version))

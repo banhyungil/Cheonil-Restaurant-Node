@@ -7,34 +7,16 @@ volumes:
   # v-db:
   v-db2:
 services:
-  # db:
-  #   image: mariadb
-  #   restart: always
-  #   volumes:
-  #     - v-db:/var/lib/mysql
-  #   ports:
-  #     - "3306:3306"
-  #   environment:
-  #     MYSQL_ROOT_USER: root
-  #     MARIADB_ROOT_PASSWORD: nice2122!
-  #     MYSQL_DATABASE: cheonil
-  #   networks:
-  #     - cheonil
-  db2:
+  db:
     image: mariadb
-    container_name: db2
     restart: always
     volumes:
-      - v-db2:/var/lib/mysql
+      - v-db:/var/lib/mysql
     ports:
-      - "3307:3306"
+      - "3306:3306"
     environment:
       MYSQL_ROOT_USER: root
       MARIADB_ROOT_PASSWORD: nice2122!
       MYSQL_DATABASE: cheonil
-      LANG: en_US.UTF-8
-      LANGUAGE: en_US.UTF-8
-      LC_ALL: ko_KR.UTF-8
-      
     networks:
       - cheonil
