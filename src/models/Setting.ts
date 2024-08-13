@@ -3,7 +3,7 @@ import { DataTypes, Model, Optional } from 'sequelize'
 
 export interface SettingAttributes {
     seq: number
-    config: string
+    config: SettingConfig
 }
 
 export type SettingPk = 'seq'
@@ -13,7 +13,7 @@ export type SettingCreationAttributes = Optional<SettingAttributes, SettingOptio
 
 export class Setting extends Model<SettingAttributes, SettingCreationAttributes> implements SettingAttributes {
     seq!: number
-    config!: string
+    config!: SettingConfig
 
     static initModel(sequelize: Sequelize.Sequelize): typeof Setting {
         return sequelize.define(
@@ -30,6 +30,9 @@ export class Setting extends Model<SettingAttributes, SettingCreationAttributes>
                     type: DataTypes.TEXT,
                     allowNull: false,
                     comment: '설정 정보',
+                    get: function () {
+                        return JSON.parse(this.getDataValue('config') as any)
+                    },
                 },
             },
             {
