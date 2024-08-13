@@ -7,7 +7,5 @@ ALTER TABLE OrderMenuRsv DROP FOREIGN KEY FK_Menu_TO_OrderMenuRsv;
 ALTER TABLE OrderMenuRsv DROP FOREIGN KEY FK_OrderRsv_TO_OrderMenuRsv;
 ALTER TABLE Store DROP FOREIGN KEY FK_PlaceCategory_TO_Store;
 ALTER TABLE Store DROP FOREIGN KEY FK_StoreCategory_TO_Store;
-ALTER TABLE Expense DROP FOREIGN KEY FK_Supply_TO_Expense;
-ALTER TABLE Supply DROP FOREIGN KEY FK_Store_TO_Supply;
 ALTER TABLE MyOrder DROP FOREIGN KEY FK_Store_TO_MyOrder;
 ALTER TABLE StoreCategory DROP FOREIGN KEY FK_PlaceCategory_TO_StoreCategory;

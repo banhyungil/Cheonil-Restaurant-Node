@@ -1,0 +1,3 @@
+interface SettingConfig {
+    dbVersion: string
+}
