@@ -85,11 +85,9 @@ db.init = async () => {
         await Models.Setting.create({ config: { dbVersion: '1.0.0' } })
     }
 
-    await Models.Setting.create({ config: { dbVersion: '1.0.0' } })
-
     try {
         await sequelize.transaction(async () => {
-            const dbSetting = await Models.Setting.findOne()
+            const dbSetting = await Models.Setting.findOne({ attributes: ['config'] })
             if (dbSetting == null || dbSetting.config == null) throw new Error('not possible')
 
             const curDbVersion = dbSetting.config.dbVersion
@@ -105,20 +103,19 @@ db.init = async () => {
 
             // 변경사항 순차 적용
             for (const item of applyChanges) {
-                await sequelize.transaction(async () => {
-                    const filePath = path.join(__dirname, `../resources/db/changes/${item.version}.sql`)
-                    const sqlStr = readFileSync(filePath, { encoding: 'utf-8' })
-                    const sqls = sqlStr.split(';')
-                    for (const sql of sqls) {
-                        if (sql.replace(/\s/g, '') == '') return
-                        await sequelize.query(sql)
-                    }
-                })
+                // await sequelize.transaction(async () => {
+                const filePath = path.join(__dirname, `../resources/db/changes/${item.version}.sql`)
+                const sqlStr = readFileSync(filePath, { encoding: 'utf-8' })
+                const sqls = sqlStr.split(';')
+                for (const sql of sqls) {
+                    if (sql.replace(/\s/g, '') == '') continue
+                    await sequelize.query(sql)
+                }
+                // })
             }
 
             // 버전 정보 업데이트
             const latestVersion = applyChanges[applyChanges.length - 1].version
-            const result = { config: { ...dbSetting.config, dbVersion: latestVersion } }
             await dbSetting.update({ config: { ...dbSetting.config, dbVersion: latestVersion } })
             await dbSetting.save()
         })

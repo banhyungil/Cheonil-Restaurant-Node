@@ -33,6 +33,9 @@ export class Setting extends Model<SettingAttributes, SettingCreationAttributes>
                     get: function () {
                         return JSON.parse(this.getDataValue('config') as any)
                     },
+                    set: function (val) {
+                        this.setDataValue('config', JSON.stringify(val) as any)
+                    },
                 },
             },
             {

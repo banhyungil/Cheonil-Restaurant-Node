@@ -40,8 +40,8 @@ router.delete('/:seq', async (req, res) => {
         res.sendStatus(HttpStatusCodes.BAD_REQUEST)
         return
     }
-    await StoreCategory.update({ placeCtgseq: seq }, { where: { placeCtgseq: seq } })
-    await Store.update({ placeCtgseq: seq }, { where: { placeCtgseq: seq } })
+    await StoreCategory.update({ placeCtgSeq: seq }, { where: { placeCtgSeq: seq } })
+    await Store.update({ placeCtgSeq: seq }, { where: { placeCtgSeq: seq } })
 
     res.sendStatus(HttpStatusCodes.NO_CONTENT)
 })

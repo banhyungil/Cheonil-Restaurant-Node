@@ -243,7 +243,7 @@ components:
         seq:
           description: 매장 카테고리 Seq
           type: string
-        placeCtgseq:
+        placeCtgSeq:
           description: 장소 카테고리 Seq
           type: string
         name:
@@ -304,7 +304,7 @@ components:
         ctgSeq:
           description: 매장 카테고리 Seq
           type: string
-        placeCtgseq:
+        placeCtgSeq:
           description: 장소 카테고리 Seq
           type: string
         name:
