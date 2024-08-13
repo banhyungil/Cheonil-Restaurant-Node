@@ -82,8 +82,8 @@
     "build.ts",
     "generate-models.ts",
     "gen-oas-comps.ts",
+    "scripts/db-backup.ts",
     "src/openapi/*.ts",
-    // "ztest/crawling.ts"
   ],
   "exclude": [
     "src/public/"
