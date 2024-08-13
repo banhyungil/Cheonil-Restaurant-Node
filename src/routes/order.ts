@@ -10,7 +10,7 @@ import { PaymentAttributes } from '@src/models/Payment'
 // import { fileURLToPath } from 'url'
 const router = express.Router()
 
-const { MyOrder, OrderMenu, Payment, Menu, Store } = DB.models
+const { MyOrder, OrderMenu, Payment, Menu, Store } = DB.Models
 
 router.get('/', async (req, res) => {
     const queryStr = req.url.slice(req.url.indexOf('?') + 1)

@@ -5,7 +5,7 @@ import HttpStatusCodes from '@src/common/HttpStatusCodes'
 import { Op } from 'sequelize'
 
 const router = express.Router()
-const { Payment } = DB.models
+const { Payment } = DB.Models
 
 router.post('/', async (req, res) => {
     const body = req.body as PaymentCreationAttributes

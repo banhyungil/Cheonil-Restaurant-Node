@@ -4,7 +4,7 @@ import DB from '../models'
 import HttpStatusCodes from '@src/common/HttpStatusCodes'
 
 const router = express.Router()
-const { Menu } = DB.models
+const { Menu } = DB.Models
 
 router.get('/', async (req, res) => {
     const menues = await Menu.findAll()

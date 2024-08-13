@@ -4,7 +4,7 @@ import { MenuCategoryAttributes, MenuCategoryCreationAttributes } from '@src/mod
 import HttpStatusCodes from '@src/common/HttpStatusCodes'
 
 const router = express.Router()
-const { MenuCategory } = DB.models
+const { MenuCategory } = DB.Models
 
 router.get('/', async (req, res) => {
     const menueCtgs = await MenuCategory.findAll()

@@ -5,7 +5,7 @@ import HttpStatusCodes from '@src/common/HttpStatusCodes'
 // import { fileURLToPath } from 'url'
 const router = express.Router()
 
-const { StoreCategory } = DB.models
+const { StoreCategory } = DB.Models
 router.get('/', async (req, res) => {
     const storeCtgs = await StoreCategory.findAll({ raw: true })
 

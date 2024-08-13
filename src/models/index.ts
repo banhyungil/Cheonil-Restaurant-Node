@@ -4,6 +4,9 @@ import conifg from '../config'
 import cls from 'cls-hooked'
 import path from 'path'
 import { readFileSync } from 'fs'
+import logger from 'jet-logger'
+import _ from 'lodash'
+import dbChanges from '@src/resources/db/dbChanges'
 
 const namespace = cls.createNamespace('cheonil')
 Sequelize.useCLS(namespace)
@@ -11,7 +14,7 @@ Sequelize.useCLS(namespace)
 const db = {} as {
     init: () => void
     sequelize: Sequelize
-    models: ReturnType<typeof initModels>
+    Models: ReturnType<typeof initModels>
 }
 
 const { database, username, password, host, port, dialect } = conifg.database
@@ -22,9 +25,9 @@ const sequelize = new Sequelize(database, username, password, {
     port,
 })
 
-const models = initModels(sequelize)
+const Models = initModels(sequelize)
 
-const { MyOrder, OrderMenu, Menu, Store, Payment } = models
+const { MyOrder, OrderMenu, Menu, Store, Payment } = Models
 MyOrder.hasMany(OrderMenu, { foreignKey: 'orderSeq', as: 'orderMenues' })
 MyOrder.hasMany(Payment, { foreignKey: 'orderSeq', as: 'payments' })
 OrderMenu.belongsTo(MyOrder, { foreignKey: 'orderSeq', as: 'orderMenues' })
@@ -36,7 +39,8 @@ OrderMenu.belongsTo(Menu, { foreignKey: 'menuSeq', as: 'menu' })
 // StoreCategory.hasMany(Store)
 
 db.sequelize = sequelize
-db.models = models
+db.Models = Models
+
 db.init = async () => {
     const { cnt } =
         /**
@@ -56,7 +60,7 @@ db.init = async () => {
 
     // database가 없는 경우 생성
     if (cnt == 0) {
-        // db 생성
+        // 1. DB 생성
         await (async () => {
             const filePath = path.join(__dirname, '../resources/db/ddl/db 생성.sql')
             const sql = readFileSync(filePath, { encoding: 'utf-8' })
@@ -76,6 +80,50 @@ db.init = async () => {
                 await sequelize.query(ddl)
             }
         })()
+
+        // 2. 초기 데이터 생성
+        await Models.Setting.create({ config: { dbVersion: '1.0.0' } })
+    }
+
+    await Models.Setting.create({ config: { dbVersion: '1.0.0' } })
+
+    try {
+        await sequelize.transaction(async () => {
+            const dbSetting = await Models.Setting.findOne()
+            if (dbSetting == null || dbSetting.config == null) throw new Error('not possible')
+
+            const curDbVersion = dbSetting.config.dbVersion
+            // 현재 버전 보다 높은 변경 사항 추출
+            const applyChanges = _.sortBy(
+                dbChanges.filter((item) => item.version > curDbVersion),
+                (item) => item.version,
+            )
+            if (applyChanges.length == 0) {
+                logger.info('No Changes To DB')
+                return
+            }
+
+            // 변경사항 순차 적용
+            for (const item of applyChanges) {
+                await sequelize.transaction(async () => {
+                    const filePath = path.join(__dirname, `../resources/db/changes/${item.version}.sql`)
+                    const sqlStr = readFileSync(filePath, { encoding: 'utf-8' })
+                    const sqls = sqlStr.split(';')
+                    for (const sql of sqls) {
+                        if (sql.replace(/\s/g, '') == '') return
+                        await sequelize.query(sql)
+                    }
+                })
+            }
+
+            // 버전 정보 업데이트
+            const latestVersion = applyChanges[applyChanges.length - 1].version
+            const result = { config: { ...dbSetting.config, dbVersion: latestVersion } }
+            await dbSetting.update({ config: { ...dbSetting.config, dbVersion: latestVersion } })
+            await dbSetting.save()
+        })
+    } catch (error) {
+        logger.err(error)
     }
 }
 
