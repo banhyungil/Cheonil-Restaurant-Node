@@ -27,7 +27,7 @@ export class MenuCategory extends Model<MenuCategoryAttributes, MenuCategoryCrea
             {
                 seq: {
                     autoIncrement: true,
-                    type: DataTypes.BIGINT.UNSIGNED,
+                    type: DataTypes.SMALLINT.UNSIGNED,
                     allowNull: false,
                     primaryKey: true,
                     comment: '메뉴 카테고리 Seq',

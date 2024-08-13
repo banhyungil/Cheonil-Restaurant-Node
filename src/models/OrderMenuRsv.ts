@@ -23,7 +23,7 @@ export class OrderMenuRsv extends Model<OrderMenuRsvAttributes, OrderMenuRsvCrea
             'OrderMenuRsv',
             {
                 menuSeq: {
-                    type: DataTypes.BIGINT.UNSIGNED,
+                    type: DataTypes.SMALLINT.UNSIGNED,
                     allowNull: false,
                     primaryKey: true,
                     comment: '메뉴 Seq',

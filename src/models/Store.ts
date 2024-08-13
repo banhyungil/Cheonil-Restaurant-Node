@@ -4,7 +4,7 @@ import { DataTypes, Model, Optional } from 'sequelize'
 export interface StoreAttributes {
     seq: number
     ctgSeq: number
-    placeCtgseq?: number
+    placeCtgSeq?: number
     name: string
     cmt?: string
     latitude?: number
@@ -16,13 +16,13 @@ export interface StoreAttributes {
 
 export type StorePk = 'seq'
 export type StoreId = Store[StorePk]
-export type StoreOptionalAttributes = 'seq' | 'placeCtgseq' | 'cmt' | 'latitude' | 'longitude' | 'options' | 'createdAt' | 'updatedAt'
+export type StoreOptionalAttributes = 'seq' | 'placeCtgSeq' | 'cmt' | 'latitude' | 'longitude' | 'options' | 'createdAt' | 'updatedAt'
 export type StoreCreationAttributes = Optional<StoreAttributes, StoreOptionalAttributes>
 
 export class Store extends Model<StoreAttributes, StoreCreationAttributes> implements StoreAttributes {
     seq!: number
     ctgSeq!: number
-    placeCtgseq?: number
+    placeCtgSeq?: number
     name!: string
     cmt?: string
     latitude?: number
@@ -37,18 +37,18 @@ export class Store extends Model<StoreAttributes, StoreCreationAttributes> imple
             {
                 seq: {
                     autoIncrement: true,
-                    type: DataTypes.BIGINT.UNSIGNED,
+                    type: DataTypes.SMALLINT.UNSIGNED,
                     allowNull: false,
                     primaryKey: true,
                     comment: '매장 Seq',
                 },
                 ctgSeq: {
-                    type: DataTypes.BIGINT.UNSIGNED,
+                    type: DataTypes.SMALLINT.UNSIGNED,
                     allowNull: false,
                     comment: '매장 카테고리 Seq',
                 },
-                placeCtgseq: {
-                    type: DataTypes.BIGINT.UNSIGNED,
+                placeCtgSeq: {
+                    type: DataTypes.SMALLINT.UNSIGNED,
                     allowNull: true,
                     comment: '장소 카테고리 Seq',
                 },
@@ -110,7 +110,7 @@ export class Store extends Model<StoreAttributes, StoreCreationAttributes> imple
                     {
                         name: 'FK_PlaceCategory_TO_Store',
                         using: 'BTREE',
-                        fields: [{ name: 'placeCtgseq' }],
+                        fields: [{ name: 'placeCtgSeq' }],
                     },
                     {
                         name: 'FK_StoreCategory_TO_Store',

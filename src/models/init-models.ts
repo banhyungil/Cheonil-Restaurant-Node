@@ -1,4 +1,6 @@
 import type { Sequelize } from 'sequelize'
+import { Expense as _Expense } from './Expense'
+import type { ExpenseAttributes, ExpenseCreationAttributes } from './Expense'
 import { Menu as _Menu } from './Menu'
 import type { MenuAttributes, MenuCreationAttributes } from './Menu'
 import { MenuCategory as _MenuCategory } from './MenuCategory'
@@ -21,8 +23,11 @@ import { Store as _Store } from './Store'
 import type { StoreAttributes, StoreCreationAttributes } from './Store'
 import { StoreCategory as _StoreCategory } from './StoreCategory'
 import type { StoreCategoryAttributes, StoreCategoryCreationAttributes } from './StoreCategory'
+import { Supply as _Supply } from './Supply'
+import type { SupplyAttributes, SupplyCreationAttributes } from './Supply'
 
 export {
+    _Expense as Expense,
     _Menu as Menu,
     _MenuCategory as MenuCategory,
     _MyOrder as MyOrder,
@@ -34,9 +39,12 @@ export {
     _Setting as Setting,
     _Store as Store,
     _StoreCategory as StoreCategory,
+    _Supply as Supply,
 }
 
 export type {
+    ExpenseAttributes,
+    ExpenseCreationAttributes,
     MenuAttributes,
     MenuCreationAttributes,
     MenuCategoryAttributes,
@@ -59,9 +67,12 @@ export type {
     StoreCreationAttributes,
     StoreCategoryAttributes,
     StoreCategoryCreationAttributes,
+    SupplyAttributes,
+    SupplyCreationAttributes,
 }
 
 export function initModels(sequelize: Sequelize) {
+    const Expense = _Expense.initModel(sequelize)
     const Menu = _Menu.initModel(sequelize)
     const MenuCategory = _MenuCategory.initModel(sequelize)
     const MyOrder = _MyOrder.initModel(sequelize)
@@ -73,8 +84,10 @@ export function initModels(sequelize: Sequelize) {
     const Setting = _Setting.initModel(sequelize)
     const Store = _Store.initModel(sequelize)
     const StoreCategory = _StoreCategory.initModel(sequelize)
+    const Supply = _Supply.initModel(sequelize)
 
     return {
+        Expense: Expense,
         Menu: Menu,
         MenuCategory: MenuCategory,
         MyOrder: MyOrder,
@@ -86,5 +99,6 @@ export function initModels(sequelize: Sequelize) {
         Setting: Setting,
         Store: Store,
         StoreCategory: StoreCategory,
+        Supply: Supply,
     }
 }

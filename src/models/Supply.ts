@@ -1,74 +1,81 @@
 import * as Sequelize from 'sequelize'
 import { DataTypes, Model, Optional } from 'sequelize'
 
-export interface OrderRsvAttributes {
+export interface SupplyAttributes {
     seq: number
     storeSeq: number
-    amount: number
-    rsvTime: string
-    dayType?: 'MON' | 'TUE' | 'WED' | 'THU' | 'FRI' | 'SAT' | 'SUN'
+    name: string
+    unit: string
+    cnt: number
+    unitCntOptions?: string
     cmt?: string
     options?: string
     createdAt?: Date
     updatedAt?: Date
 }
 
-export type OrderRsvPk = 'seq'
-export type OrderRsvId = OrderRsv[OrderRsvPk]
-export type OrderRsvOptionalAttributes = 'seq' | 'dayType' | 'cmt' | 'options' | 'createdAt' | 'updatedAt'
-export type OrderRsvCreationAttributes = Optional<OrderRsvAttributes, OrderRsvOptionalAttributes>
+export type SupplyPk = 'seq'
+export type SupplyId = Supply[SupplyPk]
+export type SupplyOptionalAttributes = 'seq' | 'unitCntOptions' | 'cmt' | 'options' | 'createdAt' | 'updatedAt'
+export type SupplyCreationAttributes = Optional<SupplyAttributes, SupplyOptionalAttributes>
 
-export class OrderRsv extends Model<OrderRsvAttributes, OrderRsvCreationAttributes> implements OrderRsvAttributes {
+export class Supply extends Model<SupplyAttributes, SupplyCreationAttributes> implements SupplyAttributes {
     seq!: number
     storeSeq!: number
-    amount!: number
-    rsvTime!: string
-    dayType?: 'MON' | 'TUE' | 'WED' | 'THU' | 'FRI' | 'SAT' | 'SUN'
+    name!: string
+    unit!: string
+    cnt!: number
+    unitCntOptions?: string
     cmt?: string
     options?: string
     createdAt?: Date
     updatedAt?: Date
 
-    static initModel(sequelize: Sequelize.Sequelize): typeof OrderRsv {
+    static initModel(sequelize: Sequelize.Sequelize): typeof Supply {
         return sequelize.define(
-            'OrderRsv',
+            'Supply',
             {
                 seq: {
                     autoIncrement: true,
-                    type: DataTypes.BIGINT.UNSIGNED,
+                    type: DataTypes.SMALLINT.UNSIGNED,
                     allowNull: false,
                     primaryKey: true,
-                    comment: '주문예약 Seq',
+                    comment: '식자재 Seq',
                 },
                 storeSeq: {
                     type: DataTypes.SMALLINT.UNSIGNED,
                     allowNull: false,
                     comment: '매장 Seq',
                 },
-                amount: {
-                    type: DataTypes.INTEGER.UNSIGNED,
+                name: {
+                    type: DataTypes.STRING(100),
                     allowNull: false,
-                    comment: '총 금액',
+                    comment: '식자재 명',
                 },
-                rsvTime: {
-                    type: DataTypes.CHAR(5),
+                unit: {
+                    type: DataTypes.STRING(40),
                     allowNull: false,
-                    comment: 'HH:MM',
+                    comment: '단위',
                 },
-                dayType: {
-                    type: DataTypes.ENUM('MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'),
+                cnt: {
+                    type: DataTypes.SMALLINT.UNSIGNED,
+                    allowNull: false,
+                    comment: '수량',
+                },
+                unitCntOptions: {
+                    type: DataTypes.TEXT,
                     allowNull: true,
-                    comment: '요일',
+                    comment: '단위수량 목록',
                 },
                 cmt: {
-                    type: DataTypes.STRING(1000),
+                    type: DataTypes.STRING(200),
                     allowNull: true,
                     comment: '비고',
                 },
                 options: {
                     type: DataTypes.TEXT,
                     allowNull: true,
-                    comment: '추가정보',
+                    comment: '추가 정보',
                 },
                 createdAt: {
                     type: DataTypes.DATE,
@@ -84,7 +91,7 @@ export class OrderRsv extends Model<OrderRsvAttributes, OrderRsvCreationAttribut
                 },
             },
             {
-                tableName: 'OrderRsv',
+                tableName: 'Supply',
                 timestamps: false,
                 indexes: [
                     {
@@ -94,12 +101,12 @@ export class OrderRsv extends Model<OrderRsvAttributes, OrderRsvCreationAttribut
                         fields: [{ name: 'seq' }],
                     },
                     {
-                        name: 'FK_Store_TO_OrderRsv',
+                        name: 'FK_Store_TO_Supply',
                         using: 'BTREE',
                         fields: [{ name: 'storeSeq' }],
                     },
                 ],
             },
-        ) as typeof OrderRsv
+        ) as typeof Supply
     }
 }

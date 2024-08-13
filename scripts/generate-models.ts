@@ -3,8 +3,9 @@
 // note
 
 import SequelizeAuto, { AutoOptions } from 'sequelize-auto'
-import config from './src/config/development'
+import config from '../src/config/development'
 import { OpenAPIV3 } from 'openapi-types'
+import path from 'path'
 
 /* eslint-disable */
 const configDb = config.database
@@ -21,12 +22,14 @@ function getSequelizeAuto(options?: Partial<AutoOptions>) {
         configDb.username,
         configDb.password,
         {
+            ...configDb,
             host: configDb.host,
-            port: configDb.port,
+            // port: configDb.port,
+            port: 3307,
             spaces: true,
             indentation: 4,
             dialect: configDb.dialect,
-            directory: './src/models', // where to write files
+            directory:  path.join( __dirname,'../src/models'), // where to write files
             singularize: false, // convert plural table names to singular model names
             additional: {
                 timestamps: false,
@@ -39,7 +42,6 @@ function getSequelizeAuto(options?: Partial<AutoOptions>) {
             useDefine: true,
 
             // noInitModels: true,
-            ...configDb,
             ...options,
         },
     )

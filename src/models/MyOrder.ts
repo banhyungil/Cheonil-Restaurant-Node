@@ -48,7 +48,7 @@ export class MyOrder extends Model<MyOrderAttributes, MyOrderCreationAttributes>
                     comment: '주문 Seq',
                 },
                 storeSeq: {
-                    type: DataTypes.BIGINT.UNSIGNED,
+                    type: DataTypes.SMALLINT.UNSIGNED,
                     allowNull: false,
                     comment: '매장 Seq',
                 },
@@ -58,10 +58,10 @@ export class MyOrder extends Model<MyOrderAttributes, MyOrderCreationAttributes>
                     comment: '총 금액',
                 },
                 status: {
-                    type: DataTypes.ENUM('READY', 'COMPLETE'),
+                    type: DataTypes.ENUM('READY', 'COOKED', 'PAID'),
                     allowNull: false,
                     defaultValue: 'READY',
-                    comment: 'READY: 준비, COMPLETE: 완료',
+                    comment: 'READY: 준비, COOKED: 조리 완료, PAID: 결제 완료',
                 },
                 orderAt: {
                     type: DataTypes.DATE,

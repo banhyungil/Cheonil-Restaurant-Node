@@ -9,7 +9,7 @@
     "dev": "nodemon",
     "test": "nodemon --config ./spec/nodemon.json",
     "test:no-reloading": "npx ts-node --files -r tsconfig-paths/register ./spec",
-    "gm": "npx ts-node generate-models.ts && npx eslint --fix ./src/models/*.ts",
+    "gm": "npx ts-node ./scripts/generate-models.ts && npx eslint --fix ./src/models/*.ts",
     "goas-comps": "npx ts-node gen-oas-comps.ts",
     "backup": "npx ts-node ./scripts/db-backup.ts"
   },

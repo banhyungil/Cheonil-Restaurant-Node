@@ -26,7 +26,7 @@ export class OrderMenu extends Model<OrderMenuAttributes, OrderMenuCreationAttri
             'OrderMenu',
             {
                 menuSeq: {
-                    type: DataTypes.BIGINT.UNSIGNED,
+                    type: DataTypes.SMALLINT.UNSIGNED,
                     allowNull: false,
                     primaryKey: true,
                     comment: '메뉴 Seq',

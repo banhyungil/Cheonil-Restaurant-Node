@@ -3,7 +3,7 @@ import { DataTypes, Model, Optional } from 'sequelize'
 
 export interface StoreCategoryAttributes {
     seq: number
-    placeCtgseq?: number
+    placeCtgSeq?: number
     name: string
     options?: string
     createdAt?: Date
@@ -12,12 +12,12 @@ export interface StoreCategoryAttributes {
 
 export type StoreCategoryPk = 'seq'
 export type StoreCategoryId = StoreCategory[StoreCategoryPk]
-export type StoreCategoryOptionalAttributes = 'seq' | 'placeCtgseq' | 'options' | 'createdAt' | 'updatedAt'
+export type StoreCategoryOptionalAttributes = 'seq' | 'placeCtgSeq' | 'options' | 'createdAt' | 'updatedAt'
 export type StoreCategoryCreationAttributes = Optional<StoreCategoryAttributes, StoreCategoryOptionalAttributes>
 
 export class StoreCategory extends Model<StoreCategoryAttributes, StoreCategoryCreationAttributes> implements StoreCategoryAttributes {
     seq!: number
-    placeCtgseq?: number
+    placeCtgSeq?: number
     name!: string
     options?: string
     createdAt?: Date
@@ -29,13 +29,13 @@ export class StoreCategory extends Model<StoreCategoryAttributes, StoreCategoryC
             {
                 seq: {
                     autoIncrement: true,
-                    type: DataTypes.BIGINT.UNSIGNED,
+                    type: DataTypes.SMALLINT.UNSIGNED,
                     allowNull: false,
                     primaryKey: true,
                     comment: '매장 카테고리 Seq',
                 },
-                placeCtgseq: {
-                    type: DataTypes.BIGINT.UNSIGNED,
+                placeCtgSeq: {
+                    type: DataTypes.SMALLINT.UNSIGNED,
                     allowNull: true,
                     comment: '장소 카테고리 Seq',
                 },
@@ -82,7 +82,7 @@ export class StoreCategory extends Model<StoreCategoryAttributes, StoreCategoryC
                     {
                         name: 'FK_PlaceCategory_TO_StoreCategory',
                         using: 'BTREE',
-                        fields: [{ name: 'placeCtgseq' }],
+                        fields: [{ name: 'placeCtgSeq' }],
                     },
                 ],
             },

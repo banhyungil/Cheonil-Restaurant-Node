@@ -80,7 +80,7 @@
     "spec/**/*.ts",
     "src/config/*.ts",
     "build.ts",
-    "generate-models.ts",
+    "scripts/generate-models.ts",
     "gen-oas-comps.ts",
     "scripts/db-backup.ts",
     "src/openapi/*.ts",

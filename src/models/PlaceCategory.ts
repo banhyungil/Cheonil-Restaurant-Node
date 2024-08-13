@@ -25,7 +25,7 @@ export class PlaceCategory extends Model<PlaceCategoryAttributes, PlaceCategoryC
             {
                 seq: {
                     autoIncrement: true,
-                    type: DataTypes.BIGINT.UNSIGNED,
+                    type: DataTypes.SMALLINT.UNSIGNED,
                     allowNull: false,
                     primaryKey: true,
                     comment: '장소 카테고리 Seq',
