@@ -83,6 +83,18 @@ db.init = async () => {
 
         // 2. 초기 데이터 생성
         await Models.Setting.create({ config: { dbVersion: '1.0.0' } })
+
+        // test
+        // 임시 천일 초기 데이터
+        await (async () => {
+            const filePath = path.join(__dirname, '../resources/db/export_cheonil.sql')
+            const sqlFile = readFileSync(filePath, { encoding: 'utf-8' })
+            const sqls = sqlFile.split(';')
+            for (const sql of sqls) {
+                if (sql.replace(/\s/g, '') == '') return
+                await sequelize.query(sql)
+            }
+        })()
     }
 
     try {
