@@ -8,6 +8,7 @@ async function init() {
         connection: {
             host: 'localhost',
             user: 'root',
+            port: 3307,
             password: 'nice2122!',
             database: 'cheonil',
         },
