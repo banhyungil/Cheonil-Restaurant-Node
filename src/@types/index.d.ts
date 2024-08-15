@@ -26,3 +26,5 @@ namespace IWS {
         responseBody: any
     }
 }
+
+type MySequelizeOrder = Array<[string, 'DESC' | 'ASC']>

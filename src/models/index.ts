@@ -17,12 +17,13 @@ const db = {} as {
     Models: ReturnType<typeof initModels>
 }
 
-const { database, username, password, host, port, dialect } = conifg.database
+const { database, username, password, host, port, dialect, timezone } = conifg.database
 
 const sequelize = new Sequelize(database, username, password, {
     dialect,
     host,
     port,
+    timezone,
 })
 
 const Models = initModels(sequelize)
