@@ -4,7 +4,7 @@ import { MenuCategoryAttributes, MenuCategoryCreationAttributes } from '@src/mod
 import HttpStatusCodes from '@src/common/HttpStatusCodes'
 
 const router = express.Router()
-const { MenuCategory } = DB.Models
+const { MenuCategory, Menu } = DB.Models
 
 router.get('/', async (req, res) => {
     const menueCtgs = await MenuCategory.findAll()
@@ -35,6 +35,13 @@ router.patch('/:seq', async (req, res) => {
 router.delete('/:seq', async (req, res) => {
     const { seq } = req.params
     const delCnt = await MenuCategory.destroy({ where: { seq } })
+    // 관련 메뉴도 모두 삭제
+    await Menu.destroy({
+        where: {
+            ctgSeq: seq,
+        },
+    })
+
     if (delCnt == 0) {
         res.sendStatus(HttpStatusCodes.BAD_REQUEST)
         return

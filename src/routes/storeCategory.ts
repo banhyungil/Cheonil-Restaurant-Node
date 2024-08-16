@@ -5,7 +5,7 @@ import HttpStatusCodes from '@src/common/HttpStatusCodes'
 // import { fileURLToPath } from 'url'
 const router = express.Router()
 
-const { StoreCategory } = DB.Models
+const { StoreCategory, Store } = DB.Models
 router.get('/', async (req, res) => {
     const storeCtgs = await StoreCategory.findAll({ raw: true })
 
@@ -34,8 +34,15 @@ router.patch('/:seq', async (req, res) => {
 })
 
 router.delete('/:seq', async (req, res) => {
-    const { seq } = req.params
+    const seq = +req.params.seq
     const delCnt = await StoreCategory.destroy({ where: { seq } })
+    // 관련 매장도 모두 삭제
+    await Store.destroy({
+        where: {
+            ctgSeq: seq,
+        },
+    })
+
     if (delCnt == 0) {
         res.sendStatus(HttpStatusCodes.BAD_REQUEST)
         return
