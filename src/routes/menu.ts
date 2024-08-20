@@ -12,6 +12,18 @@ router.get('/', async (req, res) => {
     res.status(200).send(menues.map((menu) => menu.toJSON()))
 })
 
+router.get('/:seq', async (req, res) => {
+    const seq = +req.params.seq
+    const menu = await Menu.findOne({ where: { seq } })
+
+    if (menu == null) {
+        res.sendStatus(HttpStatusCodes.BAD_REQUEST)
+        return
+    }
+
+    res.status(200).send(menu.toJSON())
+})
+
 router.post('/', async (req, res) => {
     const body = req.body as MenuCreationAttributes
     const nMenu = await Menu.create(body)
