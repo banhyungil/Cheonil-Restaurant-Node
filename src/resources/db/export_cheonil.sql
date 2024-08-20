@@ -1003,7 +1003,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -1025,7 +1025,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -1047,7 +1047,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -1069,7 +1069,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -1091,7 +1091,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -1113,7 +1113,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -1135,7 +1135,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -1157,7 +1157,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -1179,7 +1179,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -1201,7 +1201,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -1223,7 +1223,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -1245,7 +1245,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -1267,7 +1267,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -1289,7 +1289,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -1311,7 +1311,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -1333,7 +1333,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -1355,7 +1355,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -1377,7 +1377,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -1399,7 +1399,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -1421,7 +1421,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -1443,7 +1443,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -1465,7 +1465,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -1487,7 +1487,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -1509,7 +1509,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -1531,7 +1531,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -1553,7 +1553,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -1575,7 +1575,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -1597,7 +1597,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -1619,7 +1619,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -1641,7 +1641,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -1663,7 +1663,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -1685,7 +1685,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -1707,7 +1707,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -1729,7 +1729,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -1751,7 +1751,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -1773,7 +1773,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -1795,7 +1795,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -1817,7 +1817,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -1839,7 +1839,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -1861,7 +1861,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -1883,7 +1883,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -1905,7 +1905,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -1927,7 +1927,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -1949,7 +1949,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -1971,7 +1971,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -1993,7 +1993,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -2015,7 +2015,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -2037,7 +2037,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -2059,7 +2059,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -2081,7 +2081,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -2103,7 +2103,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -2125,7 +2125,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -2147,7 +2147,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -2169,7 +2169,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -2191,7 +2191,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -2213,7 +2213,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -2235,7 +2235,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -2257,7 +2257,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -2279,7 +2279,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -2301,7 +2301,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -2323,7 +2323,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -2345,7 +2345,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -2367,7 +2367,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -2389,7 +2389,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -2411,7 +2411,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -2433,7 +2433,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -2455,7 +2455,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -2477,7 +2477,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -2499,7 +2499,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -2521,7 +2521,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -2543,7 +2543,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -2565,7 +2565,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )
@@ -2587,7 +2587,7 @@ INSERT INTO
     `amount`,
     `status`,
     `orderAt`,
-    `completeAt`,
+    `cookedAt`,
     `cmt`,
     `updatedAt`
   )

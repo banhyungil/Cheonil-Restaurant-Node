@@ -221,7 +221,7 @@ components:
           description: 주문 시간
           type: string
           format: date-time
-        completeAt:
+        cookedAt:
           description: 조리완료 시간
           type: string
           format: date-time

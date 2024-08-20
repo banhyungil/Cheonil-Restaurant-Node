@@ -132,7 +132,7 @@ CREATE TABLE `MyOrder` (
   `amount` int(10) unsigned NOT NULL COMMENT '총 금액',
   `status` enum('READY','COOKED','PAID') NOT NULL DEFAULT 'READY' COMMENT 'READY: 준비, COOKED: 조리 완료, PAID: 결제 완료',
   `orderAt` timestamp NOT NULL DEFAULT current_timestamp() COMMENT '주문 시간',
-  `completeAt` timestamp NULL DEFAULT NULL COMMENT '조리완료 시간',
+  `cookedAt` timestamp NULL DEFAULT NULL COMMENT '조리완료 시간',
   `cmt` varchar(1000) DEFAULT NULL COMMENT '비고',
   `updatedAt` timestamp NOT NULL DEFAULT current_timestamp() COMMENT '수정시간',
   PRIMARY KEY (`seq`),

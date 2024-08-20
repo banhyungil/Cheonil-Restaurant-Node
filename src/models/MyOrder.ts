@@ -10,7 +10,7 @@ export interface MyOrderAttributes {
     amount: number
     status: 'READY' | 'COOKED' | 'PAID'
     orderAt: Date
-    completeAt?: Date
+    cookedAt?: Date
     cmt?: string
     updatedAt: Date
     orderMenues?: OrderMenu[]
@@ -20,7 +20,7 @@ export interface MyOrderAttributes {
 
 export type MyOrderPk = 'seq'
 export type MyOrderId = MyOrder[MyOrderPk]
-export type MyOrderOptionalAttributes = 'seq' | 'status' | 'orderAt' | 'completeAt' | 'cmt' | 'updatedAt'
+export type MyOrderOptionalAttributes = 'seq' | 'status' | 'orderAt' | 'cookedAt' | 'cmt' | 'updatedAt'
 export type MyOrderCreationAttributes = Optional<MyOrderAttributes, MyOrderOptionalAttributes>
 
 export class MyOrder extends Model<MyOrderAttributes, MyOrderCreationAttributes> implements MyOrderAttributes {
@@ -29,7 +29,7 @@ export class MyOrder extends Model<MyOrderAttributes, MyOrderCreationAttributes>
     amount!: number
     status!: 'READY' | 'COOKED' | 'PAID'
     orderAt!: Date
-    completeAt?: Date
+    cookedAt?: Date
     cmt?: string
     updatedAt!: Date
     orderMenues?: OrderMenu[]
@@ -69,7 +69,7 @@ export class MyOrder extends Model<MyOrderAttributes, MyOrderCreationAttributes>
                     defaultValue: Sequelize.Sequelize.fn('current_timestamp'),
                     comment: '주문 시간',
                 },
-                completeAt: {
+                cookedAt: {
                     type: DataTypes.DATE,
                     allowNull: true,
                     comment: '조리완료 시간',
