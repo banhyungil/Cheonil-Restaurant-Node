@@ -24,6 +24,7 @@ import { NodeEnvs } from '@src/common/misc'
 import swaggerUi from 'swagger-ui-express'
 import { readFileSync } from 'fs'
 import Yaml from 'js-yaml'
+import Interceptor from './interceptor'
 
 // **** Variables **** //
 Db.init()
@@ -36,6 +37,8 @@ const app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser(EnvVars.CookieProps.Secret))
+
+app.use(Interceptor)
 
 // Show routes called in console during development
 if (EnvVars.NodeEnv === NodeEnvs.Dev.valueOf()) {
