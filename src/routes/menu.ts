@@ -32,7 +32,7 @@ router.post('/', async (req, res) => {
 })
 
 router.patch('/:seq', async (req, res) => {
-    const { seq } = req.params
+    const seq = +req.params.seq
     const body = req.body as MenuAttributes
     const [uCnt] = await Menu.update(body, { where: { seq } })
     if (uCnt == 0) {
