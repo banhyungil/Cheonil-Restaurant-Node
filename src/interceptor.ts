@@ -1,7 +1,7 @@
-import Wss, { broadcast } from './ws-server'
+import { broadcast } from './ws-server'
 import { responseHandler } from 'express-intercept'
 import logger from 'jet-logger'
-import HttpStatusCodes from './common/HttpStatusCodes'
+import { WSS } from '.'
 
 // 요청 CUD인 경우 메타정보와 함꼐 응답 내용을 broadcast해준다.
 const Interceptor = responseHandler().replaceBuffer((body, req, res) => {
@@ -35,8 +35,9 @@ const Interceptor = responseHandler().replaceBuffer((body, req, res) => {
         }
 
         logger.info(`sendData: ${JSON.stringify(sendData)}`)
-        Wss.clients.forEach((cl) => {
-            broadcast(JSON.stringify(sendData))
+        logger.info(`clients length: ${Array.from(WSS.clients).length}`)
+        WSS.clients.forEach((cl) => {
+            broadcast(WSS, JSON.stringify(sendData))
         })
     }
 
