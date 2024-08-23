@@ -8,6 +8,7 @@ wss.on('error', console.error)
 
 wss.on('open', function open(ws) {
     logger.info(`websoket open, port: ${+EnvVars.WsPort}`)
+    logger.info(`clients length: ${Array.from(wss.clients).length}`)
 })
 
 /**
