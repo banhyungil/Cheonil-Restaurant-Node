@@ -49,7 +49,7 @@ router.get('/', async (req, res) => {
         const _payWhereOption = {} as Record<string, object>
 
         const orderCols = ['status', 'orderAt']
-        const payCols = ['payAt', 'payTypes']
+        const payCols = ['payAt', 'payType']
         // TODO 타입 오류 정정 필요
         Object.entries(whereOptions as any).forEach(([col, oi]) => {
             const opInfo = oi as object

@@ -14,4 +14,5 @@ server.listen(EnvVars.Port, () => logger.info(SERVER_START_MSG))
 const WsServer = express().listen(+EnvVars.WsPort, '0.0.0.0', () => {
     logger.info('Express server started on port: ' + EnvVars.WsPort.toString())
 })
+
 export const WSS = createWsServer(WsServer)
