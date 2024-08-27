@@ -245,8 +245,9 @@ router.patch('/:seq', async (req, res) => {
         orderMenues: OrderMenuAttributes[]
     }
 
-    await DB.sequelize.transaction(() => {
-        const prms = [MyOrder.update(order, { where: { seq } }), ...orderMenues.map((om) => OrderMenu.upsert(om))]
+    await DB.sequelize.transaction(async () => {
+        await OrderMenu.destroy({ where: { orderSeq: seq } })
+        const prms = [MyOrder.update(order, { where: { seq } }), ...orderMenues.map((om) => OrderMenu.create(om))]
         return Promise.all(prms)
     })
 
