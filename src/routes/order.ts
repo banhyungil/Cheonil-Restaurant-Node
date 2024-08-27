@@ -15,7 +15,7 @@ const router = express.Router()
 const { MyOrder, OrderMenu, Payment, Menu, Store } = DB.Models
 
 interface QueryParams {
-    whereOptions?: WhereOptions<Pick<MyOrderAttributes, 'status' | 'orderAt'> | Pick<PaymentAttributes, 'payAt' | 'payType'>>
+    whereOptions?: WhereOptions<Pick<MyOrderAttributes, 'status' | 'orderAt'> | Pick<PaymentAttributes, 'payAt' | 'payType'> | { storeName: string }>
     limit?: number
     offset?: number
     order?: MySequelizeOrder
@@ -44,12 +44,14 @@ router.get('/', async (req, res) => {
 
     const { whereOptions = {}, limit, offset, order } = oQueryParams as QueryParams
 
-    const { orderWhereOption, payWhereOption } = (() => {
+    const { orderWhereOption, payWhereOption, storeWhereOption } = (() => {
         const _orderWhereOption = {} as Record<string, object>
         const _payWhereOption = {} as Record<string, object>
+        const _storeWhereOption = {} as Record<string, object>
 
         const orderCols = ['status', 'orderAt']
         const payCols = ['payAt', 'payType']
+        const storeCols = ['storeName']
         // TODO 타입 오류 정정 필요
         Object.entries(whereOptions as any).forEach(([col, oi]) => {
             const opInfo = oi as object
@@ -66,12 +68,19 @@ router.get('/', async (req, res) => {
                     _payWhereOption[col] = {
                         [Op[type]]: val,
                     }
+                else if (storeCols.includes(col)) {
+                    const convert = col == 'storeName' ? 'name' : col
+                    _storeWhereOption[convert] = {
+                        [Op[type]]: val,
+                    }
+                }
             })
         })
 
         return {
             orderWhereOption: _.isEmpty(_orderWhereOption) ? undefined : _orderWhereOption,
             payWhereOption: _.isEmpty(_payWhereOption) ? undefined : _payWhereOption,
+            storeWhereOption: _.isEmpty(_storeWhereOption) ? undefined : _storeWhereOption,
         }
     })()
     /* eslint-enable */
@@ -96,6 +105,7 @@ router.get('/', async (req, res) => {
             {
                 model: Store,
                 as: 'store',
+                where: storeWhereOption,
             },
         ],
         where: orderWhereOption,
@@ -111,6 +121,12 @@ router.get('/', async (req, res) => {
                 model: Payment,
                 as: 'payments',
                 where: payWhereOption,
+            },
+            {
+                model: Store,
+                as: 'store',
+                where: storeWhereOption,
+                required: storeWhereOption ? true : false,
             },
         ],
         where: orderWhereOption,
