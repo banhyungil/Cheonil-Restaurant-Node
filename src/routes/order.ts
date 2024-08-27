@@ -111,7 +111,7 @@ router.get('/', async (req, res) => {
         where: orderWhereOption,
         limit: limit ? +limit : undefined,
         offset: offset ? +offset : undefined,
-        order: order ?? [['orderAt', 'DESC']],
+        order: order ?? [['orderAt', 'ASC']],
     })
 
     // paging 생략한 전체 개수
