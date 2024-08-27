@@ -246,8 +246,13 @@ router.patch('/:seq', async (req, res) => {
     }
 
     await DB.sequelize.transaction(async () => {
-        await OrderMenu.destroy({ where: { orderSeq: seq } })
-        const prms = [MyOrder.update(order, { where: { seq } }), ...orderMenues.map((om) => OrderMenu.create(om))]
+        const prms = [MyOrder.update(order, { where: { seq } })] as Promise<any>[]
+        // 주문 메뉴가 있으면 기존 데이터 삭제 후 등록
+        if (orderMenues.length > 0) {
+            await OrderMenu.destroy({ where: { orderSeq: seq } })
+            prms.push(...orderMenues.map((om) => OrderMenu.create(om)))
+        }
+
         return Promise.all(prms)
     })
 
