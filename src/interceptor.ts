@@ -24,7 +24,7 @@ const Interceptor = responseHandler().replaceBuffer((body, req, res) => {
         deleteCols(resBody, DEL_COLS)
     }
 
-    if (req.method == 'POST' || req.method == 'PATCH' || req.method == 'DELETE') {
+    if (req.method == 'POST' || req.method == 'PATCH' || req.method == 'PUT' || req.method == 'DELETE') {
         const { originalUrl, baseUrl, method } = req
         const sendData = {
             url: originalUrl,
