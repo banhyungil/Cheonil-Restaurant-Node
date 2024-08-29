@@ -8,7 +8,8 @@ import storeCategoryRouter from './storeCategory'
 import orderRouter from './order'
 import paymentRouter from './payment'
 import placeCategoryRouter from './placeCategory'
-// import { fileURLToPath } from 'url'
+import settingRouter from './setting'
+
 const apiRouter = Router(),
     validate = jetValidator()
 
@@ -19,5 +20,6 @@ apiRouter.use(Paths.StoreCategory, storeCategoryRouter)
 apiRouter.use(Paths.Order, orderRouter)
 apiRouter.use(Paths.Payment, paymentRouter)
 apiRouter.use(Paths.PlaceCategory, placeCategoryRouter)
+apiRouter.use(Paths.Setting, settingRouter)
 
 export default apiRouter

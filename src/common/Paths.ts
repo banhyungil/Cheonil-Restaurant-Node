@@ -11,4 +11,5 @@ export default {
     Order: '/order',
     Payment: '/payment',
     PlaceCategory: '/placeCategory',
+    Setting: '/setting',
 } as const
