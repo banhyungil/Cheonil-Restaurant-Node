@@ -36,7 +36,7 @@ const INFO = {
     },
     [Codes.ALEADY_EXIST_ID]: {
         errorCode: Codes.ALEADY_EXIST_ID,
-        message: '해당 식별키가 존재하지 않습니다',
+        message: '해당 식별키가 이미 존재합니다.',
     },
     [Codes.BAD_ROUTE_PARAM]: {
         errorCode: Codes.BAD_ROUTE_PARAM,
