@@ -27380,6 +27380,28 @@ VALUES
     NULL,
     '2024-09-07 12:36:40'
   );
+INSERT INTO
+  `MyOrder` (
+    `seq`,
+    `storeSeq`,
+    `amount`,
+    `status`,
+    `orderAt`,
+    `cookedAt`,
+    `cmt`,
+    `updatedAt`
+  )
+VALUES
+  (
+    1306,
+    98,
+    13000,
+    'COOKED',
+    '2024-09-07 13:14:20',
+    '2024-09-07 13:14:38',
+    NULL,
+    '2024-09-07 13:14:20'
+  );
 
 INSERT INTO
   `OrderMenu` (`menuSeq`, `orderSeq`, `price`, `cnt`)
@@ -30145,6 +30167,10 @@ INSERT INTO
   `OrderMenu` (`menuSeq`, `orderSeq`, `price`, `cnt`)
 VALUES
   (3, 1288, 6500, 2);
+INSERT INTO
+  `OrderMenu` (`menuSeq`, `orderSeq`, `price`, `cnt`)
+VALUES
+  (3, 1306, 6500, 2);
 INSERT INTO
   `OrderMenu` (`menuSeq`, `orderSeq`, `price`, `cnt`)
 VALUES
