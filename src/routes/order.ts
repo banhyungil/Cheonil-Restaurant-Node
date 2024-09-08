@@ -136,19 +136,25 @@ router.get('/', async (req, res) => {
 })
 
 // NOTE: 올바른 처리를 위해 동적 라우팅(/:seq) 보다 우선 정의 되어야 함
-router.get('/account', async (req, res) => {
+router.post('/account', async (req, res) => {
+    const { dateRange } = req.body as { dateRange: [Date, Date] }
+
     // query
     const unionSql = `SELECT m.seq
                       FROM cheonil.MyOrder m, Payment p 
                       WHERE m.seq = p.orderSeq 
                       AND status in ('COOKED', 'PAID')
-                      AND p.payAt >= CURDATE()
+                      AND p.payAt BETWEEN $1 AND $2
                       UNION
                       SELECT m.seq 
                       FROM MyOrder m
                       WHERE status in ('COOKED')
-                      AND m.orderAt >= CURDATE()`
-    const results: { seq: number }[] = await DB.sequelize.query(unionSql, { type: QueryTypes.SELECT, raw: true })
+                      AND m.orderAt BETWEEN $1 AND $2`
+    const results: { seq: number }[] = await DB.sequelize.query(unionSql, {
+        type: QueryTypes.SELECT,
+        raw: true,
+        bind: [new Date(dateRange[0]), new Date(dateRange[1])],
+    })
 
     const orders = await MyOrder.findAll({
         include: [
