@@ -15,6 +15,7 @@ async function init() {
         dump: {
             data: {
                 verbose: false,
+                format: false,
             },
         },
     })
