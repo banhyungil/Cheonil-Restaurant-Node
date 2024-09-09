@@ -100,7 +100,7 @@ db.init = async () => {
 
     try {
         await sequelize.transaction(async () => {
-            const dbSetting = await Models.Setting.findOne({ attributes: ['config'] })
+            const dbSetting = await Models.Setting.findOne()
             if (dbSetting == null || dbSetting.config == null) throw new Error('not possible')
 
             const curDbVersion = dbSetting.config.dbVersion

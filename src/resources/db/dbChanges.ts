@@ -14,7 +14,12 @@ interface DbChange {
     cmt: string
 }
 
-const dbChanges = [] as Readonly<DbChange[]>
+const dbChanges = [
+    {
+        version: '1.1.0',
+        cmt: 'timestamp -> datetime 변경',
+    },
+] as Readonly<DbChange[]>
 
 // 오름차순 정렬
 export default dbChanges.toSorted((a, b) => a.version.localeCompare(b.version))
