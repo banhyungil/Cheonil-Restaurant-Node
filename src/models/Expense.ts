@@ -3,7 +3,8 @@ import { DataTypes, Model, Optional } from 'sequelize'
 
 export interface ExpenseAttributes {
     seq: number
-    mapStSplSeq: number
+    storeSeq: number
+    prdSeq: number
     price: number
     amount: number
     cnt: number
@@ -20,7 +21,8 @@ export type ExpenseCreationAttributes = Optional<ExpenseAttributes, ExpenseOptio
 
 export class Expense extends Model<ExpenseAttributes, ExpenseCreationAttributes> implements ExpenseAttributes {
     seq!: number
-    mapStSplSeq!: number
+    storeSeq!: number
+    prdSeq!: number
     price!: number
     amount!: number
     cnt!: number
@@ -40,10 +42,15 @@ export class Expense extends Model<ExpenseAttributes, ExpenseCreationAttributes>
                     primaryKey: true,
                     comment: '지출 Seq',
                 },
-                mapStSplSeq: {
-                    type: DataTypes.BIGINT.UNSIGNED,
+                storeSeq: {
+                    type: DataTypes.SMALLINT.UNSIGNED,
                     allowNull: false,
-                    comment: '매장 제품 맵핑 Seq',
+                    comment: '매장 Seq',
+                },
+                prdSeq: {
+                    type: DataTypes.SMALLINT.UNSIGNED,
+                    allowNull: false,
+                    comment: '제품 Seq',
                 },
                 price: {
                     type: DataTypes.INTEGER.UNSIGNED,
@@ -95,7 +102,7 @@ export class Expense extends Model<ExpenseAttributes, ExpenseCreationAttributes>
                     {
                         name: 'FK_MapStoreProduct_TO_Expense',
                         using: 'BTREE',
-                        fields: [{ name: 'mapStSplSeq' }],
+                        fields: [{ name: 'storeSeq' }, { name: 'prdSeq' }],
                     },
                 ],
             },
