@@ -3,7 +3,7 @@ import { Sequelize } from 'sequelize'
 import conifg from '../config'
 import cls from 'cls-hooked'
 import path from 'path'
-import { readFileSync } from 'fs'
+import { readdirSync, readFileSync } from 'fs'
 import logger from 'jet-logger'
 import _ from 'lodash'
 import dbChanges from '@src/resources/db/dbChanges'
@@ -52,9 +52,8 @@ db.init = async () => {
         (
             await sequelize.query(
                 `SELECT COUNT(*) as cnt
-                                        FROM INFORMATION_SCHEMA.TABLES
-                                        WHERE TABLE_SCHEMA = '${database}'
-                                        AND TABLE_NAME = 'MyOrder';`,
+                 FROM INFORMATION_SCHEMA.TABLES
+                 WHERE TABLE_SCHEMA = '${database}';`,
                 {},
             )
         )[0][0] as { cnt: number }
@@ -72,30 +71,19 @@ db.init = async () => {
             }
         })()
 
-        await (async () => {
-            const filePath = path.join(__dirname, '../resources/db/ddl/외래키 삭제.sql')
-            const sql = readFileSync(filePath, { encoding: 'utf-8' })
-            const ddls = sql.split('\n')
-            for (const ddl of ddls) {
-                if (ddl.replace(/\s/g, '') == '') return
-                await sequelize.query(ddl)
-            }
-        })()
-
         // 2. 초기 데이터 생성
-        await Models.Setting.create({ config: { dbVersion: '1.0.0' } })
-
-        // test
-        // 임시 천일 초기 데이터
-        await (async () => {
-            const filePath = path.join(__dirname, '../resources/db/export_cheonil.sql')
-            const sqlFile = readFileSync(filePath, { encoding: 'utf-8' })
-            const sqls = sqlFile.split(';')
-            for (const sql of sqls) {
-                if (sql.replace(/\s/g, '') == '') return
-                await sequelize.query(sql)
-            }
+        const latestDbVersion = (() => {
+            const dirPath = path.join(__dirname, '../resources/db/changes')
+            const files = readdirSync(dirPath)
+            return (
+                files
+                    .filter((file) => file.includes('.sql'))
+                    .sort()
+                    .pop()
+                    ?.replace('.sql', '') ?? '1.0.0'
+            )
         })()
+        await Models.Setting.create({ config: { dbVersion: latestDbVersion } })
     }
 
     try {

@@ -23,6 +23,10 @@ const dbChanges = [
         version: '1.2.0',
         cmt: '지출 내역 관련 테이블 생성',
     },
+    {
+        version: '1.2.1',
+        cmt: '지출 내역 관련 테이블 생성(2)',
+    },
 ] as Readonly<DbChange[]>
 
 // 오름차순 정렬
