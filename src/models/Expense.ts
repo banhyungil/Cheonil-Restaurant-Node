@@ -3,26 +3,30 @@ import { DataTypes, Model, Optional } from 'sequelize'
 
 export interface ExpenseAttributes {
     seq: number
-    supplySeq: number
+    mapStSplSeq: number
+    price: number
     amount: number
     cnt: number
     expenseAt: Date
     cmt?: string
+    options?: string
     updatedAt?: Date
 }
 
 export type ExpensePk = 'seq'
 export type ExpenseId = Expense[ExpensePk]
-export type ExpenseOptionalAttributes = 'seq' | 'cmt' | 'updatedAt'
+export type ExpenseOptionalAttributes = 'seq' | 'cmt' | 'options' | 'updatedAt'
 export type ExpenseCreationAttributes = Optional<ExpenseAttributes, ExpenseOptionalAttributes>
 
 export class Expense extends Model<ExpenseAttributes, ExpenseCreationAttributes> implements ExpenseAttributes {
     seq!: number
-    supplySeq!: number
+    mapStSplSeq!: number
+    price!: number
     amount!: number
     cnt!: number
     expenseAt!: Date
     cmt?: string
+    options?: string
     updatedAt?: Date
 
     static initModel(sequelize: Sequelize.Sequelize): typeof Expense {
@@ -36,10 +40,15 @@ export class Expense extends Model<ExpenseAttributes, ExpenseCreationAttributes>
                     primaryKey: true,
                     comment: '지출 Seq',
                 },
-                supplySeq: {
-                    type: DataTypes.SMALLINT.UNSIGNED,
+                mapStSplSeq: {
+                    type: DataTypes.BIGINT.UNSIGNED,
                     allowNull: false,
-                    comment: '식자재 Seq',
+                    comment: '매장 제품 맵핑 Seq',
+                },
+                price: {
+                    type: DataTypes.INTEGER.UNSIGNED,
+                    allowNull: false,
+                    comment: '가격',
                 },
                 amount: {
                     type: DataTypes.INTEGER.UNSIGNED,
@@ -54,12 +63,17 @@ export class Expense extends Model<ExpenseAttributes, ExpenseCreationAttributes>
                 expenseAt: {
                     type: DataTypes.DATE,
                     allowNull: false,
-                    comment: '지출 날짜',
+                    comment: '지출일',
                 },
                 cmt: {
                     type: DataTypes.STRING(100),
                     allowNull: true,
                     comment: '비고',
+                },
+                options: {
+                    type: DataTypes.TEXT,
+                    allowNull: true,
+                    comment: '추가 정보',
                 },
                 updatedAt: {
                     type: DataTypes.DATE,
@@ -79,9 +93,9 @@ export class Expense extends Model<ExpenseAttributes, ExpenseCreationAttributes>
                         fields: [{ name: 'seq' }],
                     },
                     {
-                        name: 'FK_Supply_TO_Expense',
+                        name: 'FK_MapStoreProduct_TO_Expense',
                         using: 'BTREE',
-                        fields: [{ name: 'supplySeq' }],
+                        fields: [{ name: 'mapStSplSeq' }],
                     },
                 ],
             },

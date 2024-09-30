@@ -1,39 +1,48 @@
 import * as Sequelize from 'sequelize'
 import { DataTypes, Model, Optional } from 'sequelize'
 
-export interface SupplyAttributes {
+export interface ProductAttributes {
     seq: number
+    splSeq: number
     name: string
-    unitList: string
-    unitCntList?: string
+    unit?: string
+    unitCnt?: number
+    cmt?: string
     options?: string
     createdAt?: Date
     updatedAt?: Date
 }
 
-export type SupplyPk = 'seq'
-export type SupplyId = Supply[SupplyPk]
-export type SupplyOptionalAttributes = 'seq' | 'unitCntList' | 'options' | 'createdAt' | 'updatedAt'
-export type SupplyCreationAttributes = Optional<SupplyAttributes, SupplyOptionalAttributes>
+export type ProductPk = 'seq'
+export type ProductId = Product[ProductPk]
+export type ProductOptionalAttributes = 'seq' | 'unit' | 'unitCnt' | 'cmt' | 'options' | 'createdAt' | 'updatedAt'
+export type ProductCreationAttributes = Optional<ProductAttributes, ProductOptionalAttributes>
 
-export class Supply extends Model<SupplyAttributes, SupplyCreationAttributes> implements SupplyAttributes {
+export class Product extends Model<ProductAttributes, ProductCreationAttributes> implements ProductAttributes {
     seq!: number
+    splSeq!: number
     name!: string
-    unitList!: string
-    unitCntList?: string
+    unit?: string
+    unitCnt?: number
+    cmt?: string
     options?: string
     createdAt?: Date
     updatedAt?: Date
 
-    static initModel(sequelize: Sequelize.Sequelize): typeof Supply {
+    static initModel(sequelize: Sequelize.Sequelize): typeof Product {
         return sequelize.define(
-            'Supply',
+            'Product',
             {
                 seq: {
                     autoIncrement: true,
                     type: DataTypes.SMALLINT.UNSIGNED,
                     allowNull: false,
                     primaryKey: true,
+                    comment: '제품 Seq',
+                },
+                splSeq: {
+                    type: DataTypes.SMALLINT.UNSIGNED,
+                    allowNull: false,
                     comment: '식자재 Seq',
                 },
                 name: {
@@ -41,15 +50,20 @@ export class Supply extends Model<SupplyAttributes, SupplyCreationAttributes> im
                     allowNull: false,
                     comment: '식자재 명',
                 },
-                unitList: {
-                    type: DataTypes.TEXT,
-                    allowNull: false,
-                    comment: '단위 목록',
-                },
-                unitCntList: {
-                    type: DataTypes.TEXT,
+                unit: {
+                    type: DataTypes.STRING(40),
                     allowNull: true,
-                    comment: '단위수량 목록',
+                    comment: '단위',
+                },
+                unitCnt: {
+                    type: DataTypes.SMALLINT.UNSIGNED,
+                    allowNull: true,
+                    comment: '단위수량',
+                },
+                cmt: {
+                    type: DataTypes.STRING(200),
+                    allowNull: true,
+                    comment: '비고',
                 },
                 options: {
                     type: DataTypes.TEXT,
@@ -70,7 +84,7 @@ export class Supply extends Model<SupplyAttributes, SupplyCreationAttributes> im
                 },
             },
             {
-                tableName: 'Supply',
+                tableName: 'Product',
                 timestamps: false,
                 indexes: [
                     {
@@ -79,8 +93,13 @@ export class Supply extends Model<SupplyAttributes, SupplyCreationAttributes> im
                         using: 'BTREE',
                         fields: [{ name: 'seq' }],
                     },
+                    {
+                        name: 'FK_Supply_TO_Product',
+                        using: 'BTREE',
+                        fields: [{ name: 'splSeq' }],
+                    },
                 ],
             },
-        ) as typeof Supply
+        ) as typeof Product
     }
 }

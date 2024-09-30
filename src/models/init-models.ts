@@ -1,6 +1,8 @@
 import type { Sequelize } from 'sequelize'
 import { Expense as _Expense } from './Expense'
 import type { ExpenseAttributes, ExpenseCreationAttributes } from './Expense'
+import { MapStoreProduct as _MapStoreProduct } from './MapStoreProduct'
+import type { MapStoreProductAttributes, MapStoreProductCreationAttributes } from './MapStoreProduct'
 import { Menu as _Menu } from './Menu'
 import type { MenuAttributes, MenuCreationAttributes } from './Menu'
 import { MenuCategory as _MenuCategory } from './MenuCategory'
@@ -17,17 +19,22 @@ import { Payment as _Payment } from './Payment'
 import type { PaymentAttributes, PaymentCreationAttributes } from './Payment'
 import { PlaceCategory as _PlaceCategory } from './PlaceCategory'
 import type { PlaceCategoryAttributes, PlaceCategoryCreationAttributes } from './PlaceCategory'
+import { Product as _Product } from './Product'
+import type { ProductAttributes, ProductCreationAttributes } from './Product'
 import { Setting as _Setting } from './Setting'
 import type { SettingAttributes, SettingCreationAttributes } from './Setting'
 import { Store as _Store } from './Store'
 import type { StoreAttributes, StoreCreationAttributes } from './Store'
 import { StoreCategory as _StoreCategory } from './StoreCategory'
 import type { StoreCategoryAttributes, StoreCategoryCreationAttributes } from './StoreCategory'
+import { StoreExpenseLog as _StoreExpenseLog } from './StoreExpenseLog'
+import type { StoreExpenseLogAttributes, StoreExpenseLogCreationAttributes } from './StoreExpenseLog'
 import { Supply as _Supply } from './Supply'
 import type { SupplyAttributes, SupplyCreationAttributes } from './Supply'
 
 export {
     _Expense as Expense,
+    _MapStoreProduct as MapStoreProduct,
     _Menu as Menu,
     _MenuCategory as MenuCategory,
     _MyOrder as MyOrder,
@@ -36,15 +43,19 @@ export {
     _OrderRsv as OrderRsv,
     _Payment as Payment,
     _PlaceCategory as PlaceCategory,
+    _Product as Product,
     _Setting as Setting,
     _Store as Store,
     _StoreCategory as StoreCategory,
+    _StoreExpenseLog as StoreExpenseLog,
     _Supply as Supply,
 }
 
 export type {
     ExpenseAttributes,
     ExpenseCreationAttributes,
+    MapStoreProductAttributes,
+    MapStoreProductCreationAttributes,
     MenuAttributes,
     MenuCreationAttributes,
     MenuCategoryAttributes,
@@ -61,18 +72,23 @@ export type {
     PaymentCreationAttributes,
     PlaceCategoryAttributes,
     PlaceCategoryCreationAttributes,
+    ProductAttributes,
+    ProductCreationAttributes,
     SettingAttributes,
     SettingCreationAttributes,
     StoreAttributes,
     StoreCreationAttributes,
     StoreCategoryAttributes,
     StoreCategoryCreationAttributes,
+    StoreExpenseLogAttributes,
+    StoreExpenseLogCreationAttributes,
     SupplyAttributes,
     SupplyCreationAttributes,
 }
 
 export function initModels(sequelize: Sequelize) {
     const Expense = _Expense.initModel(sequelize)
+    const MapStoreProduct = _MapStoreProduct.initModel(sequelize)
     const Menu = _Menu.initModel(sequelize)
     const MenuCategory = _MenuCategory.initModel(sequelize)
     const MyOrder = _MyOrder.initModel(sequelize)
@@ -81,13 +97,16 @@ export function initModels(sequelize: Sequelize) {
     const OrderRsv = _OrderRsv.initModel(sequelize)
     const Payment = _Payment.initModel(sequelize)
     const PlaceCategory = _PlaceCategory.initModel(sequelize)
+    const Product = _Product.initModel(sequelize)
     const Setting = _Setting.initModel(sequelize)
     const Store = _Store.initModel(sequelize)
     const StoreCategory = _StoreCategory.initModel(sequelize)
+    const StoreExpenseLog = _StoreExpenseLog.initModel(sequelize)
     const Supply = _Supply.initModel(sequelize)
 
     return {
         Expense: Expense,
+        MapStoreProduct: MapStoreProduct,
         Menu: Menu,
         MenuCategory: MenuCategory,
         MyOrder: MyOrder,
@@ -96,9 +115,11 @@ export function initModels(sequelize: Sequelize) {
         OrderRsv: OrderRsv,
         Payment: Payment,
         PlaceCategory: PlaceCategory,
+        Product: Product,
         Setting: Setting,
         Store: Store,
         StoreCategory: StoreCategory,
+        StoreExpenseLog: StoreExpenseLog,
         Supply: Supply,
     }
 }
