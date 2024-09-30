@@ -31,17 +31,13 @@ CREATE TABLE `Product` (
   KEY `FK_Supply_TO_Product` (`splSeq`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='제품';
 
-
 -- cheonil.MapStoreProduct definition
 
 CREATE TABLE `MapStoreProduct` (
-  `seq` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '맵핑 Seq',
   `storeSeq` smallint(5) unsigned NOT NULL COMMENT '매장 Seq',
   `prdSeq` smallint(5) unsigned NOT NULL COMMENT '제품 Seq',
-  `unitCnt` smallint(5) unsigned DEFAULT NULL COMMENT '단위수량',
   `options` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '추가 정보' CHECK (json_valid(`options`)),
-  PRIMARY KEY (`seq`),
-  KEY `FK_Store_TO_MapStoreProduct` (`storeSeq`),
+  PRIMARY KEY (`storeSeq`,`prdSeq`),
   KEY `FK_Product_TO_MapStoreProduct` (`prdSeq`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='매장/제품 맵핑';
 
@@ -49,7 +45,8 @@ CREATE TABLE `MapStoreProduct` (
 
 CREATE TABLE `Expense` (
   `seq` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '지출 Seq',
-  `mapStSplSeq` bigint(20) unsigned NOT NULL COMMENT '매장 제품 맵핑 Seq',
+  `storeSeq` smallint(5) unsigned NOT NULL COMMENT '매장 Seq',
+  `prdSeq` smallint(5) unsigned NOT NULL COMMENT '제품 Seq',
   `price` int(10) unsigned NOT NULL COMMENT '가격',
   `amount` int(10) unsigned NOT NULL COMMENT '금액',
   `cnt` smallint(5) unsigned NOT NULL COMMENT '수량',
@@ -58,5 +55,5 @@ CREATE TABLE `Expense` (
   `options` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '추가 정보' CHECK (json_valid(`options`)),
   `updatedAt` datetime DEFAULT current_timestamp() COMMENT '수정시간',
   PRIMARY KEY (`seq`),
-  KEY `FK_MapStoreProduct_TO_Expense` (`mapStSplSeq`)
+  KEY `FK_MapStoreProduct_TO_Expense` (`storeSeq`,`prdSeq`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='지출';
