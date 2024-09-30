@@ -5,7 +5,7 @@ export interface ProductAttributes {
     seq: number
     splSeq: number
     name: string
-    unit?: string
+    unit: string
     unitCnt?: number
     cmt?: string
     options?: string
@@ -15,14 +15,14 @@ export interface ProductAttributes {
 
 export type ProductPk = 'seq'
 export type ProductId = Product[ProductPk]
-export type ProductOptionalAttributes = 'seq' | 'unit' | 'unitCnt' | 'cmt' | 'options' | 'createdAt' | 'updatedAt'
+export type ProductOptionalAttributes = 'seq' | 'unitCnt' | 'cmt' | 'options' | 'createdAt' | 'updatedAt'
 export type ProductCreationAttributes = Optional<ProductAttributes, ProductOptionalAttributes>
 
 export class Product extends Model<ProductAttributes, ProductCreationAttributes> implements ProductAttributes {
     seq!: number
     splSeq!: number
     name!: string
-    unit?: string
+    unit!: string
     unitCnt?: number
     cmt?: string
     options?: string
@@ -52,7 +52,7 @@ export class Product extends Model<ProductAttributes, ProductCreationAttributes>
                 },
                 unit: {
                     type: DataTypes.STRING(40),
-                    allowNull: true,
+                    allowNull: false,
                     comment: '단위',
                 },
                 unitCnt: {
