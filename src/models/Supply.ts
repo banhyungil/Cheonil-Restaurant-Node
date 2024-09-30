@@ -4,8 +4,8 @@ import { DataTypes, Model, Optional } from 'sequelize'
 export interface SupplyAttributes {
     seq: number
     name: string
-    unitList: string
-    unitCntList?: string
+    unitList: string[]
+    unitCntList?: number[]
     options?: string
     createdAt?: Date
     updatedAt?: Date
@@ -19,8 +19,8 @@ export type SupplyCreationAttributes = Optional<SupplyAttributes, SupplyOptional
 export class Supply extends Model<SupplyAttributes, SupplyCreationAttributes> implements SupplyAttributes {
     seq!: number
     name!: string
-    unitList!: string
-    unitCntList?: string
+    unitList!: string[]
+    unitCntList?: number[]
     options?: string
     createdAt?: Date
     updatedAt?: Date
@@ -45,6 +45,12 @@ export class Supply extends Model<SupplyAttributes, SupplyCreationAttributes> im
                     type: DataTypes.TEXT,
                     allowNull: false,
                     comment: '단위 목록',
+                    get: function () {
+                        return JSON.parse(this.getDataValue('unitList') as any)
+                    },
+                    set: function (val) {
+                        this.setDataValue('unitList', JSON.stringify(val) as any)
+                    },
                 },
                 unitCntList: {
                     type: DataTypes.TEXT,

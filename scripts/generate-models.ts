@@ -35,6 +35,7 @@ function getSequelizeAuto(options?: Partial<AutoOptions>) {
                 timestamps: false,
                 // ...options added to each model
             },
+            // tables: ['Product'],
             caseFile: 'p',
             // caseModel: 'p',
             // caseProp: 'c',

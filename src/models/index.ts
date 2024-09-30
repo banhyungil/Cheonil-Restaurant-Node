@@ -1,4 +1,4 @@
-import { initModels } from './init-models'
+import { Expense, initModels } from './init-models'
 import { Sequelize } from 'sequelize'
 import conifg from '../config'
 import cls from 'cls-hooked'
@@ -28,7 +28,7 @@ const sequelize = new Sequelize(database, username, password, {
 
 const Models = initModels(sequelize)
 
-const { MyOrder, OrderMenu, Menu, Store, Payment } = Models
+const { MyOrder, OrderMenu, Menu, Store, Payment, Product, Supply } = Models
 MyOrder.hasMany(OrderMenu, { foreignKey: 'orderSeq', as: 'orderMenues' })
 MyOrder.hasMany(Payment, { foreignKey: 'orderSeq', as: 'payments' })
 OrderMenu.belongsTo(MyOrder, { foreignKey: 'orderSeq', as: 'orderMenues' })
@@ -36,6 +36,10 @@ Payment.belongsTo(MyOrder, { foreignKey: 'orderSeq', as: 'payments' })
 
 MyOrder.belongsTo(Store, { foreignKey: 'storeSeq', as: 'store' })
 OrderMenu.belongsTo(Menu, { foreignKey: 'menuSeq', as: 'menu' })
+Product.belongsTo(Supply, { foreignKey: 'splSeq', as: 'supply' })
+Supply.hasMany(Product, { foreignKey: 'splSeq', as: 'product' })
+Expense.belongsTo(Product, { foreignKey: 'prdSeq', as: 'product' })
+Expense.belongsTo(Store, { foreignKey: 'storeSeq', as: 'store' })
 // MenuCategory.hasMany(Menu)
 // StoreCategory.hasMany(Store)
 
