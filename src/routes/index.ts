@@ -8,6 +8,8 @@ import storeCategoryRouter from './storeCategory'
 import orderRouter from './order'
 import paymentRouter from './payment'
 import placeCategoryRouter from './placeCategory'
+import supplyRouter from './supply'
+import productRouter from './product'
 import settingRouter from './setting'
 
 const apiRouter = Router(),
@@ -20,6 +22,8 @@ apiRouter.use(Paths.StoreCategory, storeCategoryRouter)
 apiRouter.use(Paths.Order, orderRouter)
 apiRouter.use(Paths.Payment, paymentRouter)
 apiRouter.use(Paths.PlaceCategory, placeCategoryRouter)
+apiRouter.use(Paths.Supply, supplyRouter)
+apiRouter.use(Paths.Product, productRouter)
 apiRouter.use(Paths.Setting, settingRouter)
 
 export default apiRouter

@@ -1,3 +1,6 @@
+import { Response } from 'express'
+import HttpStatusCodes from './HttpStatusCodes'
+
 // 대분류 100 단위, 중분류 10 단위, 소분류 1씩 증가
 export enum Codes {
     // 1 ~ 99 인증
@@ -9,6 +12,7 @@ export enum Codes {
     NOT_EXIST_ID = 100,
     ALEADY_EXIST_ID = 101,
     BAD_ROUTE_PARAM = 110,
+    BAD_BODY = 120,
     // 200 ~ * 리소스 관련
     IMPOSSIBLE_ASSIGN = 200,
 }
@@ -42,6 +46,10 @@ const INFO = {
         errorCode: Codes.BAD_ROUTE_PARAM,
         message: '잘못된 경로 파라미터 입니다.',
     },
+    [Codes.BAD_BODY]: {
+        errorCode: Codes.BAD_BODY,
+        message: '잘못된 요청 본문 입니다.',
+    },
     [Codes.IMPOSSIBLE_ASSIGN]: {
         errorCode: Codes.IMPOSSIBLE_ASSIGN,
         message: '할당이 불가능한 개소가 존재 합니다.',
@@ -52,4 +60,18 @@ function get(code: Codes) {
     return INFO[code]
 }
 
-export const ResponseError = { INFO, get }
+function getBadBody(keys: string[]) {
+    return { ...get(Codes.BAD_BODY), keys }
+}
+
+export function converNumRes(val: string, res: Response) {
+    const result = +val
+    if (isNaN(result)) {
+        res.status(HttpStatusCodes.BAD_REQUEST).send(ResponseError.get(Codes.BAD_ROUTE_PARAM))
+        return 0
+    } else {
+        return result
+    }
+}
+
+export const ResponseError = { INFO, get, getBadBody }

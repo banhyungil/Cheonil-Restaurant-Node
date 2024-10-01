@@ -3,39 +3,60 @@ import { Router } from 'express'
 import DB from '../models'
 import HttpStatusCodes from '@src/common/HttpStatusCodes'
 import { ProductAttributes, ProductCreationAttributes } from '@src/models/Product'
-import { SupplyAttributes, SupplyCreationAttributes } from '@src/models/Supply'
+import SupplyService from '@src/services/SupplyService'
+import { Codes, ResponseError } from '@src/common/ResponseError'
 
 const router = Router()
-const { Product, Supply } = DB.Models
+const { Product } = DB.Models
 
-router.get(Paths.Product, async (req, res) => {
+router.get('/', async (req, res) => {
     const products = await Product.findAll({ include: 'supply' })
 
     return res.status(HttpStatusCodes.OK).send(products.map((item) => item.toJSON()))
 })
 
-router.post(Paths.Product, async (req, res) => {
+router.post('/', async (req, res) => {
     const body = req.body as ProductCreationAttributes
-    const supply = await Supply.findOne({ where: { seq: body.splSeq } })
-    if (supply == null) throw new Error('not possible')
+    const result = await SupplyService.updateUnitList(body.splSeq, body.unit, body.unitCnt)
+    if (result == null) {
+        res.status(HttpStatusCodes.BAD_REQUEST).send(ResponseError.getBadBody(['splSeq']))
+        return
+    }
 
-    const { unit, unitCnt } = body
-    if (supply.unitList.includes(unit) == false) {
-        supply.unitList.push(unit)
-    }
-    if (unitCnt) {
-        if (supply.unitCntList == null) supply.unitCntList = []
-        if (supply.unitCntList.includes(unitCnt) == false) {
-            supply.unitCntList.push(unitCnt)
-        }
-    }
-    await supply.save()
     const nProduct = await Product.create(body)
 
-    return res.status(HttpStatusCodes.CREATED).send({ supply: supply.toJSON(), product: nProduct.toJSON() })
+    return res.status(HttpStatusCodes.CREATED).send({ supply: result.supply.toJSON(), product: nProduct.toJSON() })
 })
 
-router.patch(`${Paths.Product}/:seq`, async (req, res) => {
+router.patch('/:seq', async (req, res) => {
     const body = req.body as ProductAttributes
-    const seq = req.params.seq
+    const seq = +req.params.seq
+    // validation
+    if (isNaN(seq)) res.status(HttpStatusCodes.BAD_REQUEST).send(ResponseError.get(Codes.BAD_ROUTE_PARAM))
+
+    const [uCnt] = await Product.update(body, { where: { seq } })
+    if (uCnt == 0) res.status(HttpStatusCodes.BAD_REQUEST).send(ResponseError.get(Codes.NOT_EXIST_ID))
+
+    const result = await SupplyService.updateUnitList(body.splSeq, body.unit, body.unitCnt)
+    if (result == null) {
+        res.status(HttpStatusCodes.BAD_REQUEST).send(ResponseError.getBadBody(['splSeq']))
+        return
+    }
+    // validation end
+
+    const uProduct = await Product.findOne({ where: { seq } })
+    res.status(HttpStatusCodes.OK).send({ supply: result.supply.toJSON(), product: uProduct!.toJSON() })
 })
+
+router.delete('/:seq', async (req, res) => {
+    const seq = +req.params.seq
+    // validation
+    if (isNaN(seq)) res.status(HttpStatusCodes.BAD_REQUEST).send(ResponseError.get(Codes.BAD_ROUTE_PARAM))
+
+    const delCnt = await Product.destroy({ where: { seq } })
+    if (delCnt == 0) res.status(HttpStatusCodes.BAD_REQUEST).send(ResponseError.get(Codes.NOT_EXIST_ID))
+    // validation end
+    res.sendStatus(HttpStatusCodes.NO_CONTENT)
+})
+
+export default router

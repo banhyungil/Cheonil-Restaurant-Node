@@ -6,9 +6,10 @@ import { Op, Order, QueryTypes, Sequelize, WhereOptions } from 'sequelize'
 import qs from 'qs'
 import HttpStatusCodes from '@src/common/HttpStatusCodes'
 import OrderService from '@src/services/OrderService'
-import { PaymentAttributes } from '@src/models/Payment'
+import { PaymentAttributes, PaymentCreationAttributes } from '@src/models/Payment'
 import _ from 'lodash'
 import { today } from '@src/util/common'
+import { Codes, converNumRes, ResponseError } from '@src/common/ResponseError'
 
 const router = express.Router()
 
@@ -240,6 +241,57 @@ router.post('/', async (req, res) => {
     }
 
     res.status(HttpStatusCodes.CREATED).send(nMyOrder.toJSON())
+})
+
+router.post('/collect/:seq', async (req, res) => {
+    const payments = req.body as PaymentCreationAttributes[]
+    const seq = converNumRes(req.params.seq, res)
+
+    const result = await OrderService.collect(seq, payments)
+    if (result == null) {
+        res.status(HttpStatusCodes.BAD_GATEWAY).send(ResponseError.get(Codes.NOT_EXIST_ID))
+        return
+    }
+
+    res.status(HttpStatusCodes.CREATED).send({ order: result.order, payments: result.payments })
+})
+
+router.post('/collect', async (req, res) => {
+    const arr = req.body as { seq: number; payments: PaymentCreationAttributes[] }[]
+
+    const resDataList = await Promise.all(
+        arr.map((item) => {
+            return OrderService.collect(item.seq, item.payments)
+        }),
+    )
+    if (resDataList.includes(null)) res.status(HttpStatusCodes.BAD_REQUEST).send(ResponseError.get(Codes.NOT_EXIST_ID))
+
+    res.status(HttpStatusCodes.CREATED).send(resDataList)
+})
+
+router.post('/cancelCollect/:seq', async (req, res) => {
+    const seq = converNumRes(req.params.seq, res)
+    const result = await OrderService.cancelCollect(seq)
+    if (result == null) {
+        res.status(HttpStatusCodes.BAD_REQUEST).send(ResponseError.get(Codes.NOT_EXIST_ID))
+        return
+    }
+
+    res.status(HttpStatusCodes.OK).send({ order: result.order, paymentSeqs: result.paymentSeqs })
+})
+
+router.post('/cancelCollect', async (req, res) => {
+    const seqs = req.body as number[]
+
+    const results = await Promise.all(
+        seqs.map((seq) => {
+            return OrderService.cancelCollect(seq)
+        }),
+    )
+
+    if (results.includes(null)) res.status(HttpStatusCodes.BAD_REQUEST).send(ResponseError.get(Codes.NOT_EXIST_ID))
+
+    res.status(HttpStatusCodes.OK).send(results)
 })
 
 // 주문 변경

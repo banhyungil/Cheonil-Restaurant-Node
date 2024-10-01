@@ -3,16 +3,23 @@ import express from 'express'
 import DB from '@src/models'
 import HttpStatusCodes from '@src/common/HttpStatusCodes'
 import { Op } from 'sequelize'
+import { Codes, ResponseError } from '@src/common/ResponseError'
 
 const router = express.Router()
-const { Payment } = DB.Models
+const { Payment, MyOrder } = DB.Models
 
 router.post('/', async (req, res) => {
     const body = req.body as PaymentCreationAttributes
 
+    const order = await MyOrder.findOne({ where: { seq: body.orderSeq } })
+    if (order == null) {
+        res.status(HttpStatusCodes.BAD_REQUEST).send(ResponseError.getBadBody(['orderSeq']))
+        return
+    }
     const nPayment = await Payment.create(body)
-
-    res.status(HttpStatusCodes.CREATED).send(nPayment.toJSON())
+    order.status = 'PAID'
+    order.save()
+    res.status(HttpStatusCodes.CREATED).send({ payment: nPayment.toJSON(), order: order.toJSON() })
 })
 
 router.patch('/:seq', async (req, res) => {
@@ -30,22 +37,30 @@ router.patch('/:seq', async (req, res) => {
 })
 
 router.post('/batch/delete', async (req, res) => {
-    const seqs = req.body as PaymentAttributes['seq'][]
+    const payemnts = req.body as PaymentAttributes[]
 
     const delCnt = await Payment.destroy({
         where: {
             seq: {
-                [Op.in]: seqs,
+                [Op.in]: payemnts.map((p) => p.seq),
             },
         },
     })
 
     if (delCnt == 0) {
-        res.sendStatus(HttpStatusCodes.BAD_REQUEST)
+        res.status(HttpStatusCodes.BAD_REQUEST).send(ResponseError.get(Codes.NOT_EXIST_ID))
         return
     }
 
-    res.sendStatus(HttpStatusCodes.NO_CONTENT)
+    const uOrders = await MyOrder.findAll({ where: { seq: { [Op.in]: payemnts.map((p) => p.orderSeq) } } })
+    await Promise.all(
+        uOrders.map((od) => {
+            od.status = 'COOKED'
+            return od.save()
+        }),
+    )
+
+    res.status(HttpStatusCodes.OK).send({ orders: uOrders.map((od) => od.toJSON()) })
 })
 
 export default router

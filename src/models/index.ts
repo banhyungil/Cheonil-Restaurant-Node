@@ -1,4 +1,4 @@
-import { Expense, initModels } from './init-models'
+import { initModels } from './init-models'
 import { Sequelize } from 'sequelize'
 import conifg from '../config'
 import cls from 'cls-hooked'
@@ -28,7 +28,7 @@ const sequelize = new Sequelize(database, username, password, {
 
 const Models = initModels(sequelize)
 
-const { MyOrder, OrderMenu, Menu, Store, Payment, Product, Supply } = Models
+const { MyOrder, OrderMenu, Menu, Store, Payment, Product, Supply, Expense } = Models
 MyOrder.hasMany(OrderMenu, { foreignKey: 'orderSeq', as: 'orderMenues' })
 MyOrder.hasMany(Payment, { foreignKey: 'orderSeq', as: 'payments' })
 OrderMenu.belongsTo(MyOrder, { foreignKey: 'orderSeq', as: 'orderMenues' })
