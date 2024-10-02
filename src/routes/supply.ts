@@ -3,7 +3,7 @@ import DB from '../models'
 import Paths from '@src/common/Paths'
 import HttpStatusCodes from '@src/common/HttpStatusCodes'
 import { SupplyAttributes, SupplyCreationAttributes } from '@src/models/Supply'
-import { Codes, ResponseError } from '@src/common/ResponseError'
+import { Codes, converNumRes, ResponseError } from '@src/common/ResponseError'
 
 const router = Router()
 const { Supply } = DB.Models
@@ -12,6 +12,17 @@ router.get('/', async (req, res) => {
     const list = await Supply.findAll()
 
     return res.status(HttpStatusCodes.OK).send(list.map((item) => item.toJSON()))
+})
+
+router.get('/:seq', async (req, res) => {
+    const seq = converNumRes(req.params.seq, res)
+    const supply = await Supply.findOne({ where: { seq } })
+    if (supply == null) {
+        res.status(HttpStatusCodes.BAD_REQUEST).send(ResponseError.get(Codes.NOT_EXIST_ID))
+        return
+    }
+
+    return res.status(HttpStatusCodes.OK).send(supply.toJSON())
 })
 
 router.post('/', async (req, res) => {

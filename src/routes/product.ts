@@ -4,7 +4,7 @@ import DB from '../models'
 import HttpStatusCodes from '@src/common/HttpStatusCodes'
 import { ProductAttributes, ProductCreationAttributes } from '@src/models/Product'
 import SupplyService from '@src/services/SupplyService'
-import { Codes, ResponseError } from '@src/common/ResponseError'
+import { Codes, converNumRes, ResponseError } from '@src/common/ResponseError'
 
 const router = Router()
 const { Product } = DB.Models
@@ -13,6 +13,17 @@ router.get('/', async (req, res) => {
     const products = await Product.findAll({ include: 'supply' })
 
     return res.status(HttpStatusCodes.OK).send(products.map((item) => item.toJSON()))
+})
+
+router.get('/:seq', async (req, res) => {
+    const seq = converNumRes(req.params.seq, res)
+    const product = await Product.findOne({ where: { seq } })
+    if (product == null) {
+        res.status(HttpStatusCodes.BAD_REQUEST).send(ResponseError.get(Codes.NOT_EXIST_ID))
+        return
+    }
+
+    return res.status(HttpStatusCodes.OK).send(product.toJSON())
 })
 
 router.post('/', async (req, res) => {
