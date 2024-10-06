@@ -4,18 +4,15 @@ import { DataTypes, Model, Optional } from 'sequelize'
 export interface SupplyUnitAttributes {
     unit: string
     suplSeq: number
-    unitCntList?: string
 }
 
 export type SupplyUnitPk = 'unit' | 'suplSeq'
 export type SupplyUnitId = SupplyUnit[SupplyUnitPk]
-export type SupplyUnitOptionalAttributes = 'unitCntList'
-export type SupplyUnitCreationAttributes = Optional<SupplyUnitAttributes, SupplyUnitOptionalAttributes>
+export type SupplyUnitCreationAttributes = SupplyUnitAttributes
 
 export class SupplyUnit extends Model<SupplyUnitAttributes, SupplyUnitCreationAttributes> implements SupplyUnitAttributes {
     unit!: string
     suplSeq!: number
-    unitCntList?: string
 
     static initModel(sequelize: Sequelize.Sequelize): typeof SupplyUnit {
         return sequelize.define(
@@ -32,11 +29,6 @@ export class SupplyUnit extends Model<SupplyUnitAttributes, SupplyUnitCreationAt
                     allowNull: false,
                     primaryKey: true,
                     comment: '식자재 Seq',
-                },
-                unitCntList: {
-                    type: DataTypes.TEXT,
-                    allowNull: true,
-                    comment: '단위수량 목록',
                 },
             },
             {

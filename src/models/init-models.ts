@@ -31,6 +31,8 @@ import { Supply as _Supply } from './Supply'
 import type { SupplyAttributes, SupplyCreationAttributes } from './Supply'
 import { SupplyUnit as _SupplyUnit } from './SupplyUnit'
 import type { SupplyUnitAttributes, SupplyUnitCreationAttributes } from './SupplyUnit'
+import { Unit as _Unit } from './Unit'
+import type { UnitAttributes, UnitCreationAttributes } from './Unit'
 
 export {
     _Expense as Expense,
@@ -49,6 +51,7 @@ export {
     _StoreExpenseLog as StoreExpenseLog,
     _Supply as Supply,
     _SupplyUnit as SupplyUnit,
+    _Unit as Unit,
 }
 
 export type {
@@ -84,6 +87,8 @@ export type {
     SupplyCreationAttributes,
     SupplyUnitAttributes,
     SupplyUnitCreationAttributes,
+    UnitAttributes,
+    UnitCreationAttributes,
 }
 
 export function initModels(sequelize: Sequelize) {
@@ -103,6 +108,7 @@ export function initModels(sequelize: Sequelize) {
     const StoreExpenseLog = _StoreExpenseLog.initModel(sequelize)
     const Supply = _Supply.initModel(sequelize)
     const SupplyUnit = _SupplyUnit.initModel(sequelize)
+    const Unit = _Unit.initModel(sequelize)
 
     return {
         Expense: Expense,
@@ -121,5 +127,6 @@ export function initModels(sequelize: Sequelize) {
         StoreExpenseLog: StoreExpenseLog,
         Supply: Supply,
         SupplyUnit: SupplyUnit,
+        Unit: Unit,
     }
 }
