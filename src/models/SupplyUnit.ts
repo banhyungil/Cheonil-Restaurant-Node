@@ -2,23 +2,26 @@ import * as Sequelize from 'sequelize'
 import { DataTypes, Model, Optional } from 'sequelize'
 
 export interface SupplyUnitAttributes {
-    unit: string
+    unitNm: string
     suplSeq: number
+    unitCntList?: string
 }
 
-export type SupplyUnitPk = 'unit' | 'suplSeq'
+export type SupplyUnitPk = 'unitNm' | 'suplSeq'
 export type SupplyUnitId = SupplyUnit[SupplyUnitPk]
-export type SupplyUnitCreationAttributes = SupplyUnitAttributes
+export type SupplyUnitOptionalAttributes = 'unitCntList'
+export type SupplyUnitCreationAttributes = Optional<SupplyUnitAttributes, SupplyUnitOptionalAttributes>
 
 export class SupplyUnit extends Model<SupplyUnitAttributes, SupplyUnitCreationAttributes> implements SupplyUnitAttributes {
-    unit!: string
+    unitNm!: string
     suplSeq!: number
+    unitCntList?: string
 
     static initModel(sequelize: Sequelize.Sequelize): typeof SupplyUnit {
         return sequelize.define(
             'SupplyUnit',
             {
-                unit: {
+                unitNm: {
                     type: DataTypes.STRING(40),
                     allowNull: false,
                     primaryKey: true,
@@ -30,6 +33,11 @@ export class SupplyUnit extends Model<SupplyUnitAttributes, SupplyUnitCreationAt
                     primaryKey: true,
                     comment: '식자재 Seq',
                 },
+                unitCntList: {
+                    type: DataTypes.TEXT,
+                    allowNull: true,
+                    comment: '단위수량 목록',
+                },
             },
             {
                 tableName: 'SupplyUnit',
@@ -39,7 +47,7 @@ export class SupplyUnit extends Model<SupplyUnitAttributes, SupplyUnitCreationAt
                         name: 'PRIMARY',
                         unique: true,
                         using: 'BTREE',
-                        fields: [{ name: 'unit' }, { name: 'suplSeq' }],
+                        fields: [{ name: 'unitNm' }, { name: 'suplSeq' }],
                     },
                     {
                         name: 'FK_Supply_TO_SupplyUnit',

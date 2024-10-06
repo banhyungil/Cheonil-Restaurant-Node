@@ -2,18 +2,18 @@ import * as Sequelize from 'sequelize'
 import { DataTypes, Model, Optional } from 'sequelize'
 
 export interface UnitAttributes {
-    unit: string
+    name: string
     isUnitCnt: number
     unitCntList?: string
 }
 
-export type UnitPk = 'unit'
+export type UnitPk = 'name'
 export type UnitId = Unit[UnitPk]
 export type UnitOptionalAttributes = 'isUnitCnt' | 'unitCntList'
 export type UnitCreationAttributes = Optional<UnitAttributes, UnitOptionalAttributes>
 
 export class Unit extends Model<UnitAttributes, UnitCreationAttributes> implements UnitAttributes {
-    unit!: string
+    name!: string
     isUnitCnt!: number
     unitCntList?: string
 
@@ -21,7 +21,7 @@ export class Unit extends Model<UnitAttributes, UnitCreationAttributes> implemen
         return sequelize.define(
             'Unit',
             {
-                unit: {
+                name: {
                     type: DataTypes.STRING(40),
                     allowNull: false,
                     primaryKey: true,
@@ -47,7 +47,7 @@ export class Unit extends Model<UnitAttributes, UnitCreationAttributes> implemen
                         name: 'PRIMARY',
                         unique: true,
                         using: 'BTREE',
-                        fields: [{ name: 'unit' }],
+                        fields: [{ name: 'name' }],
                     },
                 ],
             },
