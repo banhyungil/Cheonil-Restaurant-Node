@@ -28,7 +28,7 @@ const sequelize = new Sequelize(database, username, password, {
 
 const Models = initModels(sequelize)
 
-const { MyOrder, OrderMenu, Menu, Store, Payment, Product, Supply, Expense } = Models
+const { MyOrder, OrderMenu, Menu, Store, Payment, Product, Supply, Expense, Unit } = Models
 MyOrder.hasMany(OrderMenu, { foreignKey: 'orderSeq', as: 'orderMenues' })
 MyOrder.hasMany(Payment, { foreignKey: 'orderSeq', as: 'payments' })
 OrderMenu.belongsTo(MyOrder, { foreignKey: 'orderSeq', as: 'orderMenues' })
@@ -40,6 +40,8 @@ Product.belongsTo(Supply, { foreignKey: 'splSeq', as: 'supply' })
 Supply.hasMany(Product, { foreignKey: 'splSeq', as: 'product' })
 Expense.belongsTo(Product, { foreignKey: 'prdSeq', as: 'product' })
 Expense.belongsTo(Store, { foreignKey: 'storeSeq', as: 'store' })
+Supply.belongsToMany(Unit, { foreignKey: 'suplSeq', as: 'units', through: 'MapSupplyUnit' })
+Unit.belongsToMany(Supply, { foreignKey: 'unitNm', as: 'supplies', through: 'MapSupplyUnit' })
 // MenuCategory.hasMany(Menu)
 // StoreCategory.hasMany(Store)
 

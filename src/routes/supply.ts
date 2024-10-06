@@ -6,17 +6,28 @@ import { SupplyAttributes, SupplyCreationAttributes } from '@src/models/Supply'
 import { Codes, converNumRes, ResponseError } from '@src/common/ResponseError'
 
 const router = Router()
-const { Supply } = DB.Models
+const { Supply, Unit, MapSupplyUnit } = DB.Models
 
 router.get('/', async (req, res) => {
-    const list = await Supply.findAll()
+    const list = await Supply.findAll({
+        include: {
+            as: 'units',
+            model: Unit,
+        },
+    })
 
     return res.status(HttpStatusCodes.OK).send(list.map((item) => item.toJSON()))
 })
 
 router.get('/:seq', async (req, res) => {
     const seq = converNumRes(req.params.seq, res)
-    const supply = await Supply.findOne({ where: { seq } })
+    const supply = await Supply.findOne({
+        include: {
+            as: 'units',
+            model: Unit,
+        },
+        where: { seq },
+    })
     if (supply == null) {
         res.status(HttpStatusCodes.BAD_REQUEST).send(ResponseError.get(Codes.NOT_EXIST_ID))
         return
@@ -26,21 +37,51 @@ router.get('/:seq', async (req, res) => {
 })
 
 router.post('/', async (req, res) => {
-    const body = req.body as SupplyCreationAttributes
-    const nSupply = await Supply.create(body)
+    const body = req.body as { supply: SupplyCreationAttributes; unitNms: string[] }
+    const nSupply = await Supply.create(body.supply)
+    await MapSupplyUnit.bulkCreate(
+        body.unitNms.map((nm) => {
+            return {
+                unitNm: nm,
+                suplSeq: nSupply.seq,
+            }
+        }),
+    )
 
-    return res.status(HttpStatusCodes.CREATED).send(nSupply)
+    const resSupply = await Supply.findOne({
+        include: {
+            as: 'units',
+            model: Unit,
+        },
+        where: { seq: nSupply.seq },
+    })
+
+    return res.status(HttpStatusCodes.CREATED).send(resSupply)
 })
 
 router.patch('/:seq', async (req, res) => {
-    const body = req.body as SupplyAttributes
+    const body = req.body as { supply: SupplyCreationAttributes; unitNms: string[] }
     const seq = +req.params.seq
     if (isNaN(seq)) res.status(HttpStatusCodes.BAD_REQUEST).send(ResponseError.get(Codes.BAD_ROUTE_PARAM))
 
-    const [uCnt] = await Supply.update(body, { where: { seq } })
-    if (uCnt == 0) res.status(HttpStatusCodes.BAD_REQUEST).send(ResponseError.get(Codes.NOT_EXIST_ID))
+    await Supply.update(body.supply, { where: { seq } })
+    await MapSupplyUnit.destroy({ where: { suplSeq: seq } })
+    await MapSupplyUnit.bulkCreate(
+        body.unitNms.map((nm) => {
+            return {
+                unitNm: nm,
+                suplSeq: seq,
+            }
+        }),
+    )
 
-    const uSupply = await Supply.findOne({ where: { seq } })
+    const uSupply = await Supply.findOne({
+        include: {
+            as: 'units',
+            model: Unit,
+        },
+        where: { seq },
+    })
     res.status(HttpStatusCodes.OK).send(uSupply!.toJSON())
 })
 
@@ -53,6 +94,7 @@ router.delete('/:seq', async (req, res) => {
         res.status(HttpStatusCodes.BAD_REQUEST).send(Codes.NOT_EXIST_ID)
         return
     }
+    await MapSupplyUnit.destroy({ where: { suplSeq: seq } })
 
     res.sendStatus(HttpStatusCodes.NO_CONTENT)
 })

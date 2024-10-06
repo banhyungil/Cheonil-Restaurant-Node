@@ -1,5 +1,6 @@
 import * as Sequelize from 'sequelize'
 import { DataTypes, Model, Optional } from 'sequelize'
+import { UnitAttributes } from './Unit'
 
 export interface SupplyAttributes {
     seq: number
@@ -7,11 +8,12 @@ export interface SupplyAttributes {
     options?: string
     createdAt?: Date
     updatedAt?: Date
+    units?: UnitAttributes
 }
 
 export type SupplyPk = 'seq'
 export type SupplyId = Supply[SupplyPk]
-export type SupplyOptionalAttributes = 'seq' | 'options' | 'createdAt' | 'updatedAt'
+export type SupplyOptionalAttributes = 'seq' | 'options' | 'createdAt' | 'updatedAt' | 'units'
 export type SupplyCreationAttributes = Optional<SupplyAttributes, SupplyOptionalAttributes>
 
 export class Supply extends Model<SupplyAttributes, SupplyCreationAttributes> implements SupplyAttributes {
@@ -20,6 +22,7 @@ export class Supply extends Model<SupplyAttributes, SupplyCreationAttributes> im
     options?: string
     createdAt?: Date
     updatedAt?: Date
+    units?: UnitAttributes
 
     static initModel(sequelize: Sequelize.Sequelize): typeof Supply {
         return sequelize.define(

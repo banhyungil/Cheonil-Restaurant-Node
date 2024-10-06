@@ -10,6 +10,7 @@ import paymentRouter from './payment'
 import placeCategoryRouter from './placeCategory'
 import supplyRouter from './supply'
 import productRouter from './product'
+import unitRouter from './unit'
 import settingRouter from './setting'
 
 const apiRouter = Router(),
@@ -24,6 +25,7 @@ apiRouter.use(Paths.Payment, paymentRouter)
 apiRouter.use(Paths.PlaceCategory, placeCategoryRouter)
 apiRouter.use(Paths.Supply, supplyRouter)
 apiRouter.use(Paths.Product, productRouter)
+apiRouter.use(Paths.Unit, unitRouter)
 apiRouter.use(Paths.Setting, settingRouter)
 
 export default apiRouter

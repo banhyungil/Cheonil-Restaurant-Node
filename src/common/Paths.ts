@@ -14,4 +14,5 @@ export default {
     Setting: '/setting',
     Supply: '/supply',
     Product: '/product',
+    Unit: '/unit',
 } as const
