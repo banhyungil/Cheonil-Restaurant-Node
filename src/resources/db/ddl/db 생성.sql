@@ -17,6 +17,17 @@ CREATE TABLE `Expense` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='지출';
 
 
+-- cheonil.MapSupplyUnit definition
+
+CREATE TABLE `MapSupplyUnit` (
+  `unitNm` varchar(40) NOT NULL COMMENT '단위',
+  `suplSeq` smallint(5) unsigned NOT NULL COMMENT '식자재 Seq',
+  `unitCntList` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '단위수량 목록' CHECK (json_valid(`unitCntList`)),
+  PRIMARY KEY (`unitNm`,`suplSeq`),
+  KEY `FK_Supply_TO_SupplyUnit` (`suplSeq`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='식자재 단위';
+
+
 -- cheonil.Menu definition
 
 CREATE TABLE `Menu` (
@@ -32,7 +43,7 @@ CREATE TABLE `Menu` (
   PRIMARY KEY (`seq`),
   UNIQUE KEY `name` (`name`),
   KEY `FK_MenuCategory_TO_Menu` (`ctgSeq`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='메뉴';
+) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='메뉴';
 
 
 -- cheonil.MenuCategory definition
@@ -45,7 +56,7 @@ CREATE TABLE `MenuCategory` (
   `updatedAt` datetime DEFAULT current_timestamp() COMMENT '수정시간',
   PRIMARY KEY (`seq`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='메뉴 카테고리';
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='메뉴 카테고리';
 
 
 -- cheonil.MyOrder definition
@@ -61,7 +72,7 @@ CREATE TABLE `MyOrder` (
   `updatedAt` datetime NOT NULL DEFAULT current_timestamp() COMMENT '수정시간',
   PRIMARY KEY (`seq`),
   KEY `FK_Store_TO_MyOrder` (`storeSeq`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='주문';
+) ENGINE=InnoDB AUTO_INCREMENT=2580 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='주문';
 
 
 -- cheonil.OrderMenu definition
@@ -115,7 +126,7 @@ CREATE TABLE `Payment` (
   `payAt` datetime NOT NULL COMMENT '지급날짜',
   PRIMARY KEY (`seq`),
   KEY `FK_MyOrder_TO_Payment` (`orderSeq`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='결재';
+) ENGINE=InnoDB AUTO_INCREMENT=2659 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='결재';
 
 
 -- cheonil.PlaceCategory definition
@@ -127,14 +138,14 @@ CREATE TABLE `PlaceCategory` (
   `options` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '추가정보' CHECK (json_valid(`options`)),
   PRIMARY KEY (`seq`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='장소 카테고리';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='장소 카테고리';
 
 
 -- cheonil.Product definition
 
 CREATE TABLE `Product` (
   `seq` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT '제품 Seq',
-  `splSeq` smallint(5) unsigned NOT NULL COMMENT '식자재 Seq',
+  `suplSeq` smallint(5) unsigned NOT NULL COMMENT '식자재 Seq',
   `name` varchar(100) NOT NULL COMMENT '식자재 명',
   `unit` varchar(40) NOT NULL COMMENT '단위',
   `unitCnt` smallint(5) unsigned DEFAULT NULL COMMENT '단위수량',
@@ -143,7 +154,7 @@ CREATE TABLE `Product` (
   `createdAt` datetime DEFAULT current_timestamp() COMMENT '생성시간',
   `updatedAt` datetime DEFAULT current_timestamp() COMMENT '수정시간',
   PRIMARY KEY (`seq`),
-  KEY `FK_Supply_TO_Product` (`splSeq`)
+  KEY `FK_Supply_TO_Product` (`suplSeq`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='제품';
 
 
@@ -153,7 +164,7 @@ CREATE TABLE `Setting` (
   `seq` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT '설정 Seq',
   `config` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '설정 정보' CHECK (json_valid(`config`)),
   PRIMARY KEY (`seq`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='설정';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='설정';
 
 
 -- cheonil.Store definition
@@ -173,7 +184,7 @@ CREATE TABLE `Store` (
   UNIQUE KEY `name` (`name`),
   KEY `FK_PlaceCategory_TO_Store` (`placeCtgSeq`),
   KEY `FK_StoreCategory_TO_Store` (`ctgSeq`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='매장';
+) ENGINE=InnoDB AUTO_INCREMENT=146 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='매장';
 
 
 -- cheonil.StoreCategory definition
@@ -188,7 +199,7 @@ CREATE TABLE `StoreCategory` (
   PRIMARY KEY (`seq`),
   UNIQUE KEY `name` (`name`),
   KEY `FK_PlaceCategory_TO_StoreCategory` (`placeCtgSeq`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='매장 카테고리';
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='매장 카테고리';
 
 
 -- cheonil.StoreExpenseLog definition
@@ -208,10 +219,18 @@ CREATE TABLE `StoreExpenseLog` (
 CREATE TABLE `Supply` (
   `seq` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT '식자재 Seq',
   `name` varchar(100) NOT NULL COMMENT '식자재 명',
-  `unitList` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '단위 목록' CHECK (json_valid(`unitList`)),
-  `unitCntList` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '단위수량 목록' CHECK (json_valid(`unitCntList`)),
   `options` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '추가 정보' CHECK (json_valid(`options`)),
   `createdAt` datetime DEFAULT current_timestamp() COMMENT '생성시간',
   `updatedAt` datetime DEFAULT current_timestamp() COMMENT '수정시간',
   PRIMARY KEY (`seq`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='식자재';
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='식자재';
+
+
+-- cheonil.Unit definition
+
+CREATE TABLE `Unit` (
+  `name` varchar(40) NOT NULL COMMENT '단위',
+  `isUnitCnt` tinyint(1) NOT NULL DEFAULT 0 COMMENT '단위수량 여부',
+  `unitCntList` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '단위수량 목록' CHECK (json_valid(`unitCntList`)),
+  PRIMARY KEY (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='단위';
