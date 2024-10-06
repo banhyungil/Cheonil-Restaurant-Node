@@ -1,6 +1,8 @@
 import type { Sequelize } from 'sequelize'
 import { Expense as _Expense } from './Expense'
 import type { ExpenseAttributes, ExpenseCreationAttributes } from './Expense'
+import { MapSupplyUnit as _MapSupplyUnit } from './MapSupplyUnit'
+import type { MapSupplyUnitAttributes, MapSupplyUnitCreationAttributes } from './MapSupplyUnit'
 import { Menu as _Menu } from './Menu'
 import type { MenuAttributes, MenuCreationAttributes } from './Menu'
 import { MenuCategory as _MenuCategory } from './MenuCategory'
@@ -29,13 +31,12 @@ import { StoreExpenseLog as _StoreExpenseLog } from './StoreExpenseLog'
 import type { StoreExpenseLogAttributes, StoreExpenseLogCreationAttributes } from './StoreExpenseLog'
 import { Supply as _Supply } from './Supply'
 import type { SupplyAttributes, SupplyCreationAttributes } from './Supply'
-import { SupplyUnit as _SupplyUnit } from './SupplyUnit'
-import type { SupplyUnitAttributes, SupplyUnitCreationAttributes } from './SupplyUnit'
 import { Unit as _Unit } from './Unit'
 import type { UnitAttributes, UnitCreationAttributes } from './Unit'
 
 export {
     _Expense as Expense,
+    _MapSupplyUnit as MapSupplyUnit,
     _Menu as Menu,
     _MenuCategory as MenuCategory,
     _MyOrder as MyOrder,
@@ -50,13 +51,14 @@ export {
     _StoreCategory as StoreCategory,
     _StoreExpenseLog as StoreExpenseLog,
     _Supply as Supply,
-    _SupplyUnit as SupplyUnit,
     _Unit as Unit,
 }
 
 export type {
     ExpenseAttributes,
     ExpenseCreationAttributes,
+    MapSupplyUnitAttributes,
+    MapSupplyUnitCreationAttributes,
     MenuAttributes,
     MenuCreationAttributes,
     MenuCategoryAttributes,
@@ -85,14 +87,13 @@ export type {
     StoreExpenseLogCreationAttributes,
     SupplyAttributes,
     SupplyCreationAttributes,
-    SupplyUnitAttributes,
-    SupplyUnitCreationAttributes,
     UnitAttributes,
     UnitCreationAttributes,
 }
 
 export function initModels(sequelize: Sequelize) {
     const Expense = _Expense.initModel(sequelize)
+    const MapSupplyUnit = _MapSupplyUnit.initModel(sequelize)
     const Menu = _Menu.initModel(sequelize)
     const MenuCategory = _MenuCategory.initModel(sequelize)
     const MyOrder = _MyOrder.initModel(sequelize)
@@ -107,11 +108,11 @@ export function initModels(sequelize: Sequelize) {
     const StoreCategory = _StoreCategory.initModel(sequelize)
     const StoreExpenseLog = _StoreExpenseLog.initModel(sequelize)
     const Supply = _Supply.initModel(sequelize)
-    const SupplyUnit = _SupplyUnit.initModel(sequelize)
     const Unit = _Unit.initModel(sequelize)
 
     return {
         Expense: Expense,
+        MapSupplyUnit: MapSupplyUnit,
         Menu: Menu,
         MenuCategory: MenuCategory,
         MyOrder: MyOrder,
@@ -126,7 +127,6 @@ export function initModels(sequelize: Sequelize) {
         StoreCategory: StoreCategory,
         StoreExpenseLog: StoreExpenseLog,
         Supply: Supply,
-        SupplyUnit: SupplyUnit,
         Unit: Unit,
     }
 }

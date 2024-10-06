@@ -10,7 +10,7 @@
     "show": 431,
     "database": 1,
     "databaseName": "cheonil",
-    "canvasType": "@dineug/erd-editor/builtin-schema-sql",
+    "canvasType": "ERD",
     "language": 1,
     "tableNameCase": 4,
     "columnNameCase": 2,
@@ -671,7 +671,7 @@
       },
       "f6-iq1mO2ImN11LSf0Ft0": {
         "id": "f6-iq1mO2ImN11LSf0Ft0",
-        "name": "SupplyUnit",
+        "name": "MapSupplyUnit",
         "comment": "식자재 단위",
         "columnIds": [
           "eRj86-QSd5DJ2ap1QvIgx",
@@ -693,12 +693,12 @@
           "x": 705.5057,
           "y": 1460.9274,
           "zIndex": 1962,
-          "widthName": 60,
+          "widthName": 84,
           "widthComment": 65,
           "color": ""
         },
         "meta": {
-          "updateAt": 1728188823666,
+          "updateAt": 1728202425360,
           "createAt": 1727855914181
         }
       },
@@ -4532,7 +4532,7 @@
           "widthDefault": 60
         },
         "meta": {
-          "updateAt": 1728198347077,
+          "updateAt": 1728198347072,
           "createAt": 1728187738198
         }
       },
@@ -4592,7 +4592,7 @@
           "widthDefault": 60
         },
         "meta": {
-          "updateAt": 1728198413347,
+          "updateAt": 1728198413343,
           "createAt": 1728188012043
         }
       },
@@ -4612,8 +4612,8 @@
           "widthDefault": 60
         },
         "meta": {
-          "updateAt": 1728188825295,
-          "createAt": 1728188823666
+          "updateAt": 1728188825287,
+          "createAt": 1728188823660
         }
       }
     },
@@ -5036,34 +5036,6 @@
         "meta": {
           "updateAt": 1727678632821,
           "createAt": 1727678632821
-        }
-      },
-      "-WKMt5w7Y9t-toji4VqBQ": {
-        "id": "-WKMt5w7Y9t-toji4VqBQ",
-        "identification": false,
-        "relationshipType": 4,
-        "startRelationshipType": 2,
-        "start": {
-          "tableId": "tyyXiOukUzAZzpWebKx4d",
-          "columnIds": [
-            "fVveXkNJJSC6r4KAsKwen"
-          ],
-          "x": 231.7558,
-          "y": 1437.6462,
-          "direction": 4
-        },
-        "end": {
-          "tableId": "T1Zzex6OHfnNr0VBvmXYp",
-          "columnIds": [
-            "vOAxYoYEDyY_pqd8qpOlv"
-          ],
-          "x": 301.0386,
-          "y": 1281.7042000000001,
-          "direction": 8
-        },
-        "meta": {
-          "updateAt": 1727845793177,
-          "createAt": 1727845793177
         }
       },
       "PjRfpvlwUqYnfSJunHogO": {
@@ -7512,18 +7484,12 @@
         "comment": 1727845793175
       }
     ],
-    "-WKMt5w7Y9t-toji4VqBQ": [
-      "relationshipEntities",
-      1727845793175,
-      1727845804304,
-      {}
-    ],
     "f6-iq1mO2ImN11LSf0Ft0": [
       "tableEntities",
       1727855914169,
       -1,
       {
-        "name": 1727856898757,
+        "name": 1728202425359,
         "comment": 1727856895306
       }
     ],
