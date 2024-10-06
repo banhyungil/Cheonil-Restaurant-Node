@@ -4,8 +4,6 @@ import { DataTypes, Model, Optional } from 'sequelize'
 export interface SupplyAttributes {
     seq: number
     name: string
-    unitList: string[]
-    unitCntList?: number[]
     options?: string
     createdAt?: Date
     updatedAt?: Date
@@ -13,14 +11,12 @@ export interface SupplyAttributes {
 
 export type SupplyPk = 'seq'
 export type SupplyId = Supply[SupplyPk]
-export type SupplyOptionalAttributes = 'seq' | 'unitCntList' | 'options' | 'createdAt' | 'updatedAt'
+export type SupplyOptionalAttributes = 'seq' | 'options' | 'createdAt' | 'updatedAt'
 export type SupplyCreationAttributes = Optional<SupplyAttributes, SupplyOptionalAttributes>
 
 export class Supply extends Model<SupplyAttributes, SupplyCreationAttributes> implements SupplyAttributes {
     seq!: number
     name!: string
-    unitList!: string[]
-    unitCntList?: number[]
     options?: string
     createdAt?: Date
     updatedAt?: Date
@@ -40,22 +36,6 @@ export class Supply extends Model<SupplyAttributes, SupplyCreationAttributes> im
                     type: DataTypes.STRING(100),
                     allowNull: false,
                     comment: '식자재 명',
-                },
-                unitList: {
-                    type: DataTypes.TEXT,
-                    allowNull: false,
-                    comment: '단위 목록',
-                    get: function () {
-                        return JSON.parse(this.getDataValue('unitList') as any)
-                    },
-                    set: function (val) {
-                        this.setDataValue('unitList', JSON.stringify(val) as any)
-                    },
-                },
-                unitCntList: {
-                    type: DataTypes.TEXT,
-                    allowNull: true,
-                    comment: '단위수량 목록',
                 },
                 options: {
                     type: DataTypes.TEXT,

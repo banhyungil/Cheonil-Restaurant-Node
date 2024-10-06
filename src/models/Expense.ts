@@ -100,9 +100,14 @@ export class Expense extends Model<ExpenseAttributes, ExpenseCreationAttributes>
                         fields: [{ name: 'seq' }],
                     },
                     {
-                        name: 'FK_MapStoreProduct_TO_Expense',
+                        name: 'FK_Store_TO_Expense',
                         using: 'BTREE',
-                        fields: [{ name: 'storeSeq' }, { name: 'prdSeq' }],
+                        fields: [{ name: 'storeSeq' }],
+                    },
+                    {
+                        name: 'FK_Product_TO_Expense',
+                        using: 'BTREE',
+                        fields: [{ name: 'prdSeq' }],
                     },
                 ],
             },

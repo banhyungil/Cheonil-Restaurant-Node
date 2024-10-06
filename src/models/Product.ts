@@ -3,7 +3,7 @@ import { DataTypes, Model, Optional } from 'sequelize'
 
 export interface ProductAttributes {
     seq: number
-    splSeq: number
+    suplSeq: number
     name: string
     unit: string
     unitCnt?: number
@@ -20,7 +20,7 @@ export type ProductCreationAttributes = Optional<ProductAttributes, ProductOptio
 
 export class Product extends Model<ProductAttributes, ProductCreationAttributes> implements ProductAttributes {
     seq!: number
-    splSeq!: number
+    suplSeq!: number
     name!: string
     unit!: string
     unitCnt?: number
@@ -40,7 +40,7 @@ export class Product extends Model<ProductAttributes, ProductCreationAttributes>
                     primaryKey: true,
                     comment: '제품 Seq',
                 },
-                splSeq: {
+                suplSeq: {
                     type: DataTypes.SMALLINT.UNSIGNED,
                     allowNull: false,
                     comment: '식자재 Seq',
@@ -96,7 +96,7 @@ export class Product extends Model<ProductAttributes, ProductCreationAttributes>
                     {
                         name: 'FK_Supply_TO_Product',
                         using: 'BTREE',
-                        fields: [{ name: 'splSeq' }],
+                        fields: [{ name: 'suplSeq' }],
                     },
                 ],
             },
