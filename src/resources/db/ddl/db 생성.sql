@@ -27,6 +27,16 @@ CREATE TABLE `MapSupplyUnit` (
   KEY `FK_Supply_TO_SupplyUnit` (`suplSeq`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='식자재 단위';
 
+-- cheonil.MapProductUnit definition
+
+CREATE TABLE `MapProductUnit` (
+  `prdSeq` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT '제품 Seq',
+  `unitNm` varchar(40) NOT NULL COMMENT '단위',
+  `unitCntList` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '단위수량 목록' CHECK (json_valid(`unitCntList`)),
+  PRIMARY KEY (`prdSeq`,`unitNm`),
+  KEY `FK_Unit_TO_MapProductUnit` (`unitNm`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='제품/단위 맵핑';
+
 
 -- cheonil.Menu definition
 
@@ -147,14 +157,11 @@ CREATE TABLE `Product` (
   `seq` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT '제품 Seq',
   `suplSeq` smallint(5) unsigned NOT NULL COMMENT '식자재 Seq',
   `name` varchar(100) NOT NULL COMMENT '식자재 명',
-  `unit` varchar(40) NOT NULL COMMENT '단위',
-  `unitCnt` smallint(5) unsigned DEFAULT NULL COMMENT '단위수량',
   `cmt` varchar(200) DEFAULT NULL COMMENT '비고',
   `options` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '추가 정보' CHECK (json_valid(`options`)),
   `createdAt` datetime DEFAULT current_timestamp() COMMENT '생성시간',
   `updatedAt` datetime DEFAULT current_timestamp() COMMENT '수정시간',
-  PRIMARY KEY (`seq`),
-  KEY `FK_Supply_TO_Product` (`suplSeq`)
+  PRIMARY KEY (`seq`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='제품';
 
 

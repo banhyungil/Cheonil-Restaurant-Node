@@ -1,6 +1,8 @@
 import type { Sequelize } from 'sequelize'
 import { Expense as _Expense } from './Expense'
 import type { ExpenseAttributes, ExpenseCreationAttributes } from './Expense'
+import { MapProductUnit as _MapProductUnit } from './MapProductUnit'
+import type { MapProductUnitAttributes, MapProductUnitCreationAttributes } from './MapProductUnit'
 import { MapSupplyUnit as _MapSupplyUnit } from './MapSupplyUnit'
 import type { MapSupplyUnitAttributes, MapSupplyUnitCreationAttributes } from './MapSupplyUnit'
 import { Menu as _Menu } from './Menu'
@@ -36,6 +38,7 @@ import type { UnitAttributes, UnitCreationAttributes } from './Unit'
 
 export {
     _Expense as Expense,
+    _MapProductUnit as MapProductUnit,
     _MapSupplyUnit as MapSupplyUnit,
     _Menu as Menu,
     _MenuCategory as MenuCategory,
@@ -57,6 +60,8 @@ export {
 export type {
     ExpenseAttributes,
     ExpenseCreationAttributes,
+    MapProductUnitAttributes,
+    MapProductUnitCreationAttributes,
     MapSupplyUnitAttributes,
     MapSupplyUnitCreationAttributes,
     MenuAttributes,
@@ -93,6 +98,7 @@ export type {
 
 export function initModels(sequelize: Sequelize) {
     const Expense = _Expense.initModel(sequelize)
+    const MapProductUnit = _MapProductUnit.initModel(sequelize)
     const MapSupplyUnit = _MapSupplyUnit.initModel(sequelize)
     const Menu = _Menu.initModel(sequelize)
     const MenuCategory = _MenuCategory.initModel(sequelize)
@@ -112,6 +118,7 @@ export function initModels(sequelize: Sequelize) {
 
     return {
         Expense: Expense,
+        MapProductUnit: MapProductUnit,
         MapSupplyUnit: MapSupplyUnit,
         Menu: Menu,
         MenuCategory: MenuCategory,

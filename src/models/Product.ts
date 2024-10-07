@@ -5,8 +5,6 @@ export interface ProductAttributes {
     seq: number
     suplSeq: number
     name: string
-    unit: string
-    unitCnt?: number
     cmt?: string
     options?: string
     createdAt?: Date
@@ -15,15 +13,13 @@ export interface ProductAttributes {
 
 export type ProductPk = 'seq'
 export type ProductId = Product[ProductPk]
-export type ProductOptionalAttributes = 'seq' | 'unitCnt' | 'cmt' | 'options' | 'createdAt' | 'updatedAt'
+export type ProductOptionalAttributes = 'seq' | 'cmt' | 'options' | 'createdAt' | 'updatedAt'
 export type ProductCreationAttributes = Optional<ProductAttributes, ProductOptionalAttributes>
 
 export class Product extends Model<ProductAttributes, ProductCreationAttributes> implements ProductAttributes {
     seq!: number
     suplSeq!: number
     name!: string
-    unit!: string
-    unitCnt?: number
     cmt?: string
     options?: string
     createdAt?: Date
@@ -49,16 +45,6 @@ export class Product extends Model<ProductAttributes, ProductCreationAttributes>
                     type: DataTypes.STRING(100),
                     allowNull: false,
                     comment: '식자재 명',
-                },
-                unit: {
-                    type: DataTypes.STRING(40),
-                    allowNull: false,
-                    comment: '단위',
-                },
-                unitCnt: {
-                    type: DataTypes.SMALLINT.UNSIGNED,
-                    allowNull: true,
-                    comment: '단위수량',
                 },
                 cmt: {
                     type: DataTypes.STRING(200),
@@ -92,11 +78,6 @@ export class Product extends Model<ProductAttributes, ProductCreationAttributes>
                         unique: true,
                         using: 'BTREE',
                         fields: [{ name: 'seq' }],
-                    },
-                    {
-                        name: 'FK_Supply_TO_Product',
-                        using: 'BTREE',
-                        fields: [{ name: 'suplSeq' }],
                     },
                 ],
             },
