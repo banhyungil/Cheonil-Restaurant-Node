@@ -1,12 +1,11 @@
 import { Router } from 'express'
 import DB from '../models'
-import Paths from '@src/common/Paths'
 import HttpStatusCodes from '@src/common/HttpStatusCodes'
-import { SupplyAttributes, SupplyCreationAttributes } from '@src/models/Supply'
+import { SupplyCreationAttributes } from '@src/models/Supply'
 import { Codes, converNumRes, ResponseError } from '@src/common/ResponseError'
 
 const router = Router()
-const { Supply, Unit, MapSupplyUnit } = DB.Models
+const { Supply, Unit, MapSupplyUnit, Product } = DB.Models
 
 router.get('/', async (req, res) => {
     const list = await Supply.findAll({
@@ -88,6 +87,12 @@ router.patch('/:seq', async (req, res) => {
 router.delete('/:seq', async (req, res) => {
     const seq = +req.params.seq
     if (isNaN(seq)) res.status(HttpStatusCodes.BAD_REQUEST).send(ResponseError.get(Codes.BAD_ROUTE_PARAM))
+
+    const cnt = await Product.count({ where: { suplSeq: seq } })
+    if (cnt > 0) {
+        res.status(HttpStatusCodes.BAD_REQUEST).send({ ...ResponseError.get(Codes.BAD_BODY), message: '등록된 제품이 존재합니다.' })
+        return
+    }
 
     const delCnt = await Supply.destroy({ where: { seq } })
     if (delCnt == 0) {

@@ -1,22 +1,32 @@
-import Paths from '@src/common/Paths'
 import { Router } from 'express'
 import DB from '../models'
 import HttpStatusCodes from '@src/common/HttpStatusCodes'
-import { ProductAttributes, ProductCreationAttributes } from '@src/models/Product'
+import { ProductCreationAttributes } from '@src/models/Product'
 import { Codes, converNumRes, ResponseError } from '@src/common/ResponseError'
 
 const router = Router()
-const { Product } = DB.Models
+const { Product, Unit, MapProductUnit } = DB.Models
 
 router.get('/', async (req, res) => {
-    const products = await Product.findAll({ include: 'supply' })
+    const list = await Product.findAll({
+        include: {
+            as: 'units',
+            model: Unit,
+        },
+    })
 
-    return res.status(HttpStatusCodes.OK).send(products.map((item) => item.toJSON()))
+    return res.status(HttpStatusCodes.OK).send(list.map((item) => item.toJSON()))
 })
 
 router.get('/:seq', async (req, res) => {
     const seq = converNumRes(req.params.seq, res)
-    const product = await Product.findOne({ where: { seq } })
+    const product = await Product.findOne({
+        include: {
+            as: 'units',
+            model: Unit,
+        },
+        where: { seq },
+    })
     if (product == null) {
         res.status(HttpStatusCodes.BAD_REQUEST).send(ResponseError.get(Codes.NOT_EXIST_ID))
         return
@@ -25,48 +35,69 @@ router.get('/:seq', async (req, res) => {
     return res.status(HttpStatusCodes.OK).send(product.toJSON())
 })
 
-// router.post('/', async (req, res) => {
-//     const body = req.body as ProductCreationAttributes
-//     const result = await SupplyService.updateUnitList(body.suplSeq, body.unit, body.unitCnt)
-//     if (result == null) {
-//         res.status(HttpStatusCodes.BAD_REQUEST).send(ResponseError.getBadBody(['suplSeq']))
-//         return
-//     }
+router.post('/', async (req, res) => {
+    const { product, unitNm, unitCntList } = req.body as ReqBody
+    const cnt = await MapProductUnit.count({ where: { unitNm } })
+    if (cnt == 0) {
+        res.status(HttpStatusCodes.BAD_REQUEST).send({ ...ResponseError.get(Codes.BAD_BODY), message: '식자재에 등록되지 않은 단위입니다.' })
+        return
+    }
 
-//     const nProduct = await Product.create(body)
+    const nProduct = await Product.create(product)
+    await MapProductUnit.create({ prdSeq: nProduct.seq, unitNm, unitCntList })
 
-//     return res.status(HttpStatusCodes.CREATED).send({ supply: result.supply.toJSON(), product: nProduct.toJSON() })
-// })
+    const resProduct = await Product.findOne({
+        include: {
+            as: 'units',
+            model: Unit,
+        },
+        where: { seq: nProduct.seq },
+    })
 
-// router.patch('/:seq', async (req, res) => {
-//     const body = req.body as ProductAttributes
-//     const seq = +req.params.seq
-//     // validation
-//     if (isNaN(seq)) res.status(HttpStatusCodes.BAD_REQUEST).send(ResponseError.get(Codes.BAD_ROUTE_PARAM))
+    return res.status(HttpStatusCodes.CREATED).send(resProduct)
+})
 
-//     const [uCnt] = await Product.update(body, { where: { seq } })
-//     if (uCnt == 0) res.status(HttpStatusCodes.BAD_REQUEST).send(ResponseError.get(Codes.NOT_EXIST_ID))
+router.patch('/:seq', async (req, res) => {
+    const { product, unitNm, unitCntList } = req.body as ReqBody
+    const seq = +req.params.seq
+    if (isNaN(seq)) res.status(HttpStatusCodes.BAD_REQUEST).send(ResponseError.get(Codes.BAD_ROUTE_PARAM))
+    const cnt = await MapProductUnit.count({ where: { unitNm } })
+    if (cnt == 0) {
+        res.status(HttpStatusCodes.BAD_REQUEST).send({ ...ResponseError.get(Codes.BAD_BODY), message: '식자재에 등록되지 않은 단위입니다.' })
+        return
+    }
 
-//     const result = await SupplyService.updateUnitList(body.suplSeq, body.unit, body.unitCnt)
-//     if (result == null) {
-//         res.status(HttpStatusCodes.BAD_REQUEST).send(ResponseError.getBadBody(['suplSeq']))
-//         return
-//     }
-//     // validation end
+    await Product.update(product, { where: { seq } })
+    await MapProductUnit.upsert({ prdSeq: seq, unitNm, unitCntList })
 
-//     const uProduct = await Product.findOne({ where: { seq } })
-//     res.status(HttpStatusCodes.OK).send({ supply: result.supply.toJSON(), product: uProduct!.toJSON() })
-// })
+    const uProduct = await Product.findOne({
+        include: {
+            as: 'units',
+            model: Unit,
+        },
+        where: { seq },
+    })
+    res.status(HttpStatusCodes.OK).send(uProduct!.toJSON())
+})
 
 router.delete('/:seq', async (req, res) => {
     const seq = +req.params.seq
-    // validation
     if (isNaN(seq)) res.status(HttpStatusCodes.BAD_REQUEST).send(ResponseError.get(Codes.BAD_ROUTE_PARAM))
 
     const delCnt = await Product.destroy({ where: { seq } })
-    if (delCnt == 0) res.status(HttpStatusCodes.BAD_REQUEST).send(ResponseError.get(Codes.NOT_EXIST_ID))
-    // validation end
+    if (delCnt == 0) {
+        res.status(HttpStatusCodes.BAD_REQUEST).send(Codes.NOT_EXIST_ID)
+        return
+    }
+    await MapProductUnit.destroy({ where: { prdSeq: seq } })
+
     res.sendStatus(HttpStatusCodes.NO_CONTENT)
 })
 
 export default router
+
+interface ReqBody {
+    product: ProductCreationAttributes
+    unitNm: string
+    unitCntList?: number[]
+}
