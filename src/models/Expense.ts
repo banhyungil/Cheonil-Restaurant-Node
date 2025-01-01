@@ -5,6 +5,8 @@ export interface ExpenseAttributes {
     seq: number
     storeSeq: number
     prdSeq: number
+    unitId: string
+    unitCnt?: number
     price: number
     amount: number
     cnt: number
@@ -16,13 +18,15 @@ export interface ExpenseAttributes {
 
 export type ExpensePk = 'seq'
 export type ExpenseId = Expense[ExpensePk]
-export type ExpenseOptionalAttributes = 'seq' | 'cmt' | 'options' | 'updatedAt'
+export type ExpenseOptionalAttributes = 'seq' | 'unitCnt' | 'cmt' | 'options' | 'updatedAt'
 export type ExpenseCreationAttributes = Optional<ExpenseAttributes, ExpenseOptionalAttributes>
 
 export class Expense extends Model<ExpenseAttributes, ExpenseCreationAttributes> implements ExpenseAttributes {
     seq!: number
     storeSeq!: number
     prdSeq!: number
+    unitId!: string
+    unitCnt?: number
     price!: number
     amount!: number
     cnt!: number
@@ -51,6 +55,16 @@ export class Expense extends Model<ExpenseAttributes, ExpenseCreationAttributes>
                     type: DataTypes.SMALLINT.UNSIGNED,
                     allowNull: false,
                     comment: '제품 Seq',
+                },
+                unitId: {
+                    type: DataTypes.STRING(40),
+                    allowNull: false,
+                    comment: '단위',
+                },
+                unitCnt: {
+                    type: DataTypes.INTEGER,
+                    allowNull: true,
+                    comment: '단위수량',
                 },
                 price: {
                     type: DataTypes.INTEGER.UNSIGNED,
@@ -105,9 +119,9 @@ export class Expense extends Model<ExpenseAttributes, ExpenseCreationAttributes>
                         fields: [{ name: 'storeSeq' }],
                     },
                     {
-                        name: 'FK_Product_TO_Expense',
+                        name: 'FK_MapProductUnit_TO_Expense',
                         using: 'BTREE',
-                        fields: [{ name: 'prdSeq' }],
+                        fields: [{ name: 'prdSeq' }, { name: 'unitId' }],
                     },
                 ],
             },

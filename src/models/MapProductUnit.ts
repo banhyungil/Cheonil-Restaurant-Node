@@ -4,7 +4,7 @@ import { DataTypes, Model, Optional } from 'sequelize'
 export interface MapProductUnitAttributes {
     prdSeq: number
     unitNm: string
-    unitCntList?: number[]
+    unitCntList?: string
 }
 
 export type MapProductUnitPk = 'prdSeq' | 'unitNm'
@@ -15,7 +15,7 @@ export type MapProductUnitCreationAttributes = Optional<MapProductUnitAttributes
 export class MapProductUnit extends Model<MapProductUnitAttributes, MapProductUnitCreationAttributes> implements MapProductUnitAttributes {
     prdSeq!: number
     unitNm!: string
-    unitCntList?: number[]
+    unitCntList?: string
 
     static initModel(sequelize: Sequelize.Sequelize): typeof MapProductUnit {
         return sequelize.define(
@@ -38,12 +38,6 @@ export class MapProductUnit extends Model<MapProductUnitAttributes, MapProductUn
                     type: DataTypes.TEXT,
                     allowNull: true,
                     comment: '단위수량 목록',
-                    get: function () {
-                        return JSON.parse(this.getDataValue('unitCntList') as any)
-                    },
-                    set: function (val) {
-                        this.setDataValue('unitCntList', JSON.stringify(val) as any)
-                    },
                 },
             },
             {
