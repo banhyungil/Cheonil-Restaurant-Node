@@ -22116,7 +22116,6 @@ INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (6886
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (6887,6232,48000,'CASH','2024-12-02 15:09:08');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (6888,6233,7000,'CASH','2024-12-02 15:09:08');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (6890,6235,16000,'CASH','2024-12-02 15:09:08');
-INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (6891,6236,66000,'CASH','2024-12-02 15:09:08');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (6892,6238,7500,'CASH','2024-12-02 15:09:08');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (6893,6239,16000,'CASH','2024-12-02 15:09:08');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (6894,6240,18000,'CASH','2024-12-02 15:09:08');
@@ -22363,7 +22362,6 @@ INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7196
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7197,6317,16000,'CASH','2024-12-03 14:50:28');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7198,6318,7000,'CASH','2024-12-03 14:50:28');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7199,6319,8000,'CASH','2024-12-03 14:50:28');
-INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7200,6320,46000,'CASH','2024-12-03 14:50:28');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7201,6321,19500,'CASH','2024-12-03 14:50:28');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7202,6322,30000,'CASH','2024-12-03 14:50:28');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7203,6323,22000,'CASH','2024-12-03 14:50:28');
@@ -22422,7 +22420,6 @@ INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7266
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7267,6528,13000,'CASH','2024-12-06 14:22:18');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7268,6529,13000,'CASH','2024-12-06 14:22:18');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7269,6530,23000,'CASH','2024-12-06 14:22:18');
-INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7271,6532,56000,'CASH','2024-12-06 14:22:18');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7272,6533,13000,'CASH','2024-12-06 14:22:18');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7273,6534,16000,'CASH','2024-12-06 14:22:18');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7275,6536,16000,'CASH','2024-12-06 14:22:18');
@@ -22576,7 +22573,6 @@ INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7449
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7450,6458,14000,'CASH','2024-12-07 12:34:48');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7451,6459,8000,'CASH','2024-12-07 12:34:48');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7452,6460,24000,'CASH','2024-12-07 12:34:48');
-INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7453,6461,48500,'CASH','2024-12-07 12:34:48');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7454,6462,52000,'CASH','2024-12-07 12:34:48');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7455,6463,13000,'CASH','2024-12-07 12:34:48');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7457,6465,13000,'CASH','2024-12-07 12:34:48');
@@ -22642,7 +22638,6 @@ INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7525
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7526,6641,16000,'CASH','2024-12-09 15:04:41');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7527,6651,19500,'CASH','2024-12-09 15:04:41');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7528,6652,32000,'CASH','2024-12-09 15:04:41');
-INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7529,6653,45500,'CASH','2024-12-09 15:04:41');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7531,6655,45500,'CASH','2024-12-09 15:04:41');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7532,6656,13000,'CASH','2024-12-09 15:04:41');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7533,6657,14000,'CASH','2024-12-09 15:04:41');
@@ -22830,7 +22825,6 @@ INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7748
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7749,6943,32000,'CASH','2024-12-13 13:56:00');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7750,6944,45500,'CASH','2024-12-13 13:56:00');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7751,6945,14000,'CASH','2024-12-13 13:56:00');
-INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7752,6946,46000,'CASH','2024-12-13 13:56:00');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7753,6947,13000,'CASH','2024-12-13 13:56:00');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7754,6948,13000,'CASH','2024-12-13 13:56:00');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7756,6950,27000,'CASH','2024-12-13 13:56:00');
@@ -22875,7 +22869,6 @@ INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7800
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7801,6997,26000,'CASH','2024-12-14 14:31:56');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7802,6998,16000,'CASH','2024-12-14 14:31:56');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7804,7000,26000,'CASH','2024-12-14 14:31:56');
-INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7805,7001,32000,'CASH','2024-12-14 14:31:56');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7807,7087,19500,'CASH','2024-12-18 05:43:41');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7808,7084,14000,'CASH','2024-12-18 05:43:41');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7809,7088,45000,'CASH','2024-12-18 05:43:41');
@@ -22930,7 +22923,6 @@ INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7867
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7868,7143,24000,'CASH','2024-12-18 05:43:41');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7869,7144,16000,'CASH','2024-12-18 05:43:41');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7870,7145,13000,'CASH','2024-12-18 05:43:41');
-INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7871,7146,45000,'CASH','2024-12-18 05:43:41');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7872,7147,13000,'CASH','2024-12-18 05:43:41');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7874,7149,28000,'CASH','2024-12-18 05:43:41');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7875,7150,7000,'CASH','2024-12-18 05:43:41');
@@ -22993,7 +22985,6 @@ INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7939
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7940,7063,14000,'CASH','2024-12-21 13:07:10');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7941,7064,13000,'CASH','2024-12-21 13:07:10');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7943,7067,14000,'CASH','2024-12-21 13:07:10');
-INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7944,7065,51500,'CASH','2024-12-21 13:07:10');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7945,7068,18000,'CASH','2024-12-21 13:07:10');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7946,7069,13000,'CASH','2024-12-21 13:07:10');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (7947,7071,45500,'CASH','2024-12-21 13:07:10');
@@ -23113,7 +23104,6 @@ INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8080
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8082,7280,26000,'CASH','2024-12-25 14:07:18');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8084,7279,32000,'CASH','2024-12-25 14:07:18');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8085,7282,39000,'CASH','2024-12-25 14:07:18');
-INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8086,7283,46500,'CASH','2024-12-25 14:07:18');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8087,7284,18000,'CASH','2024-12-25 14:07:18');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8088,7286,6500,'CASH','2024-12-25 14:07:18');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8089,7287,13000,'CASH','2024-12-25 14:07:18');
@@ -23258,7 +23248,6 @@ INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8249
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8250,7447,14000,'CASH','2024-12-25 14:07:18');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8251,7448,45500,'CASH','2024-12-25 14:07:18');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8252,7449,13000,'CASH','2024-12-25 14:07:18');
-INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8253,7450,54000,'CASH','2024-12-25 14:07:18');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8254,7451,14000,'CASH','2024-12-25 14:07:18');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8257,7455,14000,'CASH','2024-12-25 14:07:18');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8258,7456,7000,'CASH','2024-12-25 14:07:18');
@@ -23352,7 +23341,6 @@ INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8358
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8359,6866,30000,'CASH','2024-12-26 14:36:19');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8360,6867,52000,'CASH','2024-12-26 14:36:19');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8362,6869,14000,'CASH','2024-12-26 14:36:19');
-INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8363,6870,52000,'CASH','2024-12-26 14:36:19');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8364,6871,28000,'CASH','2024-12-26 14:36:19');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8365,6873,19500,'CASH','2024-12-26 14:36:19');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8367,6875,13000,'CASH','2024-12-26 14:36:19');
@@ -23642,7 +23630,6 @@ INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8680
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8682,7815,45500,'CASH','2024-12-30 14:02:25');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8683,7816,19500,'CASH','2024-12-30 14:02:25');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8684,7817,13000,'CASH','2024-12-30 14:02:25');
-INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8685,7818,48000,'CASH','2024-12-30 14:02:25');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8687,7820,13000,'CASH','2024-12-30 14:02:25');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8688,7821,6500,'CASH','2024-12-30 14:02:25');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8689,7822,24000,'CASH','2024-12-30 14:02:25');
@@ -23914,7 +23901,6 @@ INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8967
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8968,7639,16000,'CASH','2025-01-01 15:28:13');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8969,7640,24000,'CASH','2025-01-01 15:28:13');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8970,7643,19500,'CASH','2025-01-01 15:28:13');
-INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8971,7644,54500,'CASH','2025-01-01 15:28:13');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8972,7645,29000,'CASH','2025-01-01 15:28:13');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8973,7646,14000,'CASH','2025-01-01 15:28:13');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8974,7648,13000,'CASH','2025-01-01 15:28:13');
@@ -23924,6 +23910,20 @@ INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8977
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8978,7653,24000,'CASH','2025-01-01 15:28:13');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8979,7654,16000,'CASH','2025-01-01 15:28:13');
 INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8980,7828,14000,'CASH','2025-01-01 15:28:13');
+INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8981,6236,66000,'CASH','2025-01-01 15:29:44');
+INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8982,6320,46000,'CASH','2025-01-01 15:29:44');
+INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8983,6461,48500,'CASH','2025-01-01 15:29:44');
+INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8984,6532,56000,'CASH','2025-01-01 15:29:44');
+INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8985,6870,52000,'CASH','2025-01-01 15:29:44');
+INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8986,6946,46000,'CASH','2025-01-01 15:29:44');
+INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8987,7001,32000,'CASH','2025-01-01 15:29:44');
+INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8988,7065,51500,'CASH','2025-01-01 15:29:44');
+INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8989,6653,45500,'CASH','2025-01-01 15:29:44');
+INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8990,7146,45000,'CASH','2025-01-01 15:29:44');
+INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8991,7283,46500,'CASH','2025-01-01 15:29:44');
+INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8992,7450,54000,'CASH','2025-01-01 15:29:44');
+INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8993,7644,54500,'CASH','2025-01-01 15:29:44');
+INSERT INTO `Payment` (`seq`,`orderSeq`,`amount`,`payType`,`payAt`) VALUES (8994,7818,48000,'CASH','2025-01-01 15:29:44');
 
 INSERT INTO `PlaceCategory` (`seq`,`name`,`cmt`,`options`) VALUES (1,'구역1',NULL,NULL);
 
