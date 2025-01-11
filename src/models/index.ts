@@ -39,8 +39,13 @@ OrderMenu.belongsTo(Menu, { foreignKey: 'menuSeq', as: 'menu' })
 
 Product.belongsTo(Supply, { foreignKey: 'suplSeq', as: 'supply' })
 Supply.hasMany(Product, { foreignKey: 'suplSeq', as: 'product' })
+
+Product.hasMany(MapProductUnit, { foreignKey: 'prdSeq', as: 'mapUnits' })
 Product.belongsToMany(Unit, { foreignKey: 'prdSeq', as: 'units', through: 'MapProductUnit' })
-Unit.belongsToMany(Product, { foreignKey: 'unitNm', as: 'products', through: 'MapProductUnit' })
+Unit.belongsToMany(Product, { foreignKey: 'unitSeq', as: 'products', through: 'MapProductUnit' })
+
+MapProductUnit.belongsTo(Product, { foreignKey: 'prdSeq', as: 'product' })
+MapProductUnit.belongsTo(Unit, { foreignKey: 'unitSeq', as: 'unit' })
 
 Expense.belongsTo(MapProductUnit, { foreignKey: 'prdSeq', as: 'product' })
 Expense.belongsTo(MapProductUnit, { foreignKey: 'unitSeq', as: 'unit' })

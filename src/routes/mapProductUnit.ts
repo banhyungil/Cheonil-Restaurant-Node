@@ -6,10 +6,27 @@ import { Router } from 'express'
 import { sum } from 'lodash'
 const router = Router()
 
-const { MapProductUnit } = DB.Models
+const { MapProductUnit, Product, Unit } = DB.Models
+
+router.get('/', async (req, res) => {
+    const nMps = await MapProductUnit.findAll({
+        include: [
+            {
+                model: Product,
+                as: 'product',
+            },
+            {
+                model: Unit,
+                as: 'unit',
+            },
+        ],
+    })
+
+    res.status(HttpStatusCodes.CREATED).send(nMps)
+})
+
 router.post('/batch-create', async (req, res) => {
     const body = req.body as MapProductUnitCreationAttributes[]
-
     const nMps = await MapProductUnit.bulkCreate(body)
 
     res.status(HttpStatusCodes.CREATED).send(nMps)

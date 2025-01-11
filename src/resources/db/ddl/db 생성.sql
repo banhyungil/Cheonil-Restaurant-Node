@@ -1,9 +1,12 @@
 -- cheonil.Expense definition
+DROP TABLE `Expense`;
 
 CREATE TABLE `Expense` (
   `seq` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '지출 Seq',
   `storeSeq` smallint(5) unsigned NOT NULL COMMENT '매장 Seq',
   `prdSeq` smallint(5) unsigned NOT NULL COMMENT '제품 Seq',
+  `unitSeq` smallint(5) unsigned NOT NULL COMMENT '단위 SEQ',
+  `unitCnt` int(11) DEFAULT NULL COMMENT '단위수량',
   `price` int(10) unsigned NOT NULL COMMENT '가격',
   `amount` int(10) unsigned NOT NULL COMMENT '금액',
   `cnt` smallint(5) unsigned NOT NULL COMMENT '수량',
@@ -16,27 +19,14 @@ CREATE TABLE `Expense` (
   KEY `FK_Product_TO_Expense` (`prdSeq`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='지출';
 
-
--- cheonil.MapSupplyUnit definition
-
-CREATE TABLE `MapSupplyUnit` (
-  `unitNm` varchar(40) NOT NULL COMMENT '단위',
-  `suplSeq` smallint(5) unsigned NOT NULL COMMENT '식자재 Seq',
-  `unitCntList` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '단위수량 목록' CHECK (json_valid(`unitCntList`)),
-  PRIMARY KEY (`unitNm`,`suplSeq`),
-  KEY `FK_Supply_TO_SupplyUnit` (`suplSeq`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='식자재 단위';
-
 -- cheonil.MapProductUnit definition
 
 CREATE TABLE `MapProductUnit` (
-  `prdSeq` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT '제품 Seq',
-  `unitNm` varchar(40) NOT NULL COMMENT '단위',
-  `unitCntList` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '단위수량 목록' CHECK (json_valid(`unitCntList`)),
-  PRIMARY KEY (`prdSeq`,`unitNm`),
-  KEY `FK_Unit_TO_MapProductUnit` (`unitNm`)
+  `prdSeq` smallint(5) unsigned NOT NULL COMMENT '제품 Seq',
+  `unitSeq` smallint(5) unsigned NOT NULL COMMENT '단위 SEQ',
+  `unitCntList` longtext DEFAULT NULL COMMENT '단위수량목록',
+  PRIMARY KEY (`prdSeq`,`unitSeq`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='제품/단위 맵핑';
-
 
 -- cheonil.Menu definition
 
@@ -150,7 +140,6 @@ CREATE TABLE `PlaceCategory` (
   UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='장소 카테고리';
 
-
 -- cheonil.Product definition
 
 CREATE TABLE `Product` (
@@ -161,7 +150,8 @@ CREATE TABLE `Product` (
   `options` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '추가 정보' CHECK (json_valid(`options`)),
   `createdAt` datetime DEFAULT current_timestamp() COMMENT '생성시간',
   `updatedAt` datetime DEFAULT current_timestamp() COMMENT '수정시간',
-  PRIMARY KEY (`seq`)
+  PRIMARY KEY (`seq`),
+  KEY `FK_Product_TO_Supply` (`suplSeq`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='제품';
 
 

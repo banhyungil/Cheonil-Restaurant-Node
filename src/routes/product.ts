@@ -9,10 +9,13 @@ const { Product, Unit, MapProductUnit } = DB.Models
 
 router.get('/', async (req, res) => {
     const list = await Product.findAll({
-        include: {
-            as: 'units',
-            model: Unit,
-        },
+        include: [
+            {
+                as: 'mapUnits',
+                model: MapProductUnit,
+                include: [{ model: Unit, as: 'unit' }],
+            },
+        ],
     })
 
     return res.status(HttpStatusCodes.OK).send(list.map((item) => item.toJSON()))
