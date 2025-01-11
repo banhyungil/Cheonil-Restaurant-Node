@@ -15,10 +15,10 @@ interface DbChange {
 }
 
 const dbChanges = [
-    // {
-    //     version: '1.1.0',
-    //     cmt: '',
-    // },
+    {
+        version: '1.1.0',
+        cmt: '',
+    },
 ] as Readonly<DbChange[]>
 
 // 오름차순 정렬

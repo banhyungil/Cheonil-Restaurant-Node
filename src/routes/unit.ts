@@ -20,10 +20,10 @@ router.post('/', async (req, res) => {
     return res.status(HttpStatusCodes.CREATED).send(nUnit)
 })
 
-router.delete('/:name', async (req, res) => {
-    const name = req.params.name
+router.delete('/:seq', async (req, res) => {
+    const seq = req.params.seq
 
-    const delCnt = await Unit.destroy({ where: { name } })
+    const delCnt = await Unit.destroy({ where: { seq } })
     if (delCnt == 0) {
         res.status(HttpStatusCodes.BAD_REQUEST).send(Codes.NOT_EXIST_ID)
         return

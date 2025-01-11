@@ -28,7 +28,7 @@ const sequelize = new Sequelize(database, username, password, {
 
 const Models = initModels(sequelize)
 
-const { MyOrder, OrderMenu, Menu, Store, Payment, Product, Supply, Expense, Unit } = Models
+const { MyOrder, OrderMenu, Menu, Store, Payment, Product, Supply, Expense, Unit, MapProductUnit } = Models
 MyOrder.hasMany(OrderMenu, { foreignKey: 'orderSeq', as: 'orderMenues' })
 MyOrder.hasMany(Payment, { foreignKey: 'orderSeq', as: 'payments' })
 OrderMenu.belongsTo(MyOrder, { foreignKey: 'orderSeq', as: 'orderMenues' })
@@ -36,14 +36,15 @@ Payment.belongsTo(MyOrder, { foreignKey: 'orderSeq', as: 'payments' })
 
 MyOrder.belongsTo(Store, { foreignKey: 'storeSeq', as: 'store' })
 OrderMenu.belongsTo(Menu, { foreignKey: 'menuSeq', as: 'menu' })
+
 Product.belongsTo(Supply, { foreignKey: 'suplSeq', as: 'supply' })
 Supply.hasMany(Product, { foreignKey: 'suplSeq', as: 'product' })
-Expense.belongsTo(Product, { foreignKey: 'prdSeq', as: 'product' })
-Expense.belongsTo(Store, { foreignKey: 'storeSeq', as: 'store' })
-Supply.belongsToMany(Unit, { foreignKey: 'suplSeq', as: 'units', through: 'MapSupplyUnit' })
-Unit.belongsToMany(Supply, { foreignKey: 'unitNm', as: 'supplies', through: 'MapSupplyUnit' })
 Product.belongsToMany(Unit, { foreignKey: 'prdSeq', as: 'units', through: 'MapProductUnit' })
 Unit.belongsToMany(Product, { foreignKey: 'unitNm', as: 'products', through: 'MapProductUnit' })
+
+Expense.belongsTo(MapProductUnit, { foreignKey: 'prdSeq', as: 'product' })
+Expense.belongsTo(MapProductUnit, { foreignKey: 'unitSeq', as: 'unit' })
+Expense.belongsTo(Store, { foreignKey: 'storeSeq', as: 'store' })
 // MenuCategory.hasMany(Menu)
 // StoreCategory.hasMany(Store)
 

@@ -3,18 +3,18 @@ import { DataTypes, Model, Optional } from 'sequelize'
 
 export interface MapProductUnitAttributes {
     prdSeq: number
-    unitNm: string
+    unitSeq: number
     unitCntList?: string
 }
 
-export type MapProductUnitPk = 'prdSeq' | 'unitNm'
+export type MapProductUnitPk = 'prdSeq' | 'unitSeq'
 export type MapProductUnitId = MapProductUnit[MapProductUnitPk]
-export type MapProductUnitOptionalAttributes = 'prdSeq' | 'unitCntList'
+export type MapProductUnitOptionalAttributes = 'unitCntList'
 export type MapProductUnitCreationAttributes = Optional<MapProductUnitAttributes, MapProductUnitOptionalAttributes>
 
 export class MapProductUnit extends Model<MapProductUnitAttributes, MapProductUnitCreationAttributes> implements MapProductUnitAttributes {
     prdSeq!: number
-    unitNm!: string
+    unitSeq!: number
     unitCntList?: string
 
     static initModel(sequelize: Sequelize.Sequelize): typeof MapProductUnit {
@@ -22,17 +22,16 @@ export class MapProductUnit extends Model<MapProductUnitAttributes, MapProductUn
             'MapProductUnit',
             {
                 prdSeq: {
-                    autoIncrement: true,
                     type: DataTypes.SMALLINT.UNSIGNED,
                     allowNull: false,
                     primaryKey: true,
-                    comment: '제품 Seq',
+                    comment: '제품 SEQ',
                 },
-                unitNm: {
-                    type: DataTypes.STRING(40),
+                unitSeq: {
+                    type: DataTypes.SMALLINT.UNSIGNED,
                     allowNull: false,
                     primaryKey: true,
-                    comment: '단위',
+                    comment: '단위 SEQ',
                 },
                 unitCntList: {
                     type: DataTypes.TEXT,
@@ -48,12 +47,7 @@ export class MapProductUnit extends Model<MapProductUnitAttributes, MapProductUn
                         name: 'PRIMARY',
                         unique: true,
                         using: 'BTREE',
-                        fields: [{ name: 'prdSeq' }, { name: 'unitNm' }],
-                    },
-                    {
-                        name: 'FK_Unit_TO_MapProductUnit',
-                        using: 'BTREE',
-                        fields: [{ name: 'unitNm' }],
+                        fields: [{ name: 'prdSeq' }, { name: 'unitSeq' }],
                     },
                 ],
             },

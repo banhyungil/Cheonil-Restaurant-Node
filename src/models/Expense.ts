@@ -5,7 +5,7 @@ export interface ExpenseAttributes {
     seq: number
     storeSeq: number
     prdSeq: number
-    unitId: string
+    unitSeq: number
     unitCnt?: number
     price: number
     amount: number
@@ -25,7 +25,7 @@ export class Expense extends Model<ExpenseAttributes, ExpenseCreationAttributes>
     seq!: number
     storeSeq!: number
     prdSeq!: number
-    unitId!: string
+    unitSeq!: number
     unitCnt?: number
     price!: number
     amount!: number
@@ -54,12 +54,12 @@ export class Expense extends Model<ExpenseAttributes, ExpenseCreationAttributes>
                 prdSeq: {
                     type: DataTypes.SMALLINT.UNSIGNED,
                     allowNull: false,
-                    comment: '제품 Seq',
+                    comment: '제품 SEQ',
                 },
-                unitId: {
-                    type: DataTypes.STRING(40),
+                unitSeq: {
+                    type: DataTypes.SMALLINT.UNSIGNED,
                     allowNull: false,
-                    comment: '단위',
+                    comment: '단위 SEQ',
                 },
                 unitCnt: {
                     type: DataTypes.INTEGER,
@@ -121,7 +121,7 @@ export class Expense extends Model<ExpenseAttributes, ExpenseCreationAttributes>
                     {
                         name: 'FK_MapProductUnit_TO_Expense',
                         using: 'BTREE',
-                        fields: [{ name: 'prdSeq' }, { name: 'unitId' }],
+                        fields: [{ name: 'prdSeq' }, { name: 'unitSeq' }],
                     },
                 ],
             },

@@ -12,6 +12,7 @@ import supplyRouter from './supply'
 import productRouter from './product'
 import unitRouter from './unit'
 import settingRouter from './setting'
+import mapProductUnitRouter from './mapProductUnit'
 
 const apiRouter = Router(),
     validate = jetValidator()
@@ -27,5 +28,6 @@ apiRouter.use(Paths.Supply, supplyRouter)
 apiRouter.use(Paths.Product, productRouter)
 apiRouter.use(Paths.Unit, unitRouter)
 apiRouter.use(Paths.Setting, settingRouter)
+apiRouter.use(Paths.MapProductUnit, mapProductUnitRouter)
 
 export default apiRouter

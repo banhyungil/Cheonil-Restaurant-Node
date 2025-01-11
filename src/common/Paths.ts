@@ -15,4 +15,5 @@ export default {
     Supply: '/supply',
     Product: '/product',
     Unit: '/unit',
+    MapProductUnit: '/mapProductUnit',
 } as const
