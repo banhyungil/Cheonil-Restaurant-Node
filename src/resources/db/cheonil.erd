@@ -4,8 +4,8 @@
   "settings": {
     "width": 5000,
     "height": 5000,
-    "scrollTop": -1241.7617,
-    "scrollLeft": -967.0923,
+    "scrollTop": -1199.7617,
+    "scrollLeft": -746.0923,
     "zoomLevel": 0.83,
     "show": 431,
     "database": 1,
@@ -743,7 +743,6 @@
         "name": "ExpenseProduct",
         "comment": "지출 제퓸",
         "columnIds": [
-          "jvzfPtMidHxfKNzMW7hRb",
           "7X_Et0Xh2jeiJ-Sulghtn",
           "OaPgU_Ur0rZUws2ympOXw",
           "al1yvMi3SSdDFjuTjVJTw",
@@ -771,7 +770,7 @@
           "color": ""
         },
         "meta": {
-          "updateAt": 1736662711255,
+          "updateAt": 1736687991427,
           "createAt": 1736661595884
         }
       }
@@ -4882,18 +4881,18 @@
         "tableId": "dikfQzRF6SmaRUmYP8u1q",
         "name": "seq",
         "comment": "제품 SEQ",
-        "dataType": "SMALLINT UNSIGNED AUTO_INCREMENT",
+        "dataType": "INT UNSIGNED AUTO_INCREMENT",
         "default": "",
         "options": 10,
         "ui": {
           "keys": 1,
           "widthName": 60,
           "widthComment": 60,
-          "widthDataType": 222,
+          "widthDataType": 186,
           "widthDefault": 60
         },
         "meta": {
-          "updateAt": 1736662157696,
+          "updateAt": 1736688125798,
           "createAt": 1736662072620
         }
       },
@@ -4904,16 +4903,16 @@
         "comment": "제품 SEQ",
         "dataType": "SMALLINT UNSIGNED AUTO_INCREMENT",
         "default": "",
-        "options": 8,
+        "options": 10,
         "ui": {
-          "keys": 2,
+          "keys": 3,
           "widthName": 60,
           "widthComment": 60,
           "widthDataType": 222,
           "widthDefault": 60
         },
         "meta": {
-          "updateAt": 1736662210807,
+          "updateAt": 1736687995313,
           "createAt": 1736662202632
         }
       },
@@ -4924,16 +4923,16 @@
         "comment": "지출 Seq",
         "dataType": "BIGINT UNSIGNED",
         "default": "",
-        "options": 8,
+        "options": 10,
         "ui": {
-          "keys": 2,
+          "keys": 3,
           "widthName": 60,
           "widthComment": 60,
           "widthDataType": 101,
           "widthDefault": 60
         },
         "meta": {
-          "updateAt": 1736662542677,
+          "updateAt": 1736687993996,
           "createAt": 1736662229954
         }
       },
@@ -5390,7 +5389,7 @@
           "columnIds": [
             "fgty8rKdaDemzvmjJPONr"
           ],
-          "x": 1196.2267000000002,
+          "x": 1178.2267000000002,
           "y": 1560.1903,
           "direction": 8
         },
@@ -5607,7 +5606,7 @@
       },
       "TGja4_ULAra3RD3UtsVbQ": {
         "id": "TGja4_ULAra3RD3UtsVbQ",
-        "identification": false,
+        "identification": true,
         "relationshipType": 4,
         "startRelationshipType": 2,
         "start": {
@@ -5615,7 +5614,7 @@
           "columnIds": [
             "uGVb216SfLA1qIKm_cBXy"
           ],
-          "x": 1196.2267000000002,
+          "x": 1178.2267000000002,
           "y": 1408.1903,
           "direction": 4
         },
@@ -5624,8 +5623,8 @@
           "columnIds": [
             "OaPgU_Ur0rZUws2ympOXw"
           ],
-          "x": 1185.8005,
-          "y": 1287.3338,
+          "x": 1176.8005,
+          "y": 1263.3338,
           "direction": 8
         },
         "meta": {
@@ -5635,7 +5634,7 @@
       },
       "-iS0DDIak0EkOQpYxsA4q": {
         "id": "-iS0DDIak0EkOQpYxsA4q",
-        "identification": false,
+        "identification": true,
         "relationshipType": 4,
         "startRelationshipType": 2,
         "start": {
@@ -5652,8 +5651,8 @@
           "columnIds": [
             "7X_Et0Xh2jeiJ-Sulghtn"
           ],
-          "x": 1458.3005,
-          "y": 1175.3338,
+          "x": 1440.3005,
+          "y": 1163.3338,
           "direction": 2
         },
         "meta": {
@@ -8368,7 +8367,7 @@
     "jvzfPtMidHxfKNzMW7hRb": [
       "tableColumnEntities",
       1736661725393,
-      -1,
+      1736687991397,
       {
         "name": 1736661751653,
         "dataType": 1736661758540,
@@ -8433,7 +8432,7 @@
       -1,
       {
         "name": 1736662075428,
-        "dataType": 1736662141118,
+        "dataType": 1736688125787,
         "options(primaryKey)": 1736662143664,
         "comment": 1736662157691
       }
@@ -8447,7 +8446,8 @@
         "name": 1736662210801,
         "dataType": 1736662202588,
         "default": 1736662202588,
-        "comment": 1736662202588
+        "comment": 1736662202588,
+        "options(primaryKey)": 1736687995296
       }
     ],
     "TGja4_ULAra3RD3UtsVbQ": [
@@ -8465,7 +8465,8 @@
         "name": 1736662542669,
         "dataType": 1736662443036,
         "default": 1736662229893,
-        "comment": 1736662229893
+        "comment": 1736662229893,
+        "options(primaryKey)": 1736687993981
       }
     ],
     "-iS0DDIak0EkOQpYxsA4q": [

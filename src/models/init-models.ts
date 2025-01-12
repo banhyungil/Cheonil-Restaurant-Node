@@ -3,7 +3,6 @@ import { Expense as _Expense } from './Expense'
 import type { ExpenseAttributes, ExpenseCreationAttributes } from './Expense'
 import { ExpenseProduct as _ExpenseProduct } from './ExpenseProduct'
 import type { ExpenseProductAttributes, ExpenseProductCreationAttributes } from './ExpenseProduct'
-import { Product as Product } from './Product'
 import { Menu as _Menu } from './Menu'
 import type { MenuAttributes, MenuCreationAttributes } from './Menu'
 import { MenuCategory as _MenuCategory } from './MenuCategory'
@@ -120,7 +119,6 @@ export function initModels(sequelize: Sequelize) {
     return {
         Expense: Expense,
         ExpenseProduct: ExpenseProduct,
-        Product: Product,
         Menu: Menu,
         MenuCategory: MenuCategory,
         MyOrder: MyOrder,
@@ -129,6 +127,7 @@ export function initModels(sequelize: Sequelize) {
         OrderRsv: OrderRsv,
         Payment: Payment,
         PlaceCategory: PlaceCategory,
+        Product: Product,
         ProductInfo: ProductInfo,
         Setting: Setting,
         Store: Store,

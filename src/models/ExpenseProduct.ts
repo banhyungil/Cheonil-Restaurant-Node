@@ -2,7 +2,6 @@ import * as Sequelize from 'sequelize'
 import { DataTypes, Model, Optional } from 'sequelize'
 
 export interface ExpenseProductAttributes {
-    seq: number
     expsSeq: number
     prdSeq: number
     cnt: number
@@ -11,13 +10,12 @@ export interface ExpenseProductAttributes {
     cmt?: string
 }
 
-export type ExpenseProductPk = 'seq'
+export type ExpenseProductPk = 'expsSeq' | 'prdSeq'
 export type ExpenseProductId = ExpenseProduct[ExpenseProductPk]
-export type ExpenseProductOptionalAttributes = 'seq' | 'unitCnt' | 'cmt'
+export type ExpenseProductOptionalAttributes = 'unitCnt' | 'cmt'
 export type ExpenseProductCreationAttributes = Optional<ExpenseProductAttributes, ExpenseProductOptionalAttributes>
 
 export class ExpenseProduct extends Model<ExpenseProductAttributes, ExpenseProductCreationAttributes> implements ExpenseProductAttributes {
-    seq!: number
     expsSeq!: number
     prdSeq!: number
     cnt!: number
@@ -29,21 +27,16 @@ export class ExpenseProduct extends Model<ExpenseProductAttributes, ExpenseProdu
         return sequelize.define(
             'ExpenseProduct',
             {
-                seq: {
-                    autoIncrement: true,
-                    type: DataTypes.BIGINT.UNSIGNED,
-                    allowNull: false,
-                    primaryKey: true,
-                    comment: '지출 제품 SEQ',
-                },
                 expsSeq: {
                     type: DataTypes.BIGINT.UNSIGNED,
                     allowNull: false,
+                    primaryKey: true,
                     comment: '지출 Seq',
                 },
                 prdSeq: {
                     type: DataTypes.INTEGER.UNSIGNED,
                     allowNull: false,
+                    primaryKey: true,
                     comment: '제품 SEQ',
                 },
                 cnt: {
@@ -75,7 +68,7 @@ export class ExpenseProduct extends Model<ExpenseProductAttributes, ExpenseProdu
                         name: 'PRIMARY',
                         unique: true,
                         using: 'BTREE',
-                        fields: [{ name: 'seq' }],
+                        fields: [{ name: 'expsSeq' }, { name: 'prdSeq' }],
                     },
                     {
                         name: 'FK_ExpenseProduct_TO_Expense',
