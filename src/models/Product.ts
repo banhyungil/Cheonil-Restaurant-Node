@@ -3,27 +3,21 @@ import { DataTypes, Model, Optional } from 'sequelize'
 
 export interface ProductAttributes {
     seq: number
-    suplSeq: number
-    name: string
-    cmt?: string
-    options?: string
-    createdAt?: Date
-    updatedAt?: Date
+    prdInfoSeq: number
+    unitSeq: number
+    unitCntList?: string
 }
 
 export type ProductPk = 'seq'
 export type ProductId = Product[ProductPk]
-export type ProductOptionalAttributes = 'seq' | 'cmt' | 'options' | 'createdAt' | 'updatedAt'
+export type ProductOptionalAttributes = 'seq' | 'unitCntList'
 export type ProductCreationAttributes = Optional<ProductAttributes, ProductOptionalAttributes>
 
 export class Product extends Model<ProductAttributes, ProductCreationAttributes> implements ProductAttributes {
     seq!: number
-    suplSeq!: number
-    name!: string
-    cmt?: string
-    options?: string
-    createdAt?: Date
-    updatedAt?: Date
+    prdInfoSeq!: number
+    unitSeq!: number
+    unitCntList?: string
 
     static initModel(sequelize: Sequelize.Sequelize): typeof Product {
         return sequelize.define(
@@ -31,42 +25,30 @@ export class Product extends Model<ProductAttributes, ProductCreationAttributes>
             {
                 seq: {
                     autoIncrement: true,
-                    type: DataTypes.SMALLINT.UNSIGNED,
+                    type: DataTypes.INTEGER.UNSIGNED,
                     allowNull: false,
                     primaryKey: true,
-                    comment: '제품 Seq',
+                    comment: 'SEQ',
                 },
-                suplSeq: {
+                prdInfoSeq: {
                     type: DataTypes.SMALLINT.UNSIGNED,
                     allowNull: false,
-                    comment: '식자재 Seq',
+                    comment: '제품 SEQ',
                 },
-                name: {
-                    type: DataTypes.STRING(100),
+                unitSeq: {
+                    type: DataTypes.SMALLINT.UNSIGNED,
                     allowNull: false,
-                    comment: '식자재 명',
+                    comment: '단위 SEQ',
                 },
-                cmt: {
-                    type: DataTypes.STRING(200),
+                unitCntList: {
+                    type: DataTypes.JSON,
                     allowNull: true,
-                    comment: '비고',
-                },
-                options: {
-                    type: DataTypes.TEXT,
-                    allowNull: true,
-                    comment: '추가 정보',
-                },
-                createdAt: {
-                    type: DataTypes.DATE,
-                    allowNull: true,
-                    defaultValue: Sequelize.Sequelize.fn('current_timestamp'),
-                    comment: '생성시간',
-                },
-                updatedAt: {
-                    type: DataTypes.DATE,
-                    allowNull: true,
-                    defaultValue: Sequelize.Sequelize.fn('current_timestamp'),
-                    comment: '수정시간',
+                    comment: '단위수량 목록',
+                    get() {
+                        const val = this.getDataValue('unitCntList')
+                        if (typeof val == 'string') return JSON.parse(this.getDataValue('unitCntList') as any)
+                        else return val
+                    },
                 },
             },
             {
@@ -78,6 +60,16 @@ export class Product extends Model<ProductAttributes, ProductCreationAttributes>
                         unique: true,
                         using: 'BTREE',
                         fields: [{ name: 'seq' }],
+                    },
+                    {
+                        name: 'FK_Product_TO_ProductInfo',
+                        using: 'BTREE',
+                        fields: [{ name: 'prdInfoSeq' }],
+                    },
+                    {
+                        name: 'FK_Product_TO_Unit',
+                        using: 'BTREE',
+                        fields: [{ name: 'unitSeq' }],
                     },
                 ],
             },

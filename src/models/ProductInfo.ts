@@ -1,58 +1,53 @@
 import * as Sequelize from 'sequelize'
 import { DataTypes, Model, Optional } from 'sequelize'
 
-export interface ExpenseAttributes {
+export interface ProductInfoAttributes {
     seq: number
-    storeSeq: number
-    amount: number
-    expenseAt: Date
+    suplSeq: number
+    name: string
     cmt?: string
     options?: string
+    createdAt?: Date
     updatedAt?: Date
 }
 
-export type ExpensePk = 'seq'
-export type ExpenseId = Expense[ExpensePk]
-export type ExpenseOptionalAttributes = 'seq' | 'cmt' | 'options' | 'updatedAt'
-export type ExpenseCreationAttributes = Optional<ExpenseAttributes, ExpenseOptionalAttributes>
+export type ProductInfoPk = 'seq'
+export type ProductInfoId = ProductInfo[ProductInfoPk]
+export type ProductInfoOptionalAttributes = 'seq' | 'cmt' | 'options' | 'createdAt' | 'updatedAt'
+export type ProductInfoCreationAttributes = Optional<ProductInfoAttributes, ProductInfoOptionalAttributes>
 
-export class Expense extends Model<ExpenseAttributes, ExpenseCreationAttributes> implements ExpenseAttributes {
+export class ProductInfo extends Model<ProductInfoAttributes, ProductInfoCreationAttributes> implements ProductInfoAttributes {
     seq!: number
-    storeSeq!: number
-    amount!: number
-    expenseAt!: Date
+    suplSeq!: number
+    name!: string
     cmt?: string
     options?: string
+    createdAt?: Date
     updatedAt?: Date
 
-    static initModel(sequelize: Sequelize.Sequelize): typeof Expense {
+    static initModel(sequelize: Sequelize.Sequelize): typeof ProductInfo {
         return sequelize.define(
-            'Expense',
+            'ProductInfo',
             {
                 seq: {
                     autoIncrement: true,
-                    type: DataTypes.BIGINT.UNSIGNED,
-                    allowNull: false,
-                    primaryKey: true,
-                    comment: '지출 Seq',
-                },
-                storeSeq: {
                     type: DataTypes.SMALLINT.UNSIGNED,
                     allowNull: false,
-                    comment: '매장 Seq',
+                    primaryKey: true,
+                    comment: '제품 Seq',
                 },
-                amount: {
-                    type: DataTypes.INTEGER.UNSIGNED,
+                suplSeq: {
+                    type: DataTypes.SMALLINT.UNSIGNED,
                     allowNull: false,
-                    comment: '금액',
+                    comment: '식자재 Seq',
                 },
-                expenseAt: {
-                    type: DataTypes.DATE,
+                name: {
+                    type: DataTypes.STRING(100),
                     allowNull: false,
-                    comment: '지출일',
+                    comment: '식자재 명',
                 },
                 cmt: {
-                    type: DataTypes.STRING(400),
+                    type: DataTypes.STRING(200),
                     allowNull: true,
                     comment: '비고',
                 },
@@ -60,6 +55,12 @@ export class Expense extends Model<ExpenseAttributes, ExpenseCreationAttributes>
                     type: DataTypes.TEXT,
                     allowNull: true,
                     comment: '추가 정보',
+                },
+                createdAt: {
+                    type: DataTypes.DATE,
+                    allowNull: true,
+                    defaultValue: Sequelize.Sequelize.fn('current_timestamp'),
+                    comment: '생성시간',
                 },
                 updatedAt: {
                     type: DataTypes.DATE,
@@ -69,7 +70,7 @@ export class Expense extends Model<ExpenseAttributes, ExpenseCreationAttributes>
                 },
             },
             {
-                tableName: 'Expense',
+                tableName: 'ProductInfo',
                 timestamps: false,
                 indexes: [
                     {
@@ -79,12 +80,12 @@ export class Expense extends Model<ExpenseAttributes, ExpenseCreationAttributes>
                         fields: [{ name: 'seq' }],
                     },
                     {
-                        name: 'FK_Expense_TO_Store',
+                        name: 'FK_ProductInfo_TO_Supply',
                         using: 'BTREE',
-                        fields: [{ name: 'storeSeq' }],
+                        fields: [{ name: 'suplSeq' }],
                     },
                 ],
             },
-        ) as typeof Expense
+        ) as typeof ProductInfo
     }
 }

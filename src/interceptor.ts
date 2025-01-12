@@ -6,7 +6,7 @@ import { WSS } from '.'
 // 요청 CUD인 경우 메타정보와 함꼐 응답 내용을 broadcast해준다.
 const Interceptor = responseHandler().replaceBuffer((body, req, res) => {
     const statusCode = res?.statusCode ?? 0
-    if (req == null || (statusCode >= 200 && statusCode < 300) == false) return body
+    if (req == null || (statusCode >= 200 && statusCode < 300) == false || body.length == 0) return body
 
     /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-return */
     const resBody = (() => {

@@ -28,7 +28,7 @@ const sequelize = new Sequelize(database, username, password, {
 
 const Models = initModels(sequelize)
 
-const { MyOrder, OrderMenu, Menu, Store, Payment, Product, Supply, Expense, Unit, MapProductUnit } = Models
+const { MyOrder, OrderMenu, Menu, Store, Payment, ProductInfo, Supply, Expense, Unit, Product } = Models
 MyOrder.hasMany(OrderMenu, { foreignKey: 'orderSeq', as: 'orderMenues' })
 MyOrder.hasMany(Payment, { foreignKey: 'orderSeq', as: 'payments' })
 OrderMenu.belongsTo(MyOrder, { foreignKey: 'orderSeq', as: 'orderMenues' })
@@ -37,18 +37,18 @@ Payment.belongsTo(MyOrder, { foreignKey: 'orderSeq', as: 'payments' })
 MyOrder.belongsTo(Store, { foreignKey: 'storeSeq', as: 'store' })
 OrderMenu.belongsTo(Menu, { foreignKey: 'menuSeq', as: 'menu' })
 
-Product.belongsTo(Supply, { foreignKey: 'suplSeq', as: 'supply' })
-Supply.hasMany(Product, { foreignKey: 'suplSeq', as: 'product' })
+ProductInfo.belongsTo(Supply, { foreignKey: 'suplSeq', as: 'supply' })
+Supply.hasMany(ProductInfo, { foreignKey: 'suplSeq', as: 'product' })
 
-Product.hasMany(MapProductUnit, { foreignKey: 'prdSeq', as: 'mapUnits' })
-Product.belongsToMany(Unit, { foreignKey: 'prdSeq', as: 'units', through: 'MapProductUnit' })
-Unit.belongsToMany(Product, { foreignKey: 'unitSeq', as: 'products', through: 'MapProductUnit' })
+ProductInfo.hasMany(Product, { foreignKey: 'prdInfoSeq', as: 'products' })
+ProductInfo.belongsToMany(Unit, { foreignKey: 'prdInfoSeq', as: 'units', through: 'Product' })
+Unit.belongsToMany(ProductInfo, { foreignKey: 'unitSeq', as: 'products', through: 'Product' })
 
-MapProductUnit.belongsTo(Product, { foreignKey: 'prdSeq', as: 'product' })
-MapProductUnit.belongsTo(Unit, { foreignKey: 'unitSeq', as: 'unit' })
+Product.belongsTo(ProductInfo, { foreignKey: 'prdInfoSeq', as: 'product' })
+Product.belongsTo(Unit, { foreignKey: 'unitSeq', as: 'unit' })
 
-Expense.belongsTo(MapProductUnit, { foreignKey: 'prdSeq', as: 'product' })
-Expense.belongsTo(MapProductUnit, { foreignKey: 'unitSeq', as: 'unit' })
+Expense.belongsTo(Product, { foreignKey: 'prdSeq', as: 'product' })
+Expense.belongsTo(Product, { foreignKey: 'unitSeq', as: 'unit' })
 Expense.belongsTo(Store, { foreignKey: 'storeSeq', as: 'store' })
 // MenuCategory.hasMany(Menu)
 // StoreCategory.hasMany(Store)

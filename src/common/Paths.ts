@@ -13,7 +13,7 @@ export default {
     PlaceCategory: '/placeCategory',
     Setting: '/setting',
     Supply: '/supply',
-    Product: '/product',
+    ProductInfo: '/productInfo',
     Unit: '/unit',
-    MapProductUnit: '/mapProductUnit',
+    Product: '/product',
 } as const

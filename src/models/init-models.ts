@@ -1,8 +1,9 @@
 import type { Sequelize } from 'sequelize'
 import { Expense as _Expense } from './Expense'
 import type { ExpenseAttributes, ExpenseCreationAttributes } from './Expense'
-import { MapProductUnit as _MapProductUnit } from './MapProductUnit'
-import type { MapProductUnitAttributes, MapProductUnitCreationAttributes } from './MapProductUnit'
+import { ExpenseProduct as _ExpenseProduct } from './ExpenseProduct'
+import type { ExpenseProductAttributes, ExpenseProductCreationAttributes } from './ExpenseProduct'
+import { Product as Product } from './Product'
 import { Menu as _Menu } from './Menu'
 import type { MenuAttributes, MenuCreationAttributes } from './Menu'
 import { MenuCategory as _MenuCategory } from './MenuCategory'
@@ -21,6 +22,8 @@ import { PlaceCategory as _PlaceCategory } from './PlaceCategory'
 import type { PlaceCategoryAttributes, PlaceCategoryCreationAttributes } from './PlaceCategory'
 import { Product as _Product } from './Product'
 import type { ProductAttributes, ProductCreationAttributes } from './Product'
+import { ProductInfo as _ProductInfo } from './ProductInfo'
+import type { ProductInfoAttributes, ProductInfoCreationAttributes } from './ProductInfo'
 import { Setting as _Setting } from './Setting'
 import type { SettingAttributes, SettingCreationAttributes } from './Setting'
 import { Store as _Store } from './Store'
@@ -36,7 +39,7 @@ import type { UnitAttributes, UnitCreationAttributes } from './Unit'
 
 export {
     _Expense as Expense,
-    _MapProductUnit as MapProductUnit,
+    _ExpenseProduct as ExpenseProduct,
     _Menu as Menu,
     _MenuCategory as MenuCategory,
     _MyOrder as MyOrder,
@@ -46,6 +49,7 @@ export {
     _Payment as Payment,
     _PlaceCategory as PlaceCategory,
     _Product as Product,
+    _ProductInfo as ProductInfo,
     _Setting as Setting,
     _Store as Store,
     _StoreCategory as StoreCategory,
@@ -57,8 +61,8 @@ export {
 export type {
     ExpenseAttributes,
     ExpenseCreationAttributes,
-    MapProductUnitAttributes,
-    MapProductUnitCreationAttributes,
+    ExpenseProductAttributes,
+    ExpenseProductCreationAttributes,
     MenuAttributes,
     MenuCreationAttributes,
     MenuCategoryAttributes,
@@ -77,6 +81,8 @@ export type {
     PlaceCategoryCreationAttributes,
     ProductAttributes,
     ProductCreationAttributes,
+    ProductInfoAttributes,
+    ProductInfoCreationAttributes,
     SettingAttributes,
     SettingCreationAttributes,
     StoreAttributes,
@@ -93,7 +99,7 @@ export type {
 
 export function initModels(sequelize: Sequelize) {
     const Expense = _Expense.initModel(sequelize)
-    const MapProductUnit = _MapProductUnit.initModel(sequelize)
+    const ExpenseProduct = _ExpenseProduct.initModel(sequelize)
     const Menu = _Menu.initModel(sequelize)
     const MenuCategory = _MenuCategory.initModel(sequelize)
     const MyOrder = _MyOrder.initModel(sequelize)
@@ -103,6 +109,7 @@ export function initModels(sequelize: Sequelize) {
     const Payment = _Payment.initModel(sequelize)
     const PlaceCategory = _PlaceCategory.initModel(sequelize)
     const Product = _Product.initModel(sequelize)
+    const ProductInfo = _ProductInfo.initModel(sequelize)
     const Setting = _Setting.initModel(sequelize)
     const Store = _Store.initModel(sequelize)
     const StoreCategory = _StoreCategory.initModel(sequelize)
@@ -112,7 +119,8 @@ export function initModels(sequelize: Sequelize) {
 
     return {
         Expense: Expense,
-        MapProductUnit: MapProductUnit,
+        ExpenseProduct: ExpenseProduct,
+        Product: Product,
         Menu: Menu,
         MenuCategory: MenuCategory,
         MyOrder: MyOrder,
@@ -121,7 +129,7 @@ export function initModels(sequelize: Sequelize) {
         OrderRsv: OrderRsv,
         Payment: Payment,
         PlaceCategory: PlaceCategory,
-        Product: Product,
+        ProductInfo: ProductInfo,
         Setting: Setting,
         Store: Store,
         StoreCategory: StoreCategory,

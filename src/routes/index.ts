@@ -9,10 +9,10 @@ import orderRouter from './order'
 import paymentRouter from './payment'
 import placeCategoryRouter from './placeCategory'
 import supplyRouter from './supply'
-import productRouter from './product'
+import productInfoRouter from './productInfo'
 import unitRouter from './unit'
 import settingRouter from './setting'
-import mapProductUnitRouter from './mapProductUnit'
+import productRouter from './product'
 
 const apiRouter = Router(),
     validate = jetValidator()
@@ -25,9 +25,9 @@ apiRouter.use(Paths.Order, orderRouter)
 apiRouter.use(Paths.Payment, paymentRouter)
 apiRouter.use(Paths.PlaceCategory, placeCategoryRouter)
 apiRouter.use(Paths.Supply, supplyRouter)
-apiRouter.use(Paths.Product, productRouter)
+apiRouter.use(Paths.ProductInfo, productInfoRouter)
 apiRouter.use(Paths.Unit, unitRouter)
+apiRouter.use(Paths.Product, productRouter)
 apiRouter.use(Paths.Setting, settingRouter)
-apiRouter.use(Paths.MapProductUnit, mapProductUnitRouter)
 
 export default apiRouter
