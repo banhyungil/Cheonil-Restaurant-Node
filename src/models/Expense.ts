@@ -1,5 +1,6 @@
 import * as Sequelize from 'sequelize'
 import { DataTypes, Model, Optional } from 'sequelize'
+import { ExpenseProduct } from './ExpenseProduct'
 
 export interface ExpenseAttributes {
     seq: number
@@ -9,11 +10,12 @@ export interface ExpenseAttributes {
     cmt?: string
     options?: string
     updatedAt?: Date
+    expsPrds?: ExpenseProduct[]
 }
 
 export type ExpensePk = 'seq'
 export type ExpenseId = Expense[ExpensePk]
-export type ExpenseOptionalAttributes = 'seq' | 'cmt' | 'options' | 'updatedAt'
+export type ExpenseOptionalAttributes = 'seq' | 'cmt' | 'options' | 'updatedAt' | 'expsPrds'
 export type ExpenseCreationAttributes = Optional<ExpenseAttributes, ExpenseOptionalAttributes>
 
 export class Expense extends Model<ExpenseAttributes, ExpenseCreationAttributes> implements ExpenseAttributes {
@@ -24,6 +26,7 @@ export class Expense extends Model<ExpenseAttributes, ExpenseCreationAttributes>
     cmt?: string
     options?: string
     updatedAt?: Date
+    expsPrds?: ExpenseProduct[]
 
     static initModel(sequelize: Sequelize.Sequelize): typeof Expense {
         return sequelize.define(

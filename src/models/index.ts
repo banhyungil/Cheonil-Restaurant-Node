@@ -28,7 +28,7 @@ const sequelize = new Sequelize(database, username, password, {
 
 const Models = initModels(sequelize)
 
-const { MyOrder, OrderMenu, Menu, Store, Payment, ProductInfo, Supply, Expense, Unit, Product } = Models
+const { MyOrder, OrderMenu, Menu, Store, Payment, ProductInfo, Supply, Expense, Unit, Product, ExpenseProduct } = Models
 MyOrder.hasMany(OrderMenu, { foreignKey: 'orderSeq', as: 'orderMenues' })
 MyOrder.hasMany(Payment, { foreignKey: 'orderSeq', as: 'payments' })
 OrderMenu.belongsTo(MyOrder, { foreignKey: 'orderSeq', as: 'orderMenues' })
@@ -44,12 +44,11 @@ ProductInfo.hasMany(Product, { foreignKey: 'prdInfoSeq', as: 'products' })
 ProductInfo.belongsToMany(Unit, { foreignKey: 'prdInfoSeq', as: 'units', through: 'Product' })
 Unit.belongsToMany(ProductInfo, { foreignKey: 'unitSeq', as: 'products', through: 'Product' })
 
-Product.belongsTo(ProductInfo, { foreignKey: 'prdInfoSeq', as: 'product' })
+Product.belongsTo(ProductInfo, { foreignKey: 'prdInfoSeq', as: 'prdInfo' })
 Product.belongsTo(Unit, { foreignKey: 'unitSeq', as: 'unit' })
 
-Expense.belongsTo(Product, { foreignKey: 'prdSeq', as: 'product' })
-Expense.belongsTo(Product, { foreignKey: 'unitSeq', as: 'unit' })
-Expense.belongsTo(Store, { foreignKey: 'storeSeq', as: 'store' })
+Expense.hasMany(ExpenseProduct, { foreignKey: 'expsSeq', as: 'expsPrds' })
+ExpenseProduct.belongsTo(Product, { foreignKey: 'prdSeq', as: 'product' })
 // MenuCategory.hasMany(Menu)
 // StoreCategory.hasMany(Store)
 

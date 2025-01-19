@@ -16,4 +16,5 @@ export default {
     ProductInfo: '/productInfo',
     Unit: '/unit',
     Product: '/product',
+    Expense: '/expenses',
 } as const
