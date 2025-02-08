@@ -1,3 +1,4 @@
+import './src/pre-start' // Must be the first import
 import fs from 'fs'
 import path from 'path'
 import { OpenAPIV3 } from 'openapi-types'
@@ -86,7 +87,7 @@ async function run() {
                 }
             })
             // yaml -> js
-            const yamlPath = path.join(__dirname, './openapi/openapi.yaml')
+            const yamlPath = path.join(__dirname, './src/openapi/openapi.yaml')
             const oOas = YAML.load(fs.readFileSync(yamlPath, 'utf-8')) as OpenAPIV3.Document
             // * components 교체
             oOas.components!.schemas = oComponents.schemas
