@@ -48,6 +48,7 @@ Product.belongsTo(ProductInfo, { foreignKey: 'prdInfoSeq', as: 'prdInfo' })
 Product.belongsTo(Unit, { foreignKey: 'unitSeq', as: 'unit' })
 
 Expense.hasMany(ExpenseProduct, { foreignKey: 'expsSeq', as: 'expsPrds' })
+Expense.belongsTo(Store, { foreignKey: 'storeSeq', as: 'store' })
 ExpenseProduct.belongsTo(Product, { foreignKey: 'prdSeq', as: 'product' })
 // MenuCategory.hasMany(Menu)
 // StoreCategory.hasMany(Store)
