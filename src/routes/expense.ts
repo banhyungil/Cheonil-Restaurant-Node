@@ -2,35 +2,41 @@ import { Router } from 'express'
 import DB from '../models'
 import HttpStatusCodes from '@src/common/HttpStatusCodes'
 import { Codes, converNumRes, ResponseError } from '@src/common/ResponseError'
-import ProductService from '@src/services/ProductService'
-import { Expense as ExpenseType } from '@src/models/Expense'
 
 const router = Router()
-const { Expense, ExpenseProduct } = DB.Models
-
-async function getExpense(exps: ExpenseType) {
-    const prdSeqs = exps.expsPrds!.map((eprd) => eprd.prdSeq)
-    // products 추가
-    const products = (await ProductService.selectProducts(prdSeqs)).map((prd) => prd.toJSON())
-    const raw = exps.toJSON()
-    raw.expsPrds!.forEach((expsPrd) => Object.assign(expsPrd, products))
-
-    return raw
-}
+const { Expense, ExpenseProduct, Store, Product, ProductInfo, Unit } = DB.Models
 
 router.get('/', async (req, res) => {
     const list = await Expense.findAll({
         include: [
             {
+                model: Store,
+                as: 'store',
+            },
+            {
                 model: ExpenseProduct,
                 as: 'expsPrds',
+                include: [
+                    {
+                        model: Product,
+                        as: 'product',
+                        include: [
+                            {
+                                model: ProductInfo,
+                                as: 'prdInfo',
+                            },
+                            {
+                                model: Unit,
+                                as: 'unit',
+                            },
+                        ],
+                    },
+                ],
             },
         ],
     })
 
-    const resBody = await Promise.all(list.map(async (exps) => getExpense(exps)))
-
-    return res.status(HttpStatusCodes.OK).send(resBody)
+    return res.status(HttpStatusCodes.OK).send(list)
 })
 
 router.get('/:seq', async (req, res) => {
@@ -40,6 +46,22 @@ router.get('/:seq', async (req, res) => {
             {
                 model: ExpenseProduct,
                 as: 'expsPrds',
+                include: [
+                    {
+                        model: Product,
+                        as: 'prdInfo',
+                        include: [
+                            {
+                                model: ProductInfo,
+                                as: 'prdInfo',
+                            },
+                            {
+                                model: Unit,
+                                as: 'unit',
+                            },
+                        ],
+                    },
+                ],
             },
         ],
         where: { seq },
@@ -49,8 +71,7 @@ router.get('/:seq', async (req, res) => {
         res.status(HttpStatusCodes.BAD_REQUEST).send(ResponseError.get(Codes.NOT_EXIST_ID))
         return
     }
-    const resBody = await getExpense(exps)
-    return res.status(HttpStatusCodes.OK).send(resBody)
+    return res.status(HttpStatusCodes.OK).send(exps)
 })
 
 // router.post('/', async (req, res) => {
