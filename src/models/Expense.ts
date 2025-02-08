@@ -4,7 +4,9 @@ import { ExpenseProduct } from './ExpenseProduct'
 
 export interface ExpenseAttributes {
     seq: number
-    storeSeq: number
+    ctgSeq: number
+    storeSeq?: number
+    name: string
     amount: number
     expenseAt: Date
     cmt?: string
@@ -15,12 +17,14 @@ export interface ExpenseAttributes {
 
 export type ExpensePk = 'seq'
 export type ExpenseId = Expense[ExpensePk]
-export type ExpenseOptionalAttributes = 'seq' | 'cmt' | 'options' | 'updatedAt' | 'expsPrds'
+export type ExpenseOptionalAttributes = 'seq' | 'storeSeq' | 'cmt' | 'options' | 'updatedAt'
 export type ExpenseCreationAttributes = Optional<ExpenseAttributes, ExpenseOptionalAttributes>
 
 export class Expense extends Model<ExpenseAttributes, ExpenseCreationAttributes> implements ExpenseAttributes {
     seq!: number
-    storeSeq!: number
+    ctgSeq!: number
+    storeSeq?: number
+    name!: string
     amount!: number
     expenseAt!: Date
     cmt?: string
@@ -37,12 +41,22 @@ export class Expense extends Model<ExpenseAttributes, ExpenseCreationAttributes>
                     type: DataTypes.BIGINT.UNSIGNED,
                     allowNull: false,
                     primaryKey: true,
-                    comment: '지출 Seq',
+                    comment: '지출 SEQ',
+                },
+                ctgSeq: {
+                    type: DataTypes.INTEGER.UNSIGNED,
+                    allowNull: false,
+                    comment: '지출 카테고리 SEQ',
                 },
                 storeSeq: {
-                    type: DataTypes.SMALLINT.UNSIGNED,
+                    type: DataTypes.SMALLINT,
+                    allowNull: true,
+                    comment: '매장 SEQ',
+                },
+                name: {
+                    type: DataTypes.STRING(100),
                     allowNull: false,
-                    comment: '매장 Seq',
+                    comment: '지출명',
                 },
                 amount: {
                     type: DataTypes.INTEGER.UNSIGNED,
@@ -80,11 +94,6 @@ export class Expense extends Model<ExpenseAttributes, ExpenseCreationAttributes>
                         unique: true,
                         using: 'BTREE',
                         fields: [{ name: 'seq' }],
-                    },
-                    {
-                        name: 'FK_Expense_TO_Store',
-                        using: 'BTREE',
-                        fields: [{ name: 'storeSeq' }],
                     },
                 ],
             },

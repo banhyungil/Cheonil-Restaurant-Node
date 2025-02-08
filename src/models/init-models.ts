@@ -1,6 +1,8 @@
 import type { Sequelize } from 'sequelize'
 import { Expense as _Expense } from './Expense'
 import type { ExpenseAttributes, ExpenseCreationAttributes } from './Expense'
+import { ExpenseCategory as _ExpenseCategory } from './ExpenseCategory'
+import type { ExpenseCategoryAttributes, ExpenseCategoryCreationAttributes } from './ExpenseCategory'
 import { ExpenseProduct as _ExpenseProduct } from './ExpenseProduct'
 import type { ExpenseProductAttributes, ExpenseProductCreationAttributes } from './ExpenseProduct'
 import { Menu as _Menu } from './Menu'
@@ -38,6 +40,7 @@ import type { UnitAttributes, UnitCreationAttributes } from './Unit'
 
 export {
     _Expense as Expense,
+    _ExpenseCategory as ExpenseCategory,
     _ExpenseProduct as ExpenseProduct,
     _Menu as Menu,
     _MenuCategory as MenuCategory,
@@ -60,6 +63,8 @@ export {
 export type {
     ExpenseAttributes,
     ExpenseCreationAttributes,
+    ExpenseCategoryAttributes,
+    ExpenseCategoryCreationAttributes,
     ExpenseProductAttributes,
     ExpenseProductCreationAttributes,
     MenuAttributes,
@@ -98,6 +103,7 @@ export type {
 
 export function initModels(sequelize: Sequelize) {
     const Expense = _Expense.initModel(sequelize)
+    const ExpenseCategory = _ExpenseCategory.initModel(sequelize)
     const ExpenseProduct = _ExpenseProduct.initModel(sequelize)
     const Menu = _Menu.initModel(sequelize)
     const MenuCategory = _MenuCategory.initModel(sequelize)
@@ -118,6 +124,7 @@ export function initModels(sequelize: Sequelize) {
 
     return {
         Expense: Expense,
+        ExpenseCategory: ExpenseCategory,
         ExpenseProduct: ExpenseProduct,
         Menu: Menu,
         MenuCategory: MenuCategory,

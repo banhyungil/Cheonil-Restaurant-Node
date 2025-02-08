@@ -70,16 +70,6 @@ export class ExpenseProduct extends Model<ExpenseProductAttributes, ExpenseProdu
                         using: 'BTREE',
                         fields: [{ name: 'expsSeq' }, { name: 'prdSeq' }],
                     },
-                    {
-                        name: 'FK_ExpenseProduct_TO_Expense',
-                        using: 'BTREE',
-                        fields: [{ name: 'expsSeq' }],
-                    },
-                    {
-                        name: 'FK_ExpenseProduct_TO_Product',
-                        using: 'BTREE',
-                        fields: [{ name: 'prdSeq' }],
-                    },
                 ],
             },
         ) as typeof ExpenseProduct
