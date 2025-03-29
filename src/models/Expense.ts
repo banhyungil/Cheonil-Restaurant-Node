@@ -46,15 +46,15 @@ export class Expense extends Model<ExpenseAttributes, ExpenseCreationAttributes>
                 ctgSeq: {
                     type: DataTypes.INTEGER.UNSIGNED,
                     allowNull: false,
-                    comment: '지출 카테고리 SEQ',
+                    comment: '카테고리 SEQ',
                 },
                 storeSeq: {
-                    type: DataTypes.SMALLINT,
+                    type: DataTypes.SMALLINT.UNSIGNED,
                     allowNull: true,
                     comment: '매장 SEQ',
                 },
                 name: {
-                    type: DataTypes.STRING(100),
+                    type: DataTypes.STRING(50),
                     allowNull: false,
                     comment: '지출명',
                 },
@@ -94,6 +94,16 @@ export class Expense extends Model<ExpenseAttributes, ExpenseCreationAttributes>
                         unique: true,
                         using: 'BTREE',
                         fields: [{ name: 'seq' }],
+                    },
+                    {
+                        name: 'FK_Expense_TO_ExpenseCategory',
+                        using: 'BTREE',
+                        fields: [{ name: 'ctgSeq' }],
+                    },
+                    {
+                        name: 'FK_Expense_TO_Store',
+                        using: 'BTREE',
+                        fields: [{ name: 'storeSeq' }],
                     },
                 ],
             },

@@ -31,7 +31,7 @@ export class Unit extends Model<UnitAttributes, UnitCreationAttributes> implemen
                 name: {
                     type: DataTypes.STRING(40),
                     allowNull: false,
-                    comment: '단위명',
+                    comment: '단위',
                 },
                 isUnitCnt: {
                     type: DataTypes.BOOLEAN,

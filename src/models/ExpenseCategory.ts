@@ -4,7 +4,6 @@ import { DataTypes, Model, Optional } from 'sequelize'
 export interface ExpenseCategoryAttributes {
     seq: number
     path: string
-    depth: number
     options?: string
 }
 
@@ -16,7 +15,6 @@ export type ExpenseCategoryCreationAttributes = Optional<ExpenseCategoryAttribut
 export class ExpenseCategory extends Model<ExpenseCategoryAttributes, ExpenseCategoryCreationAttributes> implements ExpenseCategoryAttributes {
     seq!: number
     path!: string
-    depth!: number
     options?: string
 
     static initModel(sequelize: Sequelize.Sequelize): typeof ExpenseCategory {
@@ -31,14 +29,9 @@ export class ExpenseCategory extends Model<ExpenseCategoryAttributes, ExpenseCat
                     comment: '지출 카테고리 SEQ',
                 },
                 path: {
-                    type: DataTypes.STRING(500),
+                    type: DataTypes.STRING(50),
                     allowNull: false,
                     comment: '카테고리명',
-                },
-                depth: {
-                    type: DataTypes.SMALLINT.UNSIGNED,
-                    allowNull: false,
-                    comment: '깊이',
                 },
                 options: {
                     type: DataTypes.TEXT,

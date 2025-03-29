@@ -31,8 +31,6 @@ import { Store as _Store } from './Store'
 import type { StoreAttributes, StoreCreationAttributes } from './Store'
 import { StoreCategory as _StoreCategory } from './StoreCategory'
 import type { StoreCategoryAttributes, StoreCategoryCreationAttributes } from './StoreCategory'
-import { StoreExpenseLog as _StoreExpenseLog } from './StoreExpenseLog'
-import type { StoreExpenseLogAttributes, StoreExpenseLogCreationAttributes } from './StoreExpenseLog'
 import { Supply as _Supply } from './Supply'
 import type { SupplyAttributes, SupplyCreationAttributes } from './Supply'
 import { Unit as _Unit } from './Unit'
@@ -55,7 +53,6 @@ export {
     _Setting as Setting,
     _Store as Store,
     _StoreCategory as StoreCategory,
-    _StoreExpenseLog as StoreExpenseLog,
     _Supply as Supply,
     _Unit as Unit,
 }
@@ -93,8 +90,6 @@ export type {
     StoreCreationAttributes,
     StoreCategoryAttributes,
     StoreCategoryCreationAttributes,
-    StoreExpenseLogAttributes,
-    StoreExpenseLogCreationAttributes,
     SupplyAttributes,
     SupplyCreationAttributes,
     UnitAttributes,
@@ -118,7 +113,6 @@ export function initModels(sequelize: Sequelize) {
     const Setting = _Setting.initModel(sequelize)
     const Store = _Store.initModel(sequelize)
     const StoreCategory = _StoreCategory.initModel(sequelize)
-    const StoreExpenseLog = _StoreExpenseLog.initModel(sequelize)
     const Supply = _Supply.initModel(sequelize)
     const Unit = _Unit.initModel(sequelize)
 
@@ -139,7 +133,6 @@ export function initModels(sequelize: Sequelize) {
         Setting: Setting,
         Store: Store,
         StoreCategory: StoreCategory,
-        StoreExpenseLog: StoreExpenseLog,
         Supply: Supply,
         Unit: Unit,
     }
