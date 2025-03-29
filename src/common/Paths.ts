@@ -13,8 +13,8 @@ export default {
     PlaceCategory: '/placeCategory',
     Setting: '/setting',
     Supply: '/supply',
-    ProductInfo: '/productInfo',
+    ProductInfos: '/productInfos',
     Unit: '/unit',
-    Product: '/product',
-    Expense: '/expenses',
+    Products: '/products',
+    Expenses: '/expenses',
 } as const

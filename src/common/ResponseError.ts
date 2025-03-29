@@ -14,7 +14,8 @@ export enum Codes {
     BAD_ROUTE_PARAM = 110,
     BAD_BODY = 120,
     // 200 ~ * 리소스 관련
-    IMPOSSIBLE_ASSIGN = 200,
+    // 제품정보
+    EXIST_PRDINFO_NAME = 200,
 }
 
 const INFO = {
@@ -50,9 +51,9 @@ const INFO = {
         errorCode: Codes.BAD_BODY,
         message: '잘못된 요청 본문 입니다.',
     },
-    [Codes.IMPOSSIBLE_ASSIGN]: {
-        errorCode: Codes.IMPOSSIBLE_ASSIGN,
-        message: '할당이 불가능한 개소가 존재 합니다.',
+    [Codes.EXIST_PRDINFO_NAME]: {
+        errorCode: Codes.EXIST_PRDINFO_NAME,
+        message: '동일한 제품명이 존재합니다',
     },
 }
 

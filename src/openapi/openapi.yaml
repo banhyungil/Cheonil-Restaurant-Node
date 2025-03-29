@@ -106,6 +106,46 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/MyOrder'
+  /api/productInfos:
+    get:
+      parameters:
+        - name: expand
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [products]
+          description: products 정보 조인
+      responses:
+        '200':
+          description: 성공 (OK)
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ProductInfo'
+                  - allOf:
+                      - $ref: '#/components/schemas/ProductInfo'
+                      - type: object
+                        properties:
+                          products:
+                            type: array
+                            items:
+                              allOf:
+                                - $ref: '#/components/schemas/Product'
+                                - type: object
+                                  properties:
+                                    unit:
+                                      $ref: '#/components/schemas/Unit'
+  /api/products:
+    get:
+      responses:
+        '200':
+          description: 성공 (OK)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
   /api/expenses:
     get:
       responses:
@@ -525,6 +565,12 @@ components:
         unitCntList:
           description: 단위수량 목록
           type: string
+        prdInfo:
+          description: 제품 정보
+          $ref: '#/components/schemas/ProductInfo'
+        unit:
+          description: 단위
+          $ref: '#/components/schemas/Unit' 
     SupplyNSC:
       type: object
       properties:
