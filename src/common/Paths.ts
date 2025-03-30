@@ -17,4 +17,5 @@ export default {
     Unit: '/unit',
     Products: '/products',
     Expenses: '/expenses',
+    ExpenseCategories: '/expenseCategories',
 } as const

@@ -1,6 +1,8 @@
 import * as Sequelize from 'sequelize'
 import { DataTypes, Model, Optional } from 'sequelize'
 import { ExpenseProduct } from './ExpenseProduct'
+import { ExpenseCategory } from './ExpenseCategory'
+import { Store } from './Store'
 
 export interface ExpenseAttributes {
     seq: number
@@ -12,6 +14,8 @@ export interface ExpenseAttributes {
     cmt?: string
     options?: string
     updatedAt?: Date
+    category?: ExpenseCategory
+    store?: Store
     expsPrds?: ExpenseProduct[]
 }
 

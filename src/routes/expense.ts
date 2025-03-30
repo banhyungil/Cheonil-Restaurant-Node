@@ -4,11 +4,15 @@ import HttpStatusCodes from '@src/common/HttpStatusCodes'
 import { Codes, converNumRes, ResponseError } from '@src/common/ResponseError'
 
 const router = Router()
-const { Expense, ExpenseProduct, Store, Product, ProductInfo, Unit } = DB.Models
+const { Expense, ExpenseCategory, ExpenseProduct, Store, Product, ProductInfo, Unit } = DB.Models
 
 router.get('/', async (req, res) => {
     const list = await Expense.findAll({
         include: [
+            {
+                model: ExpenseCategory,
+                as: 'category',
+            },
             {
                 model: Store,
                 as: 'store',
@@ -42,35 +46,10 @@ router.get('/', async (req, res) => {
 router.get('/:seq', async (req, res) => {
     const seq = converNumRes(req.params.seq, res)
     const exps = await Expense.findOne({
-        include: [
-            {
-                model: ExpenseProduct,
-                as: 'expsPrds',
-                include: [
-                    {
-                        model: Product,
-                        as: 'prdInfo',
-                        include: [
-                            {
-                                model: ProductInfo,
-                                as: 'prdInfo',
-                            },
-                            {
-                                model: Unit,
-                                as: 'unit',
-                            },
-                        ],
-                    },
-                ],
-            },
-        ],
         where: { seq },
+        raw: true,
     })
 
-    if (exps == null) {
-        res.status(HttpStatusCodes.BAD_REQUEST).send(ResponseError.get(Codes.NOT_EXIST_ID))
-        return
-    }
     return res.status(HttpStatusCodes.OK).send(exps)
 })
 
