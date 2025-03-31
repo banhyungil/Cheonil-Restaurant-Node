@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import DB from '../models'
 import HttpStatusCodes from '@src/common/HttpStatusCodes'
-import { Codes } from '@src/common/ResponseError'
+import { Codes, ResponseError } from '@src/common/ResponseError'
 import { UnitCreationAttributes } from '@src/models/Unit'
 
 const router = Router()
@@ -20,12 +20,25 @@ router.post('/', async (req, res) => {
     return res.status(HttpStatusCodes.CREATED).send(nUnit)
 })
 
+router.patch('/:seq', async (req, res) => {
+    const seq = +req.params.seq
+    const body = req.body as UnitCreationAttributes
+    await Unit.update(body, { where: { seq } })
+    const uUnit = await Unit.findOne({ where: { seq }, raw: true })
+    if (uUnit == null) {
+        res.status(HttpStatusCodes.BAD_REQUEST).send(ResponseError.get(Codes.NOT_EXIST_ID))
+        return
+    }
+
+    return res.status(HttpStatusCodes.OK).send(uUnit)
+})
+
 router.delete('/:seq', async (req, res) => {
     const seq = req.params.seq
 
     const delCnt = await Unit.destroy({ where: { seq } })
     if (delCnt == 0) {
-        res.status(HttpStatusCodes.BAD_REQUEST).send(Codes.NOT_EXIST_ID)
+        res.status(HttpStatusCodes.BAD_REQUEST).send(ResponseError.get(Codes.NOT_EXIST_ID))
         return
     }
 
