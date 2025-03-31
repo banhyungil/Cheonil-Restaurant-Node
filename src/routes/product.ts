@@ -4,22 +4,23 @@ import DB from '@src/models'
 import { ProductAttributes, ProductCreationAttributes } from '@src/models/Product'
 import { Router } from 'express'
 import { sum } from 'lodash'
+import { Includeable } from 'sequelize'
 const router = Router()
 
 const { Product, ProductInfo, Unit } = DB.Models
 
 router.get('/', async (req, res) => {
+    const query = req.query as { expand?: string }
+    const includes = [] as Includeable[]
+    if (query?.expand) {
+        const splits = query.expand.split(',')
+
+        if (splits.includes('prdInfo')) includes.push({ model: ProductInfo, as: 'prdInfo' })
+        if (splits.includes('unit')) includes.push({ model: ProductInfo, as: 'unit' })
+    }
+
     const nMps = await Product.findAll({
-        include: [
-            {
-                model: ProductInfo,
-                as: 'prdInfo',
-            },
-            {
-                model: Unit,
-                as: 'unit',
-            },
-        ],
+        include: includes,
     })
 
     res.status(HttpStatusCodes.CREATED).send(nMps)
