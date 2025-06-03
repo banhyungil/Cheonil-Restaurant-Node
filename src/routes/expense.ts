@@ -1,10 +1,10 @@
 import { Router } from 'express'
-import DB from '../models'
+import { Models } from '../models'
 import HttpStatusCodes from '@src/common/HttpStatusCodes'
-import { Codes, converNumRes, ResponseError } from '@src/common/ResponseError'
+import { converNumRes } from '@src/common/ResponseError'
 
 const router = Router()
-const { Expense, ExpenseCategory, ExpenseProduct, Store, Product, ProductInfo, Unit } = DB.Models
+const { Expense, ExpenseCategory, ExpenseProduct, Store, Product, ProductInfo, Unit } = Models
 
 router.get('/', async (req, res) => {
     const list = await Expense.findAll({

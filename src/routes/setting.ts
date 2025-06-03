@@ -1,11 +1,11 @@
 import HttpStatusCodes from '@src/common/HttpStatusCodes'
 import { Codes, ResponseError } from '@src/common/ResponseError'
-import DB from '@src/models'
+import { Models } from '@src/models'
 import { SettingAttributes, SettingCreationAttributes } from '@src/models/Setting'
 import { Router } from 'express'
 
 const router = Router()
-const { Setting } = DB.Models
+const { Setting } = Models
 
 router.get('/', async (_, res) => {
     const settings = await Setting.findAll()

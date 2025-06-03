@@ -1,12 +1,12 @@
 import { Router } from 'express'
-import DB from '../models'
+import { Models } from '../models'
 import { ExpenseCategoryAttributes, ExpenseCategoryCreationAttributes } from '@src/models/ExpenseCategory'
 import { Codes, ResponseError } from '@src/common/ResponseError'
 import HttpStatusCodes from '@src/common/HttpStatusCodes'
 
 const router = Router()
 
-const { ExpenseCategory } = DB.Models
+const { ExpenseCategory } = Models
 
 router.get('/', async (req, res) => {
     const expsCtgs = await ExpenseCategory.findAll({ raw: true })

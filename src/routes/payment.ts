@@ -1,12 +1,12 @@
 import { PaymentAttributes, PaymentCreationAttributes } from '@src/models/Payment'
 import express from 'express'
-import DB from '@src/models'
+import { Models } from '@src/models'
 import HttpStatusCodes from '@src/common/HttpStatusCodes'
 import { Op } from 'sequelize'
 import { Codes, ResponseError } from '@src/common/ResponseError'
 
 const router = express.Router()
-const { Payment, MyOrder } = DB.Models
+const { Payment, MyOrder } = Models
 
 router.post('/', async (req, res) => {
     const body = req.body as PaymentCreationAttributes

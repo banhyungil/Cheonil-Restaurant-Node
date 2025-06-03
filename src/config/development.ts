@@ -3,7 +3,7 @@ import { SignOptions } from 'jsonwebtoken'
 import EnvVars from '../common/EnvVars'
 type RequiredK<T extends object, K extends keyof T> = Required<Pick<T, K>> & Omit<T, K>
 
-const database: RequiredK<Options, 'username' | 'database' | 'password'> = {
+const db: RequiredK<Options, 'username' | 'database' | 'password'> = {
     host: EnvVars.Db.Host,
     port: +EnvVars.Db.Port,
     database: EnvVars.Db.Name,
@@ -52,7 +52,7 @@ const config = {
         } as SignOptions,
         passwordSalt: 'nicetcm!@#!@#',
     },
-    database,
+    db,
 }
 export type MyConfig = typeof config
 

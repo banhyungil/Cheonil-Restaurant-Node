@@ -1,11 +1,11 @@
 import { Router } from 'express'
-import DB from '../models'
+import { Models } from '../models'
 import HttpStatusCodes from '@src/common/HttpStatusCodes'
 import { Codes, ResponseError } from '@src/common/ResponseError'
 import { UnitCreationAttributes } from '@src/models/Unit'
 
 const router = Router()
-const { Unit } = DB.Models
+const { Unit } = Models
 
 router.get('/', async (req, res) => {
     const list = await Unit.findAll()

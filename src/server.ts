@@ -2,9 +2,9 @@
  * Setup express server.
  */
 
-// router보다 항상위에 위치! 모델이 생성된뒤에 다른곳에서 참조되어야함
-import Db from './models'
-
+/** NOTE router보다 항상위에 위치! 모델이 생성된뒤에 다른곳에서 참조되어야함
+ *
+ * */
 import cookieParser from 'cookie-parser'
 import morgan from 'morgan'
 import path from 'path'
@@ -25,9 +25,6 @@ import swaggerUi from 'swagger-ui-express'
 import { readFileSync } from 'fs'
 import Yaml from 'js-yaml'
 import Interceptor from './interceptor'
-
-// **** Variables **** //
-Db.init()
 
 const app = express()
 
@@ -74,7 +71,7 @@ app.use(
 )
 
 // **** Front-End Content **** //
-const oasYaml = readFileSync(path.join(__dirname, './openapi/openapi.yaml'), { encoding: 'utf-8' })
+const oasYaml = readFileSync(path.join(__dirname, './resources/openapi/openapi.yaml'), { encoding: 'utf-8' })
 const oOas = Yaml.load(oasYaml) as object
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(oOas))
 

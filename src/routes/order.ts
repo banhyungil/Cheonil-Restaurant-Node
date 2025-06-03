@@ -1,5 +1,5 @@
 import express from 'express'
-import DB from '@src/models'
+import { Models, sequelize } from '@src/models'
 import { OrderMenuAttributes } from '../models/OrderMenu'
 import { MyOrderAttributes } from '@src/models/MyOrder'
 import { Op, QueryTypes, WhereOptions } from 'sequelize'
@@ -12,7 +12,7 @@ import { Codes, converNumRes, ResponseError } from '@src/common/ResponseError'
 
 const router = express.Router()
 
-const { MyOrder, OrderMenu, Payment, Menu, Store } = DB.Models
+const { MyOrder, OrderMenu, Payment, Menu, Store } = Models
 
 interface QueryParams {
     whereOptions?: WhereOptions<Pick<MyOrderAttributes, 'status' | 'orderAt'> | Pick<PaymentAttributes, 'payAt' | 'payType'> | { storeName: string }>
@@ -150,7 +150,7 @@ router.post('/account', async (req, res) => {
                       FROM MyOrder m
                       WHERE status in ('COOKED')
                       AND m.orderAt BETWEEN "${dateRange[0]}" AND "${dateRange[1]}"`
-    const results: { seq: number }[] = await DB.sequelize.query(unionSql, {
+    const results: { seq: number }[] = await sequelize.query(unionSql, {
         type: QueryTypes.SELECT,
         raw: true,
     })
@@ -223,7 +223,7 @@ router.post('/', async (req, res) => {
     }
 
     let nOrder = {} as InstanceType<typeof MyOrder>
-    await DB.sequelize.transaction(async () => {
+    await sequelize.transaction(async () => {
         nOrder = await MyOrder.create(order)
         orderMenues.forEach((om) => {
             om.orderSeq = nOrder.seq
@@ -301,7 +301,7 @@ router.patch('/:seq', async (req, res) => {
         orderMenues: OrderMenuAttributes[]
     }
 
-    await DB.sequelize.transaction(async () => {
+    await sequelize.transaction(async () => {
         const prms = [MyOrder.update(order, { where: { seq } })] as Promise<any>[]
         // 주문 메뉴가 있으면 기존 데이터 삭제 후 등록
         if (orderMenues.length > 0) {
@@ -320,7 +320,7 @@ router.patch('/:seq', async (req, res) => {
 router.delete('/:seq', async (req, res) => {
     const seq = +req.params.seq
 
-    await DB.sequelize.transaction(async () => {
+    await sequelize.transaction(async () => {
         await OrderMenu.destroy({ where: { orderSeq: seq } })
         await Payment.destroy({ where: { orderSeq: seq } })
         const delCnt = await MyOrder.destroy({ where: { seq } })

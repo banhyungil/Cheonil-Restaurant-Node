@@ -83,7 +83,7 @@
     "scripts/generate-models.ts",
     "gen-oas-comps.ts",
     "scripts/db-backup.ts",
-    "src/openapi/*.ts",
+    "src/resources/openapi/*.ts",
   ],
   "exclude": [
     "src/public/"

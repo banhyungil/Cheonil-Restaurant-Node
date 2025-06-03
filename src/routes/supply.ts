@@ -1,11 +1,11 @@
 import { Router } from 'express'
-import DB from '../models'
+import { Models } from '../models'
 import HttpStatusCodes from '@src/common/HttpStatusCodes'
 import { SupplyCreationAttributes } from '@src/models/Supply'
 import { Codes, converNumRes, ResponseError } from '@src/common/ResponseError'
 
 const router = Router()
-const { Supply, ProductInfo } = DB.Models
+const { Supply, ProductInfo } = Models
 
 router.get('/', async (req, res) => {
     const list = await Supply.findAll()

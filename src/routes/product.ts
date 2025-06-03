@@ -1,13 +1,13 @@
 import HttpStatusCodes from '@src/common/HttpStatusCodes'
 import { Codes, ResponseError } from '@src/common/ResponseError'
-import DB from '@src/models'
+import { Models } from '@src/models'
 import { ProductAttributes, ProductCreationAttributes } from '@src/models/Product'
 import { Router } from 'express'
 import { sum } from 'lodash'
 import { Includeable } from 'sequelize'
 const router = Router()
 
-const { Product, ProductInfo, Unit } = DB.Models
+const { Product, ProductInfo, Unit } = Models
 
 router.get('/', async (req, res) => {
     const query = req.query as { expand?: string }

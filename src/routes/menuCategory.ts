@@ -1,10 +1,10 @@
 import express from 'express'
-import DB from '../models'
+import { Models } from '../models'
 import { MenuCategoryAttributes, MenuCategoryCreationAttributes } from '@src/models/MenuCategory'
 import HttpStatusCodes from '@src/common/HttpStatusCodes'
 
 const router = express.Router()
-const { MenuCategory, Menu } = DB.Models
+const { MenuCategory, Menu } = Models
 
 router.get('/', async (req, res) => {
     const menueCtgs = await MenuCategory.findAll()

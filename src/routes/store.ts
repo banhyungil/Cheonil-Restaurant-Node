@@ -1,11 +1,11 @@
 import express from 'express'
 import { StoreAttributes, StoreCreationAttributes } from '../models/Store'
-import DB from '@src/models'
+import { Models } from '@src/models'
 import HttpStatusCodes from '@src/common/HttpStatusCodes'
 // import { fileURLToPath } from 'url'
 const router = express.Router()
 
-const { Store } = DB.Models
+const { Store } = Models
 router.get('/', async (req, res) => {
     const stores = await Store.findAll({ raw: true })
 

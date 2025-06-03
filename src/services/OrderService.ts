@@ -1,8 +1,8 @@
-import DB from '@src/models'
+import { Models } from '@src/models'
 import { PaymentCreationAttributes } from '@src/models/Payment'
 import { Op } from 'sequelize'
 
-const { MyOrder, OrderMenu, Menu, Payment } = DB.Models
+const { MyOrder, OrderMenu, Menu, Payment } = Models
 async function getOrder(seq: number) {
     const nMyOrder = await MyOrder.findOne({
         include: [

@@ -1,12 +1,12 @@
 import { Router } from 'express'
-import DB from '../models'
+import { Models } from '../models'
 import HttpStatusCodes from '@src/common/HttpStatusCodes'
 import { Codes, converNumRes, ResponseError } from '@src/common/ResponseError'
 import { ProductInfoAttributes, ProductInfoCreationAttributes } from '@src/models/ProductInfo'
 import { Includeable } from 'sequelize'
 
 const router = Router()
-const { ProductInfo, Product, Unit } = DB.Models
+const { ProductInfo, Product, Unit } = Models
 
 router.get('/', async (req, res) => {
     const query = req.query as { expand?: string }

@@ -1,8 +1,7 @@
-import DB from '@src/models'
-import { PaymentCreationAttributes } from '@src/models/Payment'
+import { Models } from '@src/models'
 import { Op } from 'sequelize'
 
-const { Product, ProductInfo, Unit } = DB.Models
+const { Product, ProductInfo, Unit } = Models
 async function selectProducts(seqs: number[]) {
     const products = await Product.findAll({
         include: [
