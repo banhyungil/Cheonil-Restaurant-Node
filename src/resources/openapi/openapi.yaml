@@ -1,4 +1,8 @@
-openapi: 3.0.3
+# Issue
+## parameters path에 required value 이슈
+### YAML extension 1.17.0 으로 downgrade 로 해결 
+### See https://github.com/42Crunch/vscode-openapi/issues/329
+openapi: 3.1.1
 info:
   title: 통합 서버 API
   description: 통합 DB 관련 API를 제공합니다.
