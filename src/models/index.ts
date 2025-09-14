@@ -1,12 +1,12 @@
 import { initModels } from './init-models'
 import { Sequelize } from 'sequelize'
-import conifg from '../config'
+import config from '../config'
 import cls from 'cls-hooked'
 
 const namespace = cls.createNamespace('cheonil')
 Sequelize.useCLS(namespace)
 
-const { database, username, password, host, port, dialect, timezone } = conifg.db
+const { database, username, password, host, port, dialect, timezone } = config.db
 
 const sequelize = new Sequelize(database, username, password, {
     dialect,
