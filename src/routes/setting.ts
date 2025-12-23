@@ -23,11 +23,7 @@ router.put('/:seq', async (req, res) => {
     const seq = +req.params.seq
     const body = req.body as SettingAttributes
 
-    const [cnt] = await Setting.update(body, { where: { seq } })
-    if (cnt == 0) {
-        res.status(HttpStatusCodes.BAD_REQUEST).send(ResponseError.get(Codes.NOT_EXIST_ID))
-        return
-    }
+    await Setting.update(body, { where: { seq } })
     const uSetting = await Setting.findOne({ where: { seq } })
     res.status(HttpStatusCodes.OK).send(uSetting!.get({ plain: true }))
 })
