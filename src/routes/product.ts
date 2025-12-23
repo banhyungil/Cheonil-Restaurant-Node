@@ -16,7 +16,7 @@ router.get('/', async (req, res) => {
         const splits = query.expand.split(',')
 
         if (splits.includes('prdInfo')) includes.push({ model: ProductInfo, as: 'prdInfo' })
-        if (splits.includes('unit')) includes.push({ model: ProductInfo, as: 'unit' })
+        if (splits.includes('unit')) includes.push({ model: Unit, as: 'unit' })
     }
 
     const nMps = await Product.findAll({

@@ -14,6 +14,7 @@ import unitRouter from './unit'
 import settingRouter from './setting'
 import productRouter from './product'
 import expenseRouter from './expense'
+import expenseCategoryRouter from './expenseCategory'
 
 const apiRouter = Router(),
     validate = jetValidator()
@@ -30,7 +31,7 @@ apiRouter.use(Paths.ProductInfos, productInfoRouter)
 apiRouter.use(Paths.Unit, unitRouter)
 apiRouter.use(Paths.Products, productRouter)
 apiRouter.use(Paths.Expenses, expenseRouter)
-apiRouter.use(Paths.ExpenseCategories, expenseRouter)
+apiRouter.use(Paths.ExpenseCategories, expenseCategoryRouter)
 apiRouter.use(Paths.Setting, settingRouter)
 
 export default apiRouter

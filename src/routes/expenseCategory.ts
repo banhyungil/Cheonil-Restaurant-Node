@@ -11,11 +11,13 @@ const { ExpenseCategory } = Models
 router.get('/', async (req, res) => {
     const expsCtgs = await ExpenseCategory.findAll({ raw: true })
 
-    return expsCtgs
+    return res.status(HttpStatusCodes.OK).send(expsCtgs)
 })
 
 router.post('/', async (req, res) => {
     const body = req.body as ExpenseCategoryCreationAttributes
+    body.depth = body.path.split('/').length
+
     const nExpsCtg = await ExpenseCategory.create(body)
 
     return nExpsCtg
@@ -41,3 +43,5 @@ router.delete('/:seq', async (req, res) => {
 
     res.sendStatus(HttpStatusCodes.NO_CONTENT)
 })
+
+export default router
