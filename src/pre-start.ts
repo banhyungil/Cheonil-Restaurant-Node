@@ -27,8 +27,12 @@ const args = parse<IArgs>({
 })
 
 // Set the env file
+const envPath = __filename.endsWith('.js')
+    ? path.join(__dirname, `./env/${args.env}.env`) // 프로덕션: dist/config/.env.*
+    : path.join(__dirname, `../env/${args.env}.env`) // 개발: src -> ../config/.env.*
+
 const result2 = dotenv.config({
-    path: path.join(__dirname, `../env/${args.env}.env`),
+    path: envPath,
 })
 if (result2.error) {
     throw result2.error
