@@ -16,6 +16,7 @@ export enum Codes {
     // 200 ~ * 리소스 관련
     // 제품정보
     EXIST_PRDINFO_NAME = 200,
+    // 지출
 }
 
 const INFO = {

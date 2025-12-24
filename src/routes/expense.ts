@@ -1,10 +1,10 @@
 import { Router } from 'express'
-import { Models } from '../models'
+import { Models, sequelize } from '../models'
 import HttpStatusCodes from '@src/common/HttpStatusCodes'
-import { converNumRes } from '@src/common/ResponseError'
-import { ExpenseCreationAttributes } from '@src/models/Expense'
-import { ExpenseProductCreationAttributes } from '@src/models/ExpenseProduct'
-import { Includeable } from 'sequelize'
+import { Codes, converNumRes, ResponseError } from '@src/common/ResponseError'
+import { ExpenseAttributes, ExpenseCreationAttributes } from '@src/models/Expense'
+import { ExpenseProductAttributes, ExpenseProductCreationAttributes } from '@src/models/ExpenseProduct'
+import { Includeable, Op } from 'sequelize'
 
 const router = Router()
 const { Expense, ExpenseCategory, ExpenseProduct, Store, Product, ProductInfo, Unit } = Models
@@ -56,22 +56,22 @@ router.get('/:seq', async (req, res) => {
 
     const query = req.query as { expand?: string }
 
-    const includes = [] as Includeable[]
+    const include = [] as Includeable[]
     if (query?.expand) {
         const fileds = query.expand.split(',')
 
         if (fileds.includes('category')) {
-            includes.push({
+            include.push({
                 as: 'category',
                 model: ExpenseCategory,
             })
         } else if (fileds.includes('store')) {
-            includes.push({
+            include.push({
                 as: 'store',
                 model: Store,
             })
         } else if (fileds.includes('expsPrds')) {
-            includes.push({
+            include.push({
                 as: 'expsPrds',
                 model: ExpenseProduct,
                 include: [
@@ -89,7 +89,7 @@ router.get('/:seq', async (req, res) => {
     }
     const exps = await Expense.findOne({
         where: { seq },
-        raw: true,
+        include: include,
     })
 
     return res.status(HttpStatusCodes.OK).send(exps)
@@ -105,47 +105,47 @@ router.post('/', async (req, res) => {
     return res.status(HttpStatusCodes.CREATED).send({ expense: nExpense, expenseProducts: nProducts })
 })
 
-// router.patch('/:seq', async (req, res) => {
-//     const productInfo = req.body as ProductInfoAttributes
-//     const seq = +req.params.seq
+router.patch('/:seq', async (req, res) => {
+    const { expense, expenseProducts } = req.body as { expense: ExpenseAttributes; expenseProducts: ExpenseProductAttributes[] }
+    const seq = +req.params.seq
 
-//     /** validate */
-//     if (isNaN(seq)) {
-//         res.status(HttpStatusCodes.BAD_REQUEST).send(ResponseError.get(Codes.BAD_ROUTE_PARAM))
-//         return
-//     }
-//     const originProduct = await Expense.findOne({ where: { seq: productInfo.seq } })
-//     if (originProduct == null) {
-//         res.status(HttpStatusCodes.BAD_REQUEST).send(ResponseError.get(Codes.BAD_ROUTE_PARAM))
-//         return
-//     }
-//     /** validate */
+    /** validate */
+    if (isNaN(seq)) {
+        res.status(HttpStatusCodes.BAD_REQUEST).send(ResponseError.get(Codes.BAD_ROUTE_PARAM))
+        return
+    } else if (expenseProducts == null || expenseProducts.length == 0) {
+        res.status(HttpStatusCodes.BAD_REQUEST).send(ResponseError.get(Codes.BAD_ROUTE_PARAM))
+        return
+    }
+    /** validate */
 
-//     await Expense.update(productInfo, { where: { seq } })
-//     const uProduct = await Expense.findOne({
-//         where: { seq },
-//     })
+    await Expense.update(expense, { where: { seq } })
+    const uProduct = await Expense.findOne({
+        where: { seq },
+    })
+    await sequelize.transaction(async (t) => {
+        await Promise.all(
+            expenseProducts.map((expsPrd) => ExpenseProduct.update(expsPrd, { where: { expsSeq: expsPrd.expsSeq, prdSeq: expsPrd.prdSeq } })),
+        )
+    })
+    const prdSeqs = expenseProducts.map((expsPrd) => expsPrd.prdSeq)
+    const uExpsPrds = ExpenseProduct.findAll({ where: { expsSeq: seq, prdSeq: { [Op.in]: prdSeqs } } })
 
-//     if (uProduct == null) {
-//         res.status(HttpStatusCodes.BAD_REQUEST).send(ResponseError.get(Codes.NOT_EXIST_ID))
-//         return
-//     }
+    res.status(HttpStatusCodes.OK).send({ expense: uProduct, expenseProducts: uExpsPrds })
+})
 
-//     res.status(HttpStatusCodes.OK).send(uProduct.toJSON())
-// })
+router.delete('/:seq', async (req, res) => {
+    const seq = +req.params.seq
+    if (isNaN(seq)) res.status(HttpStatusCodes.BAD_REQUEST).send(ResponseError.get(Codes.BAD_ROUTE_PARAM))
 
-// router.delete('/:seq', async (req, res) => {
-//     const seq = +req.params.seq
-//     if (isNaN(seq)) res.status(HttpStatusCodes.BAD_REQUEST).send(ResponseError.get(Codes.BAD_ROUTE_PARAM))
+    const delCnt = await Expense.destroy({ where: { seq } })
+    if (delCnt == 0) {
+        res.status(HttpStatusCodes.BAD_REQUEST).send(Codes.NOT_EXIST_ID)
+        return
+    }
+    await ExpenseProduct.destroy({ where: { expsSeq: seq } })
 
-//     const delCnt = await Expense.destroy({ where: { seq } })
-//     if (delCnt == 0) {
-//         res.status(HttpStatusCodes.BAD_REQUEST).send(Codes.NOT_EXIST_ID)
-//         return
-//     }
-//     await ExpenseProduct.destroy({ where: { prdInfoSeq: seq } })
-
-//     res.sendStatus(HttpStatusCodes.NO_CONTENT)
-// })
+    res.send(HttpStatusCodes.NO_CONTENT)
+})
 
 export default router
