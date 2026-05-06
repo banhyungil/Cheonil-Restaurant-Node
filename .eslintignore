@@ -1,1 +1,2 @@
 src/public/
+scripts/migrate-mariadb-to-pg.ts

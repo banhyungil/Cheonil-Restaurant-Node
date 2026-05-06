@@ -6,18 +6,32 @@ networks:
 volumes:
   v-db:
 services:
+#   db:
+#     container_name: db
+#     image: mariadb
+#     restart: always
+#     volumes:
+#       - v-db:/var/lib/mysql
+#     ports:
+#       - 3306:3306
+#     environment:
+#       MYSQL_ROOT_USER: root
+#       MARIADB_ROOT_PASSWORD: nice2122!
+#       MYSQL_DATABASE: cheonil
+#     networks:
+#       - cheonil
   db:
     container_name: db
-    image: mariadb
+    image: postgres:17
     restart: always
     volumes:
-      - v-db:/var/lib/mysql
+      - v-db:/var/lib/postgresql/data
     ports:
-      - 3306:3306
+      - 5432:5432
     environment:
-      MYSQL_ROOT_USER: root
-      MARIADB_ROOT_PASSWORD: nice2122!
-      MYSQL_DATABASE: cheonil
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root1!
+      POSTGRES_DB: cheonil
     networks:
       - cheonil
   cheonil-server:
@@ -33,8 +47,6 @@ services:
       DB_PORT: 3306
       DB_NAME: cheonil
       DB_USER: root
-      DB_PWD: nice2122!
+      DB_PWD: root1!
     networks:
       - cheonil
-
-
